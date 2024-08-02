@@ -241,11 +241,11 @@ export default function Home() {
             </div>
             <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between">
               <HeaderTitle className="order-2 sm:!order-1">
-                Transfer
+                Bind
               </HeaderTitle>
               <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
                 <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
-                robot
+              Bot
               </span>
             </div>
             <div className="col-span-12">
@@ -263,7 +263,7 @@ export default function Home() {
       </div>
       <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
         <div className="col-span-12">
-          <HeaderTitle>Transfer</HeaderTitle>
+          <HeaderTitle>Donate</HeaderTitle>
         </div>
         <div className="col-span-12 grid grid-cols-12 gap-[16px]">
           <div className="col-span-6 md:col-span-4 lg:col-span-3">
