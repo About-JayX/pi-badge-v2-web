@@ -1,0 +1,14 @@
+.button {
+  @apply h-[40px] text-[16px] font-[400] relative flex justify-center cursor-pointer items-center pl-4 pr-4;
+}
+
+.button div {
+  @apply  h-[100%] bg-[url("./image/2.png")] bg-no-repeat bg-cover flex items-center gap-[10px];
+}
+
+.button div::after {
+  @apply content-[''] w-[16px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full;
+}
+.button div::before {
+  @apply content-[''] w-[16px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full;
+}

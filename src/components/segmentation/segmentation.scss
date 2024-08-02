@@ -1,0 +1,11 @@
+.btn-group {
+  @apply p-[6px] bg-[#0460b2]/10 border-t-[2px] border-b-[2px] border-[#09518A] w-full gap-[6px];
+}
+
+.btn-group .btn {
+  @apply bg-transparent border-0 border-t-[1px] border-b-[1px] border-transparent  text-[#48B7F2] text-[16px] !rounded-[6px] p-0 pt-[3px] pb-[3px];
+}
+.btn-group .active,
+.btn-group .btn:active {
+  @apply bg-[#0460B2] border-[#48B7F2] text-white;
+}

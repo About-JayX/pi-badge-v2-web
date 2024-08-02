@@ -1,0 +1,88 @@
+@import "bootstrap/scss/bootstrap";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  @apply w-full h-auto min-h-[100vh] bg-gradient-to-b from-[#161D31] to-[#080F17] text-white text-[18px] font-[400] font-[Space-Grotesk];
+}
+
+@media (min-width: 1536px) {
+  .container {
+    @apply max-w-[1000px];
+  }
+}
+
+#Pis {
+  @keyframes bounce {
+    0%,
+    100% {
+      translate: 0px 30px;
+    }
+    50% {
+      translate: 0px 40px;
+    }
+  }
+  @keyframes bounce2 {
+    0%,
+    100% {
+      translate: 0px 40px;
+    }
+    50% {
+      translate: 0px 50px;
+    }
+  }
+  @keyframes bounce3 {
+    0%,
+    100% {
+      translate: 0px 10px;
+    }
+    50% {
+      translate: 0px 0px;
+    }
+  }
+
+  @keyframes umbral {
+    0% {
+      stop-color: rgba(72,183,242,1);
+    }
+    50% {
+      stop-color: rgba(72,183,242, 0.519);
+    }
+    100% {
+      stop-color: rgba(72,183,242,1);
+    }
+  }
+  @keyframes partciles {
+    0%,
+    100% {
+      translate: 0px 16px;
+    }
+    50% {
+      translate: 0px 6px;
+    }
+  }
+  #particles {
+    animation: partciles 4s ease-in-out infinite;
+  }
+  #animatedStop {
+    animation: umbral 4s infinite;
+  }
+  #bounce {
+    animation: bounce 4s ease-in-out infinite;
+    translate: 0px 30px;
+  }
+  #bounce2 {
+    animation: bounce2 4s ease-in-out infinite;
+    translate: 0px 40px;
+    animation-delay: 0.5s;
+  }
+  #bounce3{
+    animation: bounce3 4s ease-in-out infinite;
+    translate: 0px 10px;
+    animation-delay: 0.5s;
+  }
+}

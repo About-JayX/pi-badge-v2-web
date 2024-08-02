@@ -1,0 +1,27 @@
+.header{
+  @apply h-[70px] flex  bg-black z-[1]
+}
+
+.header .container{
+  @apply self-center
+}
+
+.header-box {
+  @apply grid grid-flow-col grid-cols-[1fr,auto] lg:grid-cols-[auto,1fr,auto] gap-[32px] items-center
+}
+
+
+.header-end{
+  @apply  flex gap-[16px] items-center
+}
+
+.header .nav{
+  @apply flex items-center gap-[32px] text-[#48B7F2] text-[16px] font-[500]
+}
+
+.header-title {
+  @apply text-[#48B7F2] text-[22px] font-[600] relative pl-[8px] pb-[8px];
+}
+.header-title::after {
+  @apply content-[''] bg-[url("./image/header-title.png")] bg-no-repeat absolute left-0 bottom-0 w-[200px] h-[12px];
+}

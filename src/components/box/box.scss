@@ -1,0 +1,14 @@
+.box {
+  @apply h-[50px] text-[16px] font-[500] relative flex justify-center cursor-pointer items-center pl-[16px] pr-[16px];
+}
+
+.box div {
+  @apply bg-[url("./image/2.png")] bg-no-repeat bg-full w-full h-full grid grid-flow-col  grid-cols-[auto,1fr,auto] gap-[16px] text-center items-center  p-0;
+}
+
+.box div::after {
+  @apply content-[''] w-[16px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full;
+}
+.box div::before {
+  @apply content-[''] w-[16px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full;
+}
