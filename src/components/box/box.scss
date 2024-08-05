@@ -3,12 +3,12 @@
 }
 
 .box div {
-  @apply bg-[url("./image/2.png")] bg-no-repeat bg-full w-full h-full grid grid-flow-col  grid-cols-[auto,1fr,auto] gap-[16px] text-center items-center  p-0;
+  @apply bg-[url("./image/2.png")] bg-no-repeat bg-full w-full h-full grid grid-flow-col  grid-cols-[auto,1fr,auto] gap-[16px] text-center items-center p-0 pl-[1px] pr-[1px];
 }
 
 .box div::after {
-  @apply content-[''] w-[12px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full z-[-1];
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 left-[1px] bg-[url("./image/1.png")] bg-no-repeat bg-full z-[-1];
 }
 .box div::before {
-  @apply content-[''] w-[12px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full z-[-1];
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 right-[1px] bg-[url("./image/3.png")] bg-no-repeat bg-full z-[-1];
 }

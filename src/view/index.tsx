@@ -177,7 +177,7 @@ const Pis = () => {
           transform="rotate(45 100 100) translate(80, 95)"
           strokeWidth="2"
           stroke=""
-          fill="#0460B2"
+          fill="#ffffff7b"
           points="5,0 5,5 0,5 0,0"
           id="particles"
         ></polygon>
@@ -185,7 +185,7 @@ const Pis = () => {
           transform="rotate(45 100 100) translate(80, 55)"
           strokeWidth="2"
           stroke=""
-          fill="#0460B2"
+          fill="#ffffff7b"
           points="6,0 6,6 0,6 0,0"
           id="particles"
         ></polygon>
@@ -193,7 +193,7 @@ const Pis = () => {
           transform="rotate(45 100 100) translate(70, 80)"
           strokeWidth="2"
           stroke=""
-          fill="#0460B2"
+          fill="#ffffff7b"
           points="2,0 2,2 0,2 0,0"
           id="particles"
         ></polygon>
@@ -245,9 +245,10 @@ export default function Home() {
           <Pis />
         </div>
         <div className="grid h-fit gap-[16px] lg:gap-[26px]">
-          <div className="col-span-12 grid">
-            <span className="text-[46px] font-[700]">
-              {userid ? "@ABC001" : "用户名"}
+          <div className="col-span-12 grid gap-[6px]">
+            <span className="text-[32px] font-[700] flex items-center gap-[16px]">
+              <Icon name="telegram" className="w-[32px] h-[32px] text-[#718096]"/>
+              {userid ? "@ABC001" : "--"}
             </span>
             <span className="text-[#718096] text-[20px]">
               Telegram ID : {userid ? userid : "--"}
@@ -291,12 +292,10 @@ export default function Home() {
                   />
                 </div>
               </Dropdowns>
-              {/* <Button className="uppercase">CONNECT</Button> */}
-              {/* <Button className="uppercase" type="default">{ellipsisMiddle("0x000000000000000", 4,3)}</Button> */}
               <Box>{ellipsisMiddle("0x000000000000000", 4, 3)}</Box>
               <Button className="uppercase">disconnect</Button>
             </div>
-            <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between">
+            <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
               <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
               <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
                 <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram Bot

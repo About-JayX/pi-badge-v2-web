@@ -20,7 +20,7 @@
 }
 
 .header-title {
-  @apply text-[#48B7F2] text-[22px] font-[600] relative pl-[8px] pb-[8px];
+  @apply text-[#48B7F2] text-[22px] font-[600] relative pl-[12px] pb-[8px];
 }
 .header-title::after {
   @apply content-[''] bg-[url("./image/header-title.png")] bg-no-repeat absolute left-0 bottom-0 w-[200px] h-[12px];

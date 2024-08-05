@@ -12,10 +12,10 @@ export default function Segmentation({
     <div className="btn-group">
       {data.map((item, index) => (
         <a
-          onClick={() => onChange && onChange(item.value)}
+          onClick={() => !item.disabled && onChange && onChange(item.value)}
           key={index}
           className={`btn btn-primary ${item.value === value ? "active" : ""} ${
-            item.disabled ? "disabled" : ""
+            item.disabled ? "cursor-not-allowed" : ""
           }`}
         >
           {item.name}

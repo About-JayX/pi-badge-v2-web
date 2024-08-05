@@ -64,8 +64,8 @@ export default function Header() {
     <header className="header">
       <div className="container">
         <div className="header-box">
-          <a className="flex gap-[8px] items-center">
-            <img className="w-[50px] h-[50px]" />
+          <a className="flex gap-[16px] items-center">
+            <img className="w-[44px] h-[44px]" src="/logos.svg"/>
             <span className="hidden sm:flex text-[28px] font-[400] font-[EDIX]">
               PIWAR
             </span>
