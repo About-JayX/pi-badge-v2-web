@@ -9,3 +9,8 @@
 .btn-group .btn:active {
   @apply bg-[#0460B2] border-[#48B7F2] text-white;
 }
+
+
+.btn-group .cursor-not-allowed{
+  @apply border-0 !text-[#48B7F2]  !bg-transparent !border-transparent
+}
