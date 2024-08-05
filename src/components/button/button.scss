@@ -1,14 +1,36 @@
 .button {
-  @apply h-[40px] text-[16px] font-[400] relative flex justify-center cursor-pointer items-center pl-4 pr-4;
+  @apply h-[40px] text-[16px] font-[400] relative flex justify-center cursor-pointer items-center pl-[12px] pr-[12px];
 }
 
-.button div {
-  @apply  h-[100%] bg-[url("./image/2.png")] bg-no-repeat bg-cover flex items-center gap-[10px];
+.button .a {
+  @apply h-[100%] bg-[url("./image/2.png")] bg-no-repeat bg-full flex items-center gap-[10px];
 }
 
-.button div::after {
-  @apply content-[''] w-[16px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full;
+.button .a::after {
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full;
 }
-.button div::before {
-  @apply content-[''] w-[16px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full;
+.button .a::before {
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full;
+}
+
+.button .b {
+  @apply h-[100%] bg-[url("./image/default/2.png")] bg-no-repeat bg-full flex items-center gap-[10px];
+}
+
+.button .b::after {
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 left-0 bg-[url("./image/default/1.png")] bg-no-repeat bg-full;
+}
+.button .b::before {
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 right-0 bg-[url("./image/default/3.png")] bg-no-repeat bg-full;
+}
+
+.button {
+  transition: all 0.5s;
+  opacity: 1;
+  &:hover{
+    opacity: 0.65;
+  }
+  &:active{
+    opacity: 0.65;
+  }
 }

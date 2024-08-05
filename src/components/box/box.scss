@@ -1,5 +1,5 @@
 .box {
-  @apply h-[50px] text-[16px] font-[500] relative flex justify-center cursor-pointer items-center pl-[16px] pr-[16px];
+  @apply h-[40px] text-[16px] font-[500] relative flex justify-center cursor-pointer items-center pl-[12px] pr-[12px];
 }
 
 .box div {
@@ -7,8 +7,8 @@
 }
 
 .box div::after {
-  @apply content-[''] w-[16px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full;
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 left-0 bg-[url("./image/1.png")] bg-no-repeat bg-full z-[-1];
 }
 .box div::before {
-  @apply content-[''] w-[16px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full;
+  @apply content-[''] w-[12px] h-[100%] absolute top-0 right-0 bg-[url("./image/3.png")] bg-no-repeat bg-full z-[-1];
 }

@@ -1,6 +1,11 @@
+import { useState } from "react";
+import { Dropdown } from "react-bootstrap";
+import { useParams } from "react-router";
+
 import SuccessNonePng from "@/assets/image/success-none.png";
 import Box from "@/components/box";
 import Button from "@/components/button";
+import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
@@ -75,7 +80,7 @@ const Pis = () => {
       <g style={{ order: -1 }}>
         <polygon
           transform="rotate(45 100 100)"
-          stroke-width="1"
+          strokeWidth="1"
           stroke="#48B7F2"
           fill="none"
           points="70,70 148,50 130,130 50,150"
@@ -83,7 +88,7 @@ const Pis = () => {
         ></polygon>
         <polygon
           transform="rotate(45 100 100)"
-          stroke-width="1"
+          strokeWidth="1"
           stroke="#48B7F2"
           fill="none"
           points="70,70 148,50 130,130 50,150"
@@ -91,13 +96,13 @@ const Pis = () => {
         ></polygon>
         <polygon
           transform="rotate(45 100 100)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#414750"
           points="70,70 150,50 130,130 50,150"
         ></polygon>
         <polygon
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="url(#gradiente)"
           points="100,70 150,100 100,130 50,100"
@@ -116,14 +121,14 @@ const Pis = () => {
         </defs>
         <polygon
           transform="translate(20, 31)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#0460B2"
           points="80,50 80,75 80,99 40,75"
         ></polygon>
         <polygon
           transform="translate(20, 31)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="url(#gradiente2)"
           points="40,-40 80,-40 80,99 40,75"
@@ -143,14 +148,14 @@ const Pis = () => {
         </defs>
         <polygon
           transform="rotate(180 100 100) translate(20, 20)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#48B7F2"
           points="80,50 80,75 80,99 40,75"
         ></polygon>
         <polygon
           transform="rotate(0 100 100) translate(60, 20)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="url(#gradiente3)"
           points="40,-40 80,-40 80,85 40,110.2"
@@ -170,7 +175,7 @@ const Pis = () => {
         </defs>
         <polygon
           transform="rotate(45 100 100) translate(80, 95)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#0460B2"
           points="5,0 5,5 0,5 0,0"
@@ -178,7 +183,7 @@ const Pis = () => {
         ></polygon>
         <polygon
           transform="rotate(45 100 100) translate(80, 55)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#0460B2"
           points="6,0 6,6 0,6 0,0"
@@ -186,21 +191,21 @@ const Pis = () => {
         ></polygon>
         <polygon
           transform="rotate(45 100 100) translate(70, 80)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#0460B2"
           points="2,0 2,2 0,2 0,0"
           id="particles"
         ></polygon>
         <polygon
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#292d34"
           points="29.5,99.8 100,142 100,172 29.5,130"
         ></polygon>
         <polygon
           transform="translate(50, 92)"
-          stroke-width="2"
+          strokeWidth="2"
           stroke=""
           fill="#1f2127"
           points="50,50 120.5,8 120.5,35 50,80"
@@ -219,37 +224,101 @@ const Pis = () => {
 };
 
 export default function Home() {
+  const { userid } = useParams();
+  const chain: string[] = ["Solana", "ETh/BSC", "Pi Browser"];
+  const [chainValue, setChainValue] = useState<string>(
+    userid != undefined ? chain?.[0] : chain?.[2]
+  );
+
+  const chains = [
+    { name: "BSC", value: "bsc" },
+    { name: "ETH", value: "eth" },
+    { name: "SOLANA", value: "solana" },
+  ];
+
+  const [chainValues, setChainValues] = useState("eth");
+
   return (
     <div className="grid grid-cols-12">
       <div className="z-[1] col-span-12 grid items-center grid-cols-[1fr] lg:grid-cols-[320px,1fr] xl:grid-cols-[360px,1fr] gap-[36px] xl:gap-[50px]">
         <div className="hidden lg:flex">
           <Pis />
         </div>
-        <div className="grid h-fit gap-[16px] lg:gap-[50px]">
+        <div className="grid h-fit gap-[16px] lg:gap-[26px]">
           <div className="col-span-12 grid">
-            <span className="text-[46px] font-[700]">@ABC001</span>
+            <span className="text-[46px] font-[700]">
+              {userid ? "@ABC001" : "用户名"}
+            </span>
             <span className="text-[#718096] text-[20px]">
-              Telegram ID 123456789
+              Telegram ID : {userid ? userid : "--"}
             </span>
           </div>
           <div className="col-span-12 grid gap-[16px] h-fit">
-            <div className="col-span-12 flex sm:hidden gap-[8px] items-center mb-[-16px]">
-              <Button>
-                <Icon name="chain/bsc" />
-              </Button>
-              <Button>CONNECT</Button>
+            <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0]">
+              <Dropdowns
+                menu={
+                  <>
+                    {chains.map((item, index) => (
+                      <Dropdown.Item
+                        key={index}
+                        onClick={() => setChainValues(item.value)}
+                      >
+                        <div className="flex items-center gap-[8px]">
+                          <div className="">
+                            <Icon
+                              name={`chain/${
+                                chains.find(
+                                  (items) => items.value === item.value
+                                )?.value
+                              }`}
+                              className="w-[16px] h-[16px]"
+                            />
+                          </div>
+
+                          {item.name}
+                        </div>
+                      </Dropdown.Item>
+                    ))}
+                  </>
+                }
+              >
+                <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
+                  <Icon
+                    name={`chain/${
+                      chains.find((item) => item.value === chainValues)?.value
+                    }`}
+                    className="w-[20px] h-[20px]"
+                  />
+                </div>
+              </Dropdowns>
+              {/* <Button className="uppercase">CONNECT</Button> */}
+              {/* <Button className="uppercase" type="default">{ellipsisMiddle("0x000000000000000", 4,3)}</Button> */}
+              <Box>{ellipsisMiddle("0x000000000000000", 4, 3)}</Box>
+              <Button className="uppercase">disconnect</Button>
             </div>
             <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between">
-              <HeaderTitle className="order-2 sm:!order-1">
-                Bind
-              </HeaderTitle>
+              <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
               <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
-                <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
-              Bot
+                <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram Bot
               </span>
             </div>
             <div className="col-span-12">
-              <Segmentation />
+              <Segmentation
+                onChange={(e) => setChainValue(e)}
+                value={chainValue}
+                data={chain.map((itme, index) =>
+                  Object.assign(
+                    {},
+                    {
+                      name: itme,
+                      value: itme,
+                      disabled: userid
+                        ? index === -1
+                        : index === 0 || index === 1,
+                    }
+                  )
+                )}
+              />
             </div>
             <div className="col-span-12">
               <Box>

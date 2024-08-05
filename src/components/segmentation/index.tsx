@@ -1,12 +1,26 @@
-import "./segmentation.scss"
-export default function Segmentation() {
+import "./segmentation.scss";
+export default function Segmentation({
+  data = [],
+  value = "",
+  onChange,
+}: {
+  data?: { name: string; value: string; disabled?: boolean }[];
+  value?: string;
+  onChange?: (e: string) => void;
+}) {
   return (
     <div className="btn-group">
-      <a className="btn btn-primary active" aria-current="page">
-      Solana
-      </a>
-      <a className="btn btn-primary">ETH/BSC</a>
-      <a className="btn btn-primary">Pi Browser</a>
+      {data.map((item, index) => (
+        <a
+          onClick={() => onChange && onChange(item.value)}
+          key={index}
+          className={`btn btn-primary ${item.value === value ? "active" : ""} ${
+            item.disabled ? "disabled" : ""
+          }`}
+        >
+          {item.name}
+        </a>
+      ))}
     </div>
   );
 }

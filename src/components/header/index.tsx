@@ -1,7 +1,13 @@
 import "./header.scss";
 
+import { Dropdown } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
 import Button from "@/components/button";
 import Icon from "@/components/icon";
+import locale from "@/config/locale";
+
+import Dropdowns from "../dropdown";
 
 export const Nav = () => {
   return (
@@ -14,17 +20,29 @@ export const Nav = () => {
 };
 
 export const HeaderEnd = () => {
+  const { i18n } = useTranslation();
   return (
     <div className="header-end">
-      <Button className="!hidden md:!flex">
-        <Icon name="wallet" />
-        CONNECT
-      </Button>
-      <Button>
-        <Icon name="lang/en" />
-        English
-        <Icon name="refresh" />
-      </Button>
+      <Dropdowns
+        menu={
+          <>
+            {Object.entries(locale).map(([key, value]: any) => (
+              <Dropdown.Item key={key} onClick={() => i18n.changeLanguage(key)}>
+                {value.translation.language}
+              </Dropdown.Item>
+            ))}
+          </>
+        }
+      >
+        <Button type="default">
+          <Icon name="lang" />
+          {Object.entries(locale).map(
+            ([key, value]: any) =>
+              key === i18n.language && value.translation.lang
+          )}
+        </Button>
+      </Dropdowns>
+      
     </div>
   );
 };
@@ -36,7 +54,9 @@ export const HeaderTitle = ({
   children?: React.ReactNode;
   className?: string;
 }) => {
-  return <div className={`header-title uppercase ${className}`}>{children}</div>;
+  return (
+    <div className={`header-title uppercase ${className}`}>{children}</div>
+  );
 };
 
 export default function Header() {
@@ -46,7 +66,9 @@ export default function Header() {
         <div className="header-box">
           <a className="flex gap-[8px] items-center">
             <img className="w-[50px] h-[50px]" />
-            <span className="hidden sm:flex text-[28px] font-[400] font-[EDIX]">PIWAR</span>
+            <span className="hidden sm:flex text-[28px] font-[400] font-[EDIX]">
+              PIWAR
+            </span>
           </a>
           <Nav />
           <HeaderEnd />
