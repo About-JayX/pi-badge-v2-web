@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 
@@ -10,6 +10,9 @@ import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
 import Wallet from "@/components/wallet";
+import { useStoreDispatch, useStoreSelector } from "@/hook";
+import { disconnect, switchNetwork } from "@/hook/ethers";
+import { updatepageNetworkId } from "@/store/ethers";
 import { ellipsisMiddle, semicolon } from "@/util";
 
 const PisSvg = ({
@@ -226,20 +229,29 @@ const Pis = () => {
 
 export default function Home() {
   const { userid } = useParams();
+  const { address,networkId } = useStoreSelector((state) => state.ethers);
+  const dispatch = useStoreDispatch();
+
   const chain: string[] = ["Solana", "ETh/BSC", "Pi Browser"];
   const [chainValue, setChainValue] = useState<string>(
     userid != undefined ? chain?.[0] : chain?.[2]
   );
 
   const chains = [
-    { name: "BSC", value: "bsc" },
-    { name: "ETH", value: "eth" },
-    { name: "SOLANA", value: "solana" },
+    { name: "BSC", value: "bsc", chainId: 56 },
+    { name: "ETH", value: "eth", chainId: 1 },
+    { name: "SOLANA", value: "solana", chainId: -1 },
   ];
 
   const [chainValues, setChainValues] = useState("eth");
 
   const [walletStatus, setWalletStatus] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (address) {
+      setWalletStatus(false);
+    }
+  }, [address]);
 
   return (
     <Fragment>
@@ -274,7 +286,16 @@ export default function Home() {
                       {chains.map((item, index) => (
                         <Dropdown.Item
                           key={index}
-                          onClick={() => setChainValues(item.value)}
+                          onClick={() => {
+                            if (item.chainId !== -1) {
+                              // 更新网络ID
+                              dispatch(updatepageNetworkId(item.chainId));
+                              // 切换网络
+                              dispatch(switchNetwork()).then(() =>
+                                setChainValues(item.value)
+                              );
+                            }
+                          }}
                         >
                           <div className="flex items-center gap-[8px]">
                             <div className="">
@@ -298,20 +319,28 @@ export default function Home() {
                   <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                     <Icon
                       name={`chain/${
-                        chains.find((item) => item.value === chainValues)?.value
+                        chains.find((item) => item.chainId === networkId || item.value === chainValues )?.value
                       }`}
                       className="w-[20px] h-[20px]"
                     />
                   </div>
                 </Dropdowns>
-                <Box>{ellipsisMiddle("0x000000000000000", 4, 3)}</Box>
-                <Button
-                  className="uppercase"
-                  onClick={() => setWalletStatus(true)}
-                >
-                  connect
-                </Button>
-                <Button className="uppercase">disconnect</Button>
+                {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
+                {address ? (
+                  <Button
+                    className="uppercase"
+                    onClick={() => dispatch(disconnect())}
+                  >
+                    disconnect
+                  </Button>
+                ) : (
+                  <Button
+                    className="uppercase"
+                    onClick={() => setWalletStatus(true)}
+                  >
+                    connect
+                  </Button>
+                )}
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>

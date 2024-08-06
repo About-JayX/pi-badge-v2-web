@@ -3,8 +3,10 @@ import Router from "@/router";
 
 import BgAnimation from "./components/animation/bg";
 import Message from "./components/message";
+import useInitialize from "./hook/initialize";
 
 export default function App() {
+  useInitialize();
   return (
     <>
       <Message />
