@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 
@@ -9,6 +9,7 @@ import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
+import Wallet from "@/components/wallet";
 import { ellipsisMiddle, semicolon } from "@/util";
 
 const PisSvg = ({
@@ -238,126 +239,145 @@ export default function Home() {
 
   const [chainValues, setChainValues] = useState("eth");
 
-  return (
-    <div className="grid grid-cols-12">
-      <div className="z-[1] col-span-12 grid items-center grid-cols-[1fr] lg:grid-cols-[320px,1fr] xl:grid-cols-[360px,1fr] gap-[36px] xl:gap-[50px]">
-        <div className="hidden lg:flex">
-          <Pis />
-        </div>
-        <div className="grid h-fit gap-[16px] lg:gap-[26px]">
-          <div className="col-span-12 grid gap-[6px]">
-            <span className="text-[32px] font-[700] flex items-center gap-[16px]">
-              <Icon name="telegram" className="w-[32px] h-[32px] text-[#718096]"/>
-              {userid ? "@ABC001" : "--"}
-            </span>
-            <span className="text-[#718096] text-[20px]">
-              Telegram ID : {userid ? userid : "--"}
-            </span>
-          </div>
-          <div className="col-span-12 grid gap-[16px] h-fit">
-            <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0]">
-              <Dropdowns
-                menu={
-                  <>
-                    {chains.map((item, index) => (
-                      <Dropdown.Item
-                        key={index}
-                        onClick={() => setChainValues(item.value)}
-                      >
-                        <div className="flex items-center gap-[8px]">
-                          <div className="">
-                            <Icon
-                              name={`chain/${
-                                chains.find(
-                                  (items) => items.value === item.value
-                                )?.value
-                              }`}
-                              className="w-[16px] h-[16px]"
-                            />
-                          </div>
+  const [walletStatus, setWalletStatus] = useState<boolean>(false);
 
-                          {item.name}
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                  </>
-                }
-              >
-                <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
-                  <Icon
-                    name={`chain/${
-                      chains.find((item) => item.value === chainValues)?.value
-                    }`}
-                    className="w-[20px] h-[20px]"
-                  />
-                </div>
-              </Dropdowns>
-              <Box>{ellipsisMiddle("0x000000000000000", 4, 3)}</Box>
-              <Button className="uppercase">disconnect</Button>
-            </div>
-            <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-              <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
-              <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
-                <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram Bot
+  return (
+    <Fragment>
+      <Wallet
+        open={walletStatus}
+        setWalletOpen={(e) => setWalletStatus(e)}
+        getUrl={() => ""}
+      />
+      <div className="grid grid-cols-12">
+        <div className="z-[1] col-span-12 grid items-center grid-cols-[1fr] lg:grid-cols-[320px,1fr] xl:grid-cols-[360px,1fr] gap-[36px] xl:gap-[50px]">
+          <div className="hidden lg:flex">
+            <Pis />
+          </div>
+          <div className="grid h-fit gap-[16px] lg:gap-[26px]">
+            <div className="col-span-12 grid gap-[6px]">
+              <span className="text-[32px] font-[700] flex items-center gap-[16px]">
+                <Icon
+                  name="telegram"
+                  className="w-[32px] h-[32px] text-[#718096]"
+                />
+                {userid ? "@ABC001" : "--"}
+              </span>
+              <span className="text-[#718096] text-[20px]">
+                Telegram ID : {userid ? userid : "--"}
               </span>
             </div>
-            <div className="col-span-12">
-              <Segmentation
-                onChange={(e) => setChainValue(e)}
-                value={chainValue}
-                data={chain.map((itme, index) =>
-                  Object.assign(
-                    {},
-                    {
-                      name: itme,
-                      value: itme,
-                      disabled: userid
-                        ? index === -1
-                        : index === 0 || index === 1,
-                    }
-                  )
-                )}
+            <div className="col-span-12 grid gap-[16px] h-fit">
+              <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
+                <Dropdowns
+                  menu={
+                    <>
+                      {chains.map((item, index) => (
+                        <Dropdown.Item
+                          key={index}
+                          onClick={() => setChainValues(item.value)}
+                        >
+                          <div className="flex items-center gap-[8px]">
+                            <div className="">
+                              <Icon
+                                name={`chain/${
+                                  chains.find(
+                                    (items) => items.value === item.value
+                                  )?.value
+                                }`}
+                                className="w-[16px] h-[16px]"
+                              />
+                            </div>
+
+                            {item.name}
+                          </div>
+                        </Dropdown.Item>
+                      ))}
+                    </>
+                  }
+                >
+                  <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
+                    <Icon
+                      name={`chain/${
+                        chains.find((item) => item.value === chainValues)?.value
+                      }`}
+                      className="w-[20px] h-[20px]"
+                    />
+                  </div>
+                </Dropdowns>
+                <Box>{ellipsisMiddle("0x000000000000000", 4, 3)}</Box>
+                <Button
+                  className="uppercase"
+                  onClick={() => setWalletStatus(true)}
+                >
+                  connect
+                </Button>
+                <Button className="uppercase">disconnect</Button>
+              </div>
+              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
+                <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
+                <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
+                  <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
+                  Bot
+                </span>
+              </div>
+              <div className="col-span-12">
+                <Segmentation
+                  onChange={(e) => setChainValue(e)}
+                  value={chainValue}
+                  data={chain.map((itme, index) =>
+                    Object.assign(
+                      {},
+                      {
+                        name: itme,
+                        value: itme,
+                        disabled: userid
+                          ? index === -1
+                          : index === 0 || index === 1,
+                      }
+                    )
+                  )}
+                />
+              </div>
+              <div className="col-span-12">
+                <Box>
+                  <Icon name="wallet" className="w-[26px] h-[26px]" />
+                  {ellipsisMiddle("0x000000000000000", 6)}
+                  <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
+                </Box>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
+          <div className="col-span-12">
+            <HeaderTitle>Donate</HeaderTitle>
+          </div>
+          <div className="col-span-12 grid grid-cols-12 gap-[16px]">
+            <div className="col-span-6 md:col-span-4 lg:col-span-3">
+              <PisSvg
+                buyStatus="min"
+                status="popular"
+                quantity={1000}
+                price={2.99}
               />
             </div>
-            <div className="col-span-12">
-              <Box>
-                <Icon name="wallet" className="w-[26px] h-[26px]" />
-                {ellipsisMiddle("0x000000000000000", 6)}
-                <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
-              </Box>
+            <div className="col-span-6 md:col-span-4 lg:col-span-3">
+              <PisSvg
+                buyStatus="max"
+                status="best"
+                quantity={3000}
+                price={6.99}
+              />
+            </div>
+            <div className="col-span-6 md:col-span-4 lg:col-span-3">
+              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
+            </div>
+            <div className="col-span-6 md:col-span-4 lg:col-span-3">
+              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
             </div>
           </div>
         </div>
       </div>
-      <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
-        <div className="col-span-12">
-          <HeaderTitle>Donate</HeaderTitle>
-        </div>
-        <div className="col-span-12 grid grid-cols-12 gap-[16px]">
-          <div className="col-span-6 md:col-span-4 lg:col-span-3">
-            <PisSvg
-              buyStatus="min"
-              status="popular"
-              quantity={1000}
-              price={2.99}
-            />
-          </div>
-          <div className="col-span-6 md:col-span-4 lg:col-span-3">
-            <PisSvg
-              buyStatus="max"
-              status="best"
-              quantity={3000}
-              price={6.99}
-            />
-          </div>
-          <div className="col-span-6 md:col-span-4 lg:col-span-3">
-            <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-          </div>
-          <div className="col-span-6 md:col-span-4 lg:col-span-3">
-            <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-          </div>
-        </div>
-      </div>
-    </div>
+    </Fragment>
   );
 }

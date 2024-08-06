@@ -42,7 +42,6 @@ export const HeaderEnd = () => {
           )}
         </Button>
       </Dropdowns>
-      
     </div>
   );
 };
@@ -65,7 +64,7 @@ export default function Header() {
       <div className="container">
         <div className="header-box">
           <a className="flex gap-[16px] items-center">
-            <img className="w-[44px] h-[44px]" src="/logos.svg"/>
+            <img className="w-[44px] h-[44px]" src="/logos.svg" />
             <span className="hidden sm:flex text-[28px] font-[400] font-[EDIX]">
               PIWAR
             </span>
