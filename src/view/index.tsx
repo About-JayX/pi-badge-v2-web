@@ -10,6 +10,7 @@ import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
 import Wallet from "@/components/wallet";
+import telegramBotUrl from "@/config/telegramBotUrl"
 import { useStoreDispatch, useStoreSelector } from "@/hook";
 import { disconnect, switchNetwork } from "@/hook/ethers";
 import { updatepageNetworkId } from "@/store/ethers";
@@ -344,10 +345,10 @@ export default function Home() {
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
-                <span className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline">
+                <a className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline" target="_blank" href={telegramBotUrl}>
                   <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
                   Bot
-                </span>
+                </a>
               </div>
               <div className="col-span-12">
                 <Segmentation
