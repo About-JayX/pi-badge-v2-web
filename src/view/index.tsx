@@ -1,31 +1,31 @@
-import { Fragment, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { useParams } from "react-router";
+import { Fragment, useEffect, useState } from 'react'
+import { Dropdown } from 'react-bootstrap'
+import { useParams } from 'react-router'
 
-import SuccessNonePng from "@/assets/image/success-none.png";
-import Box from "@/components/box";
-import Button from "@/components/button";
-import Dropdowns from "@/components/dropdown";
-import { HeaderTitle } from "@/components/header";
-import Icon from "@/components/icon";
-import Segmentation from "@/components/segmentation";
-import Wallet from "@/components/wallet";
-import telegramBotUrl from "@/config/telegramBotUrl"
-import { useStoreDispatch, useStoreSelector } from "@/hook";
-import { disconnect, switchNetwork } from "@/hook/ethers";
-import { updatepageNetworkId } from "@/store/ethers";
-import { ellipsisMiddle, semicolon } from "@/util";
-
+import SuccessNonePng from '@/assets/image/success-none.png'
+import Box from '@/components/box'
+import Button from '@/components/button'
+import Dropdowns from '@/components/dropdown'
+import { HeaderTitle } from '@/components/header'
+import Icon from '@/components/icon'
+import Segmentation from '@/components/segmentation'
+import Wallet from '@/components/wallet'
+import telegramBotUrl from '@/config/telegramBotUrl'
+import { useStoreDispatch, useStoreSelector } from '@/hook'
+import { disconnect, switchNetwork } from '@/hook/ethers'
+import { updatepageNetworkId } from '@/store/ethers'
+import { ellipsisMiddle, semicolon } from '@/util'
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 const PisSvg = ({
-  status = "",
-  buyStatus = "min",
+  status = '',
+  buyStatus = 'min',
   price = 0,
   quantity = 0,
 }: {
-  status?: "popular" | "best" | "";
-  buyStatus?: "min" | "max" | "max-full";
-  price?: number;
-  quantity?: number;
+  status?: 'popular' | 'best' | ''
+  buyStatus?: 'min' | 'max' | 'max-full'
+  price?: number
+  quantity?: number
 }) => {
   return (
     <svg viewBox="0 0 249 268">
@@ -76,8 +76,8 @@ const PisSvg = ({
         </div>
       </foreignObject>
     </svg>
-  );
-};
+  )
+}
 
 const Pis = () => {
   return (
@@ -115,11 +115,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="10%" y1="0%" x1="0%" id="gradiente">
             <stop
-              style={{ stopColor: "#1e2026", stopOpacity: 1 }}
+              style={{ stopColor: '#1e2026', stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: "#414750", stopOpacity: 1 }}
+              style={{ stopColor: '#414750', stopOpacity: 1 }}
               offset="60%"
             ></stop>
           </linearGradient>
@@ -141,11 +141,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="0%" y1="-17%" x1="10%" id="gradiente2">
             <stop
-              style={{ stopColor: "#1c8dc900", stopOpacity: 1 }}
+              style={{ stopColor: '#1c8dc900', stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: "#48B7F2", stopOpacity: 1 }}
+              style={{ stopColor: '#48B7F2', stopOpacity: 1 }}
               offset="100%"
               id="animatedStop"
             ></stop>
@@ -168,11 +168,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="10%" y1="0%" x1="0%" id="gradiente3">
             <stop
-              style={{ stopColor: "#1c8dc900", stopOpacity: 1 }}
+              style={{ stopColor: '#1c8dc900', stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: "#48B7F2", stopOpacity: 1 }}
+              style={{ stopColor: '#48B7F2', stopOpacity: 1 }}
               offset="100%"
               id="animatedStop"
             ></stop>
@@ -225,41 +225,42 @@ const Pis = () => {
         xlinkHref={`/logos.svg`}
       />
     </svg>
-  );
-};
+  )
+}
 
 export default function Home() {
-  const { userid } = useParams();
-  const { address,networkId } = useStoreSelector((state) => state.ethers);
-  const dispatch = useStoreDispatch();
+  const { userid } = useParams()
+  const { address, networkId } = useStoreSelector(state => state.ethers)
+  const dispatch = useStoreDispatch()
 
-  const chain: string[] = ["Solana", "ETh/BSC", "Pi Browser"];
+  const chain: string[] = ['Solana', 'ETh/BSC', 'Pi Browser']
   const [chainValue, setChainValue] = useState<string>(
     userid != undefined ? chain?.[0] : chain?.[2]
-  );
+  )
 
   const chains = [
-    { name: "BSC", value: "bsc", chainId: 56 },
-    { name: "ETH", value: "eth", chainId: 1 },
-    { name: "SOLANA", value: "solana", chainId: -1 },
-  ];
+    { name: 'BSC', value: 'bsc', chainId: 56 },
+    { name: 'ETH', value: 'eth', chainId: 1 },
+    { name: 'SOLANA', value: 'solana', chainId: -1 },
+  ]
+  const [network, setNetwork] = useState<any>(chains[0])
 
-  const [chainValues, setChainValues] = useState("eth");
+  const [chainValues, setChainValues] = useState('eth')
 
-  const [walletStatus, setWalletStatus] = useState<boolean>(false);
+  const [walletStatus, setWalletStatus] = useState<boolean>(false)
 
   useEffect(() => {
     if (address) {
-      setWalletStatus(false);
+      setWalletStatus(false)
     }
-  }, [address]);
+  }, [address])
 
   return (
     <Fragment>
       <Wallet
         open={walletStatus}
-        setWalletOpen={(e) => setWalletStatus(e)}
-        getUrl={() => ""}
+        setWalletOpen={e => setWalletStatus(e)}
+        getUrl={() => ''}
       />
       <div className="grid grid-cols-12">
         <div className="z-[1] col-span-12 grid items-center grid-cols-[1fr] lg:grid-cols-[320px,1fr] xl:grid-cols-[360px,1fr] gap-[36px] xl:gap-[50px]">
@@ -273,10 +274,10 @@ export default function Home() {
                   name="telegram"
                   className="w-[32px] h-[32px] text-[#718096]"
                 />
-                {userid ? "@ABC001" : "--"}
+                {userid ? '@ABC001' : '--'}
               </span>
               <span className="text-[#718096] text-[20px]">
-                Telegram ID : {userid ? userid : "--"}
+                Telegram ID : {userid ? userid : '--'}
               </span>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
@@ -287,15 +288,16 @@ export default function Home() {
                       {chains.map((item, index) => (
                         <Dropdown.Item
                           key={index}
-                          onClick={() => {
-                            if (item.chainId !== -1) {
-                              // 更新网络ID
-                              dispatch(updatepageNetworkId(item.chainId));
-                              // 切换网络
-                              dispatch(switchNetwork()).then(() =>
-                                setChainValues(item.value)
-                              );
-                            }
+                          onClick={async () => {
+                            // 更新网络ID
+
+                            setNetwork(item)
+
+                            dispatch(updatepageNetworkId(item.chainId))
+                            // 切换网络
+                            dispatch(switchNetwork(item.chainId)).then(() => {
+                              setChainValues(item.value)
+                            })
                           }}
                         >
                           <div className="flex items-center gap-[8px]">
@@ -303,7 +305,7 @@ export default function Home() {
                               <Icon
                                 name={`chain/${
                                   chains.find(
-                                    (items) => items.value === item.value
+                                    items => items.value === item.value
                                   )?.value
                                 }`}
                                 className="w-[16px] h-[16px]"
@@ -319,9 +321,7 @@ export default function Home() {
                 >
                   <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                     <Icon
-                      name={`chain/${
-                        chains.find((item) => item.chainId === networkId || item.value === chainValues )?.value
-                      }`}
+                      name={network ? `chain/${network.value}` : ''}
                       className="w-[20px] h-[20px]"
                     />
                   </div>
@@ -345,14 +345,18 @@ export default function Home() {
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
-                <a className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline" target="_blank" href={telegramBotUrl}>
+                <a
+                  className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline"
+                  target="_blank"
+                  href={telegramBotUrl}
+                >
                   <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
                   Bot
                 </a>
               </div>
               <div className="col-span-12">
                 <Segmentation
-                  onChange={(e) => setChainValue(e)}
+                  onChange={e => setChainValue(e)}
                   value={chainValue}
                   data={chain.map((itme, index) =>
                     Object.assign(
@@ -371,7 +375,7 @@ export default function Home() {
               <div className="col-span-12">
                 <Box>
                   <Icon name="wallet" className="w-[26px] h-[26px]" />
-                  {ellipsisMiddle("0x000000000000000", 6)}
+                  {ellipsisMiddle('0x000000000000000', 6)}
                   <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
                 </Box>
               </div>
@@ -409,5 +413,5 @@ export default function Home() {
         </div>
       </div>
     </Fragment>
-  );
+  )
 }

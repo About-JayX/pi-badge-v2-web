@@ -1,9 +1,9 @@
-import "./index.css";
+import './index.css'
 
-import Modal from "react-bootstrap/Modal";
+import Modal from 'react-bootstrap/Modal'
 
-import { useStoreDispatch } from "@/hook";
-import { connectWallet } from "@/hook/ethers";
+import { useStoreDispatch } from '@/hook'
+import { connectWallet } from '@/hook/ethers'
 // import { useTranslation } from "react-i18next";
 
 // import { MessageSuccess } from "@/components/message";
@@ -13,28 +13,28 @@ export default function Wallet({
   open = false,
   setWalletOpen,
 }: {
-  open?: boolean;
-  setWalletOpen: (status: boolean) => void;
-  getUrl: () => string;
+  open?: boolean
+  setWalletOpen: (status: boolean) => void
+  getUrl: () => string
 }) {
   const dispatch = useStoreDispatch()
   // const { t } = useTranslation();
   const swapList = [
     {
-      text: "TP",
-      src: "/image/wallet/tp.png",
+      text: 'TP',
+      src: '/image/wallet/tp.png',
       click: () => {
         // const urlData = {
         //   url: getUrl(),
         // };
         // const url = encodeURIComponent(JSON.stringify(urlData));
         // window.open(`tpdapp://open?params=${url}`);
-        dispatch(connectWallet({name:'tokenpocket'}))
+        dispatch(connectWallet({ name: 'tokenpocket' }))
       },
     },
     {
-      text: "OKX",
-      src: "/image/wallet/okx.png",
+      text: 'OKX',
+      src: '/image/wallet/okx.png',
       click: () => {
         // const deepLink =
         //   "okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(getUrl());
@@ -42,31 +42,29 @@ export default function Wallet({
         //   "https://www.okx.com/download?deeplink=" +
         //   encodeURIComponent(deepLink);
         // window.open(encodedUrl);
-        dispatch(connectWallet({name:'okex'}))
+        dispatch(connectWallet({ name: 'okex' }))
       },
     },
     {
-      text: "MateMask",
-      src: "/image/wallet/metamask.png",
+      text: 'MateMask',
+      src: '/image/wallet/metamask.png',
       click: () => {
-        dispatch(connectWallet({name:'ethereum'}))
+        dispatch(connectWallet({ name: 'ethereum' }))
       },
     },
     {
-      text: "Bitget",
-      src: "/image/wallet/bitget.png",
+      text: 'Bitget',
+      src: '/image/wallet/bitget.png',
       click: () => {
-        dispatch(connectWallet({name:'bitkeep'}))
+        dispatch(connectWallet({ name: 'bitkeep' }))
       },
     },
     {
-      text: "phantom",
-      src: "/image/wallet/phantom.png",
-      click: () => {
-        
-      },
+      text: 'phantom',
+      src: '/image/wallet/phantom.png',
+      click: () => {},
     },
-  ];
+  ]
   return (
     <Modal
       show={open}
@@ -100,5 +98,5 @@ export default function Wallet({
         </div>
       </Modal.Body>
     </Modal>
-  );
+  )
 }
