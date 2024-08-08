@@ -21,7 +21,8 @@ export default function App() {
 
       if (authResponse && authResponse.user && authResponse.user.uid) {
         try {
-          await bindPidAPI({ pid: authResponse.user.uid })
+          const result = await bindPidAPI({ pid: authResponse.user.uid })
+          alert(JSON.stringify(result))
         } catch (error) {
           console.log(error, 'bind_error_')
         }
