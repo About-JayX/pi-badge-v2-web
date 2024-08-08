@@ -6,7 +6,13 @@ import Web3 from 'web3'
 
 import SuccessDonePng from '@/assets/image/success.png'
 import SuccessNonePng from '@/assets/image/success-none.png'
-import { bindPidAPI, bindWallet, findBind, getUserAPI } from '@/axios/api'
+import {
+  bindPidAPI,
+  bindWallet,
+  findBind,
+  findPidAPI,
+  getUserAPI,
+} from '@/axios/api'
 import Box from '@/components/box'
 import Button from '@/components/button'
 import Dropdowns from '@/components/dropdown'
@@ -20,6 +26,7 @@ import { disconnect, switchNetwork } from '@/hook/ethers'
 import {
   updateAddress,
   updatepageNetworkId,
+  updatePidKey,
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, semicolon } from '@/util'
@@ -264,8 +271,13 @@ export default function Home() {
     try {
       if (piUser && piUser.user && piUser.user.uid && !pidKey) {
         try {
-          const result = await bindPidAPI({ pid: piUser.user.uid })
-          alert(JSON.stringify(result))
+          const result: any = await bindPidAPI({ pid: piUser.user.uid })
+          if (result.success) {
+            const res: any = await findPidAPI()
+            dispatch(updatePidKey(res ? res.pId : res))
+          } else {
+            alert(JSON.stringify(result))
+          }
         } catch (error) {
           alert(JSON.stringify(error) + ' error')
         }
