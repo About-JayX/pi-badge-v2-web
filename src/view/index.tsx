@@ -237,7 +237,7 @@ const Pis = () => {
 
 export default function Home() {
   const { userid } = useParams()
-  const { address, networkId } = useStoreSelector(state => state.ethers)
+  const { address, networkId, piUser } = useStoreSelector(state => state.ethers)
   const dispatch = useStoreDispatch()
 
   const chain: string[] = ['Solana', 'ETh/BSC', 'Pi Browser']
@@ -350,7 +350,21 @@ export default function Home() {
 
       await init()
     }
-    return (
+
+    return chainValue === 'Pi Browser' ? (
+      <Box
+        click={() => {
+          data?.Address && data?.Address.address ? '' : bind()
+        }}
+      >
+        <Icon name="wallet" className="w-[26px] h-[26px]" />
+        {piUser.user && piUser.user.uid ? 'bind' : '请使用pi浏览器打开'}
+        <img
+          src={data?.Address ? SuccessDonePng : SuccessNonePng}
+          className="w-[22px] h-[16px]"
+        />
+      </Box>
+    ) : (
       <Box
         click={() => {
           data?.Address && data?.Address.address ? '' : bind()

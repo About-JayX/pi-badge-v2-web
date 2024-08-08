@@ -1,59 +1,41 @@
-import Header from "@/components/header";
-import Router from "@/router";
+import Header from '@/components/header'
+import Router from '@/router'
 
-import { requestPiLogin } from "./axios/api";
-import BgAnimation from "./components/animation/bg";
-import Message from "./components/message";
-import useInitialize from "./hook/initialize";
-import { getCookieKey } from "./util";
+import { bindPidAPI, requestPiLogin } from './axios/api'
+import BgAnimation from './components/animation/bg'
+import Message from './components/message'
+import useInitialize from './hook/initialize'
+import { getCookieKey } from './util'
+import { useEffect } from 'react'
+import { useStoreDispatch } from './hook'
+import { updatepidUserInfo, updatePiUser } from './store/ethers'
 
 export default function App() {
-  useInitialize();
+  useInitialize()
+  const dispatch = useStoreDispatch()
+  const signPiBrowser = async () => {
+    try {
+      const scopes = ['payments', 'username']
+      const authResponse = await window.Pi.authenticate(scopes, () => {})
+      dispatch(updatePiUser({ ...authResponse }))
 
-  const onIncompletePaymentFound = () => {
-    // console.log(payment);
-  };
-
-  const signIn = async () => {
-    const scopes = ["payments", "username"];
-    const authResponse = await window.Pi.authenticate(
-      scopes,
-      onIncompletePaymentFound
-    );
-    alert(JSON.stringify(authResponse))
-    await requestPiLogin(
-      {
-        uid: authResponse.user.uid,
-        username: authResponse.user.username,
-        accessToken: authResponse.accessToken,
-      },
-      getCookieKey(authResponse.user.uid)
-    )
-      .then((res: any) => {
-        if (res.code === 200) {
-          alert(JSON.stringify(res.data.uid));
-          // 更新状态
-          // setUid(res.data.uid);
-          // setBadgeId(res.data.badge_id);
-          // setInviterStatus(res.data.inviter);
-          // setUserAddress(res.data.address);
-          // setPriority(res.data.priority);
-          // setExp(res.data.exp);
-
-          // message.success(props?.connectionSuccess);
-        } else {
-          // message.error(props?.connectionFailed);
+      if (authResponse && authResponse.user && authResponse.user.uid) {
+        try {
+          await bindPidAPI({ pid: authResponse.user.uid })
+        } catch (error) {
+          console.log(error, 'bind_error_')
         }
-      })
-      .catch((error) => {
-        alert(JSON.stringify(error))
-        // message.error(props?.connectionFailed);
-      });
-  };
+      }
+    } catch (error) {
+      console.log(error, 'pi_web_error_')
+    }
+  }
 
+  useEffect(() => {
+    signPiBrowser()
+  }, [])
   return (
     <>
-      <button onClick={()=>signIn()}>登陆Pi浏览器</button>
       <Message />
       <Header />
       <BgAnimation />
@@ -61,5 +43,5 @@ export default function App() {
         <Router />
       </main>
     </>
-  );
+  )
 }

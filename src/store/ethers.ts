@@ -17,7 +17,7 @@ interface PidUserInfo {
 }
 
 // Ethers接口类型
-interface ethersType {
+export interface ethersType {
   address: string // 地址
   balance: string // 余额
   networkId: number // 网络ID
@@ -29,6 +29,7 @@ interface ethersType {
   providers: JsonRpcProvider // 提供者
   pidUserInfo: PidUserInfo //pid详情
   walletStatus: boolean // 钱包弹框状态
+  piUser: any
 }
 
 // 初始化state
@@ -46,6 +47,7 @@ const initialState = {
   providers: null,
   pidUserInfo: {},
   walletStatus: false,
+  piUser: {},
 } as unknown as ethersType
 
 // 初始化创建state及actions
@@ -95,6 +97,9 @@ const initialSlice = createSlice({
     updateWalletStatus(state, action) {
       state.walletStatus = action.payload
     },
+    updatePiUser(state, action) {
+      state.piUser = action.payload
+    },
   },
   // 异步处理
   extraReducers: builder => {
@@ -122,6 +127,7 @@ export const {
   updateNetworkStatus,
   updateWalletId,
   updateNetworkName,
+  updatePiUser,
 } = initialSlice.actions
 // 导出state变量
 export default initialSlice.reducer
