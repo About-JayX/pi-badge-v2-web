@@ -22,7 +22,7 @@ export default function App() {
     const authResponse = await window.Pi.authenticate(scopes, () => {})
     dispatch(updatePiUser({ ...authResponse }))
     dispatch(updatePidKey(result ? result.pId : result))
-    !result && piUser && piUser.user && piUser.user.uid && setOpen(true)
+    !result && authResponse && authResponse.user && authResponse.user.uid && setOpen(true)
   }
 
   const getBind = async () => {
