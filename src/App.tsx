@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import Header from "@/components/header";
 import Router from "@/router";
 
@@ -12,59 +10,50 @@ import { getCookieKey } from "./util";
 export default function App() {
   useInitialize();
 
-  useEffect(() => {
-    const isPi = navigator.userAgent.indexOf("PiBrowser") > -1;
-    if (isPi) {
-      alert("Pi浏览器")
-      // 派系浏览器支付未完成
-      const onIncompletePaymentFound = () => {
-        // console.log(payment);
-      };
-      // 派系浏览器登录
-      const signIn = async () => {
-        const scopes = ["payments", "username"];
-        const authResponse = await window.Pi.authenticate(
-          scopes,
-          onIncompletePaymentFound
-        );
-        // alert("测试登录" + JSON.stringify(authResponse));
-        await requestPiLogin(
-          {
-            uid: authResponse.user.uid,
-            username: authResponse.user.username,
-            accessToken: authResponse.accessToken,
-          },
-          // getCatchKey()
-          getCookieKey(authResponse.user.uid)
-        )
-          .then((res: any) => {
-            if (res.code === 200) {
-              alert(JSON.stringify(res.data.uid))
-              // setUid(res.data.uid);
-              // setBadgeId(res.data.badge_id);
-              // setInviterStatus(res.data.inviter);
-              // setUserAddress(res.data.address);
-              // setPriority(res.data.priority);
-              // setExp(res.data.exp);
+  const onIncompletePaymentFound = () => {
+    // console.log(payment);
+  };
 
-              // message.success(props?.connectionSuccess);
-            } else {
-              // message.error(props?.connectionFailed);
-            }
-          })
-          .catch(() => {
-            // alert(JSON.stringify(error))
-            // message.error(props?.connectionFailed);
-          });
-      };
+  const signIn = async () => {
+    const scopes = ["payments", "username"];
+    const authResponse = await window.Pi.authenticate(
+      scopes,
+      onIncompletePaymentFound
+    );
+    alert(JSON.stringify(authResponse))
+    await requestPiLogin(
+      {
+        uid: authResponse.user.uid,
+        username: authResponse.user.username,
+        accessToken: authResponse.accessToken,
+      },
+      getCookieKey(authResponse.user.uid)
+    )
+      .then((res: any) => {
+        if (res.code === 200) {
+          alert(JSON.stringify(res.data.uid));
+          // 更新状态
+          // setUid(res.data.uid);
+          // setBadgeId(res.data.badge_id);
+          // setInviterStatus(res.data.inviter);
+          // setUserAddress(res.data.address);
+          // setPriority(res.data.priority);
+          // setExp(res.data.exp);
 
-      signIn()
-    }else{
-      alert("非Pi浏览器")
-    }
-  }, []);
+          // message.success(props?.connectionSuccess);
+        } else {
+          // message.error(props?.connectionFailed);
+        }
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error))
+        // message.error(props?.connectionFailed);
+      });
+  };
+
   return (
     <>
+      <button onClick={()=>signIn()}>登陆Pi浏览器</button>
       <Message />
       <Header />
       <BgAnimation />
