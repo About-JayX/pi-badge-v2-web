@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router'
 import Web3 from 'web3'
-
 import SuccessDonePng from '@/assets/image/success.png'
 import SuccessNonePng from '@/assets/image/success-none.png'
 import {
@@ -387,7 +386,7 @@ export default function Home() {
         <Icon name="wallet" className="w-[26px] h-[26px]" />
         {piUser.user && piUser.user.uid
           ? pidKey
-            ? pidKey
+            ? ellipsisMiddle(pidKey, 12)
             : 'bind'
           : '请使用pi浏览器打开'}
         <img
