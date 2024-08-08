@@ -30,24 +30,19 @@ export default function App() {
   }
 
   const getBind = async () => {
-    try {
-      if (piUser && piUser.user && piUser.user.uid && !pidKey) {
-        try {
-          const result: any = await bindPidAPI({ pid: piUser.user.uid })
-          if (result.success) {
-            const res: any = await findPidAPI()
-            dispatch(updatePidKey(res ? res.pId : res))
-            setOpen(true)
-          } else {
-            alert(JSON.stringify(result))
-            setOpen(false)
-          }
-        } catch (error) {
-          alert(JSON.stringify(error) + ' error')
+    if (piUser && piUser.user && piUser.user.uid && !pidKey) {
+      try {
+        const result: any = await bindPidAPI({ pid: piUser.user.uid })
+        if (result.success) {
+          const res: any = await findPidAPI()
+          dispatch(updatePidKey(res ? res.pId : res))
+        } else {
+          alert(JSON.stringify(result))
         }
+      } catch (error) {
+        alert(JSON.stringify(error) + ' error')
       }
-    } catch (error) {
-      console.log(error, 'pi_web_error_')
+      setOpen(false)
     }
   }
   useEffect(() => {
@@ -57,7 +52,7 @@ export default function App() {
     <>
       <PiModal
         open={open}
-        setWalletOpen={(bool) => setOpen(bool)}
+        setWalletOpen={bool => setOpen(bool)}
         bind={getBind}
       />
       <Message />
