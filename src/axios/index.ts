@@ -9,7 +9,7 @@ const api = axios.create()
 api.interceptors.response.use(
   response => {
     const data = response.data
-  return data.data ? data.data : data
+    return data.data || data.data === null ? data.data : data
   },
   (error: AxiosError) => {
     console.error('request failed:', error)

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import Header from '@/components/header'
 import Router from '@/router'
@@ -7,29 +7,29 @@ import { bindPidAPI, findPidAPI } from './axios/api'
 import BgAnimation from './components/animation/bg'
 import Message from './components/message'
 import PiModal from './components/piModal'
-import { useStoreDispatch } from './hook'
+import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
 import { updatePiUser, updatePidKey } from './store/ethers'
 
 export default function App() {
+  const [open, setOpen] = useState(false)
   useInitialize()
   const dispatch = useStoreDispatch()
+  const { pidKey, piUser } = useStoreSelector(state => state.ethers)
   const signPiBrowser = async () => {
     const result: any = await findPidAPI()
+    const scopes = ['payments', 'username']
+    const authResponse = await window.Pi.authenticate(scopes, () => {})
+    dispatch(updatePiUser({ ...authResponse }))
     dispatch(updatePidKey(result ? result.pId : result))
-    try {
-      const scopes = ['payments', 'username']
-      const authResponse = await window.Pi.authenticate(scopes, () => {})
-      dispatch(updatePiUser({ ...authResponse }))
+    !result && piUser && piUser.user && piUser.user.uid && setOpen(true)
+  }
 
-      if (
-        authResponse &&
-        authResponse.user &&
-        authResponse.user.uid &&
-        !result
-      ) {
+  const getBind = async () => {
+    try {
+      if (piUser && piUser.user && piUser.user.uid && !pidKey) {
         try {
-          const result = await bindPidAPI({ pid: authResponse.user.uid })
+          const result = await bindPidAPI({ pid: piUser.user.uid })
           alert(JSON.stringify(result))
         } catch (error) {
           alert(JSON.stringify(error) + ' error')
@@ -39,13 +39,16 @@ export default function App() {
       console.log(error, 'pi_web_error_')
     }
   }
-
   useEffect(() => {
     signPiBrowser()
   }, [])
   return (
     <>
-      <PiModal open setWalletOpen={() => false} />
+      <PiModal
+        open={open}
+        setWalletOpen={bool => setOpen(false)}
+        bind={getBind}
+      />
       <Message />
       <Header />
       <BgAnimation />

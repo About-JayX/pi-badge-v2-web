@@ -11,11 +11,12 @@ import Button from '../button'
 export default function PiModal({
   open = false,
   setWalletOpen,
+  bind,
 }: {
   open?: boolean
   setWalletOpen: (status: boolean) => void
+  bind: () => void
 }) {
-  
   return (
     <Modal
       show={open}
@@ -31,8 +32,8 @@ export default function PiModal({
             Open Wallet in Telegram or select your wallet to connect
           </span>
           <div className="grid w-full gap-6 overflow-x-auto justify-center grid-flow-col grid-cols-[repeat(2,1fr)]">
-            <Button>绑定</Button>
-            <Button>取消</Button>
+            <Button onClick={bind}>绑定</Button>
+            <Button onClick={() => setWalletOpen(false)}>取消</Button>
           </div>
         </div>
       </Modal.Body>
