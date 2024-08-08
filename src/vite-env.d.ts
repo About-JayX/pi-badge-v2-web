@@ -7,4 +7,5 @@ declare interface Window {
 	coinbaseSolana: any;
 	TronLinkEVM: any;
 	okexchain: any;
+	Pi: any;
 }
