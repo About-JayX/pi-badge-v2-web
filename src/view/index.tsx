@@ -6,7 +6,7 @@ import Web3 from 'web3'
 
 import SuccessDonePng from '@/assets/image/success.png'
 import SuccessNonePng from '@/assets/image/success-none.png'
-import { bindWallet, findBind, getUserAPI } from '@/axios/api'
+import { bindPidAPI, bindWallet, findBind, getUserAPI } from '@/axios/api'
 import Box from '@/components/box'
 import Button from '@/components/button'
 import Dropdowns from '@/components/dropdown'
@@ -260,7 +260,20 @@ export default function Home() {
 
   const [ercData, setErcData] = useState({ Address: '', Link: '' })
   const [solData, setSolData] = useState({ Address: '', Link: '' })
-
+  const getBind = async () => {
+    try {
+      if (piUser && piUser.user && piUser.user.uid && !pidKey) {
+        try {
+          const result = await bindPidAPI({ pid: piUser.user.uid })
+          alert(JSON.stringify(result))
+        } catch (error) {
+          alert(JSON.stringify(error) + ' error')
+        }
+      }
+    } catch (error) {
+      console.log(error, 'pi_web_error_')
+    }
+  }
   const [user, setUser] = useState<any>({})
   const getAddressBox = () => {
     const bindERC20Wallet = async () => {
@@ -356,7 +369,7 @@ export default function Home() {
     return chainValue === 'Pi Browser' ? (
       <Box
         click={() => {
-          data?.Address && data?.Address.address ? '' : bind()
+          piUser.user && piUser.user.uid && !pidKey ? '' : getBind()
         }}
       >
         <Icon name="wallet" className="w-[26px] h-[26px]" />
