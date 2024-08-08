@@ -1,9 +1,12 @@
+// import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { Fragment, useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router'
+import Web3 from 'web3'
 
-import SuccessNonePng from '@/assets/image/success-none.png'
 import SuccessDonePng from '@/assets/image/success.png'
+import SuccessNonePng from '@/assets/image/success-none.png'
+import { bindWallet, findBind, getUserAPI } from '@/axios/api'
 import Box from '@/components/box'
 import Button from '@/components/button'
 import Dropdowns from '@/components/dropdown'
@@ -14,15 +17,12 @@ import Wallet from '@/components/wallet'
 import telegramBotUrl from '@/config/telegramBotUrl'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
 import { disconnect, switchNetwork } from '@/hook/ethers'
-import Web3 from 'web3'
 import {
   updateAddress,
   updatepageNetworkId,
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, semicolon } from '@/util'
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
-import { bindWallet, findBind, getUserAPI } from '@/axios/api'
 const PisSvg = ({
   status = '',
   buyStatus = 'min',
@@ -252,7 +252,7 @@ export default function Home() {
   ]
   const [network, setNetwork] = useState<any>(chains[0])
 
-  const [chainValues, setChainValues] = useState('eth')
+  const [, setChainValues] = useState('eth')
 
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
 

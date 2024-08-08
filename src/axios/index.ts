@@ -1,5 +1,6 @@
-import { useStoreSelector } from '@/hook'
 import axios, { AxiosError } from 'axios'
+
+// import { useStoreSelector } from '@/hook'
 
 // 创建一个axios实例
 const api = axios.create()

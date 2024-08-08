@@ -15,6 +15,7 @@ export default function App() {
   useEffect(() => {
     const isPi = navigator.userAgent.indexOf("PiBrowser") > -1;
     if (isPi) {
+      alert("Pi浏览器")
       // 派系浏览器支付未完成
       const onIncompletePaymentFound = () => {
         // console.log(payment);
@@ -58,6 +59,8 @@ export default function App() {
       };
 
       signIn()
+    }else{
+      alert("非Pi浏览器")
     }
   }, []);
   return (
