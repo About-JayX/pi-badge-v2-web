@@ -57,7 +57,7 @@ export default function App() {
     <>
       <PiModal
         open={open}
-        setWalletOpen={bool => setOpen(false)}
+        setWalletOpen={(bool) => setOpen(bool)}
         bind={getBind}
       />
       <Message />
