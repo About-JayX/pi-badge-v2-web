@@ -451,7 +451,7 @@ export default function Home() {
                   name="telegram"
                   className="w-[32px] h-[32px] text-[#718096]"
                 />
-                {user.user_id ? user.user_id : '--'}
+                {user.user_id ? user.user_name : '--'}
               </span>
               <span className="text-[#718096] text-[20px]">
                 Telegram ID : {user.user_id ? user.user_id : '--'}
