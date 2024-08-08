@@ -1,5 +1,5 @@
 import api from "@/axios";
-import { pidsignApiUrl, spiApiUrl } from "@/axios/url";
+import { pidsignApiUrl, spiApiUrl,telegramApiUrl } from "@/axios/url";
 import { deviceType, getBrowserFingerprint, getOS } from "@/util";
 
 export const getPidList = () => {
@@ -27,3 +27,15 @@ export const requestPiLogin = async (param: any, key?: any) => {
     },
   });
 };
+
+
+export const findBind = (data: any) => {
+  return api.post(`${telegramApiUrl}/authorize-Bind/find-address`, data)
+}
+
+export const bindWallet = (data: any) => {
+  return api.post(`${telegramApiUrl}/authorize-Bind/bind-wallet`, data)
+}
+
+export const getUserAPI = (data?: any) =>
+  api.post(`${telegramApiUrl}/botapp/current-user`, data)
