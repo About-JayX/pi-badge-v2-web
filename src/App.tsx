@@ -1,13 +1,15 @@
+import { useEffect } from 'react'
+
 import Header from '@/components/header'
 import Router from '@/router'
 
-import { bindPidAPI, findBind, findPidAPI, requestPiLogin } from './axios/api'
+import { bindPidAPI, findPidAPI } from './axios/api'
 import BgAnimation from './components/animation/bg'
 import Message from './components/message'
-import useInitialize from './hook/initialize'
-import { useEffect } from 'react'
+import PiModal from './components/piModal'
 import { useStoreDispatch } from './hook'
-import { updatepidUserInfo, updatePiUser, updatePidKey } from './store/ethers'
+import useInitialize from './hook/initialize'
+import { updatePiUser, updatePidKey } from './store/ethers'
 
 export default function App() {
   useInitialize()
@@ -30,7 +32,7 @@ export default function App() {
           const result = await bindPidAPI({ pid: authResponse.user.uid })
           alert(JSON.stringify(result))
         } catch (error) {
-          console.log(error, 'bind_error_')
+          alert(JSON.stringify(error) + ' error')
         }
       }
     } catch (error) {
@@ -43,6 +45,7 @@ export default function App() {
   }, [])
   return (
     <>
+      <PiModal open setWalletOpen={() => false} />
       <Message />
       <Header />
       <BgAnimation />

@@ -4,7 +4,7 @@
 
 .button .a {
   // border-[#61cbf6] bg-gradient-to-b  from-[#034690] to-[#0b74c7]
-  @apply h-[100%] bg-[url("./image/2.png")] bg-no-repeat bg-full flex items-center gap-[10px] pl-[1px] pr-[1px];
+  @apply h-[100%] bg-[url("./image/2.png")] bg-no-repeat bg-full flex items-center gap-[10px] pl-[1px] pr-[1px] w-full justify-center;
 }
 
 .button .a::after {
@@ -15,7 +15,7 @@
 }
 
 .button .b {
-  @apply h-[100%] bg-[url("./image/default/2.png")] bg-no-repeat bg-full flex items-center gap-[10px] pl-[1px] pr-[1px];
+  @apply h-[100%] bg-[url("./image/default/2.png")] bg-no-repeat bg-full flex items-center gap-[10px] pl-[1px] pr-[1px] w-full justify-center;
 }
 
 .button .b::after {

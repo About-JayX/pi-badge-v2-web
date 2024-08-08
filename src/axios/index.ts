@@ -9,8 +9,7 @@ const api = axios.create()
 api.interceptors.response.use(
   response => {
     const data = response.data
-    if (data.code === 200) return data.data
-    throw new Error(data.code)
+  return data.data ? data.data : data
   },
   (error: AxiosError) => {
     console.error('request failed:', error)
