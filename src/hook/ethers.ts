@@ -77,13 +77,11 @@ export const connectWallet = createAsyncThunk(
     const { ethers } = getState() as any
     let accounts: string = ''
 
-    console.log(ethers, '??')
-
     if (ethers.networkId === -1) {
       const result = await window.solana.connect()
+
       const address = result.publicKey.toString()
       accounts = address
-      console.log(accounts, 'accounts')
 
       if (accounts) {
         // 存储钱包地址
@@ -97,7 +95,6 @@ export const connectWallet = createAsyncThunk(
         //   content: t("message.connect.success"),
         // });
       }
-      return
     } else {
       const { name = 'ethereum' } = _
 

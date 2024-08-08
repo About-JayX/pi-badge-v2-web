@@ -1,15 +1,19 @@
-import "./box.scss";
+import './box.scss'
 
 export default function Box({
   children,
-  className = "",
+  className = '',
+  click = () => {},
 }: {
-  children?: React.ReactNode;
-  className?: string;
+  children?: React.ReactNode
+  className?: string
+  click?: () => void
 }) {
   return (
     <a className={`box ${className}`}>
-      <div className="">{children}</div>
+      <div className="" onClick={click}>
+        {children}
+      </div>
     </a>
-  );
+  )
 }

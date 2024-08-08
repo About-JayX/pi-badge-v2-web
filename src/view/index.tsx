@@ -3,6 +3,7 @@ import { Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router'
 
 import SuccessNonePng from '@/assets/image/success-none.png'
+import SuccessDonePng from '@/assets/image/success.png'
 import Box from '@/components/box'
 import Button from '@/components/button'
 import Dropdowns from '@/components/dropdown'
@@ -13,9 +14,15 @@ import Wallet from '@/components/wallet'
 import telegramBotUrl from '@/config/telegramBotUrl'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
 import { disconnect, switchNetwork } from '@/hook/ethers'
-import { updatepageNetworkId } from '@/store/ethers'
+import Web3 from 'web3'
+import {
+  updateAddress,
+  updatepageNetworkId,
+  updateWalletStatus,
+} from '@/store/ethers'
 import { ellipsisMiddle, semicolon } from '@/util'
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import { bindWallet, findBind, getUserAPI } from '@/axios/api'
 const PisSvg = ({
   status = '',
   buyStatus = 'min',
@@ -249,12 +256,138 @@ export default function Home() {
 
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
 
+  const [ercData, setErcData] = useState({ Address: '', Link: '' })
+  const [solData, setSolData] = useState({ Address: '', Link: '' })
+
+  const [user, setUser] = useState<any>({})
+  const getAddressBox = () => {
+    const bindERC20Wallet = async () => {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum)
+
+        if (window.ethereum.isMetaMask) {
+          console.log('Using MetaMask')
+        } else if (window.ethereum.isBitget) {
+          console.log('Using Bitget Wallet')
+        } else if (window.ethereum.isOkxWallet) {
+          console.log('Using OKX Wallet')
+        } else {
+          console.log('Using an unknown Ethereum wallet')
+        }
+
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' })
+          const accounts = await web3.eth.getAccounts()
+          const address = accounts[0]
+
+          const message = `BanDing wallet Address for erc20, User is ${
+            ercData.Link
+          }, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
+          const signature = await web3.eth.personal.sign(message, address, '')
+
+          const res = await bindWallet({
+            address,
+            user: ercData.Link,
+            signature,
+            message,
+            type: 'erc20',
+          })
+
+          console.log(res, 'res__erc')
+        } catch (error) {
+          console.error(error)
+        }
+      } else {
+        alert('Please install MetaMask, Bitget or OKX wallet')
+      }
+    }
+    const bindSolanaWallet = async () => {
+      try {
+        const wallet = window.solana
+
+        if (!wallet) {
+          alert('Please install Solana Wallet')
+          return
+        }
+
+        await wallet.connect()
+        const publicKey = wallet.publicKey.toString()
+
+        const message = `BanDing wallet Address for solana, User is ${
+          solData.Link
+        }, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
+        const encodedMessage = new TextEncoder().encode(message)
+        const signatureObj = await wallet.signMessage(encodedMessage)
+
+        const signature = Array.from(signatureObj.signature)
+        const res = await bindWallet({
+          address: publicKey,
+          type: 'solana',
+          signature,
+          message: Array.from(encodedMessage),
+          user: solData.Link,
+        })
+        console.log(res, 'res___')
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    let data: any = {}
+    if (chainValue === 'ETh/BSC') {
+      data = ercData
+    }
+    if (chainValue === 'Solana') {
+      data = solData
+    }
+
+    const bind = async () => {
+      if (chainValue === 'ETh/BSC') {
+        await bindERC20Wallet()
+      }
+      if (chainValue === 'Solana') {
+        await bindSolanaWallet()
+      }
+
+      await init()
+    }
+    return (
+      <Box
+        click={() => {
+          data?.Address && data?.Address.address ? '' : bind()
+        }}
+      >
+        <Icon name="wallet" className="w-[26px] h-[26px]" />
+        {data?.Address && data?.Address.address
+          ? ellipsisMiddle(data?.Address.address, 6)
+          : 'bind'}
+        <img
+          src={data?.Address ? SuccessDonePng : SuccessNonePng}
+          className="w-[22px] h-[16px]"
+        />
+      </Box>
+    )
+  }
   useEffect(() => {
     if (address) {
       setWalletStatus(false)
     }
   }, [address])
 
+  useEffect(() => {
+    dispatch(updateAddress(''))
+    init()
+  }, [])
+
+  const init = async () => {
+    const user = await getUserAPI()
+
+    setUser(user)
+
+    const ercRes: any = await findBind({ type: 'erc20' })
+    setErcData(ercRes)
+    const solRes: any = await findBind({ type: 'solana' })
+    setSolData(solRes)
+  }
   return (
     <Fragment>
       <Wallet
@@ -274,10 +407,10 @@ export default function Home() {
                   name="telegram"
                   className="w-[32px] h-[32px] text-[#718096]"
                 />
-                {userid ? '@ABC001' : '--'}
+                {user.user_id ? user.user_id : '--'}
               </span>
               <span className="text-[#718096] text-[20px]">
-                Telegram ID : {userid ? userid : '--'}
+                Telegram ID : {user.user_id ? user.user_id : '--'}
               </span>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
@@ -289,10 +422,19 @@ export default function Home() {
                         <Dropdown.Item
                           key={index}
                           onClick={async () => {
+                            console.log(networkId, item.chainId)
+                            if (
+                              (networkId === -1 && item.chainId !== -1) ||
+                              (networkId !== -1 && item.chainId === -1)
+                            ) {
+                              // 存储钱包地址
+                              localStorage.setItem('address', '')
+                              // 更新钱包地址
+                              dispatch(updateAddress(''))
+                              dispatch(updateWalletStatus(true))
+                            }
                             // 更新网络ID
-
                             setNetwork(item)
-
                             dispatch(updatepageNetworkId(item.chainId))
                             // 切换网络
                             dispatch(switchNetwork(item.chainId)).then(() => {
@@ -372,13 +514,7 @@ export default function Home() {
                   )}
                 />
               </div>
-              <div className="col-span-12">
-                <Box>
-                  <Icon name="wallet" className="w-[26px] h-[26px]" />
-                  {ellipsisMiddle('0x000000000000000', 6)}
-                  <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
-                </Box>
-              </div>
+              <div className="col-span-12">{getAddressBox()}</div>
             </div>
           </div>
         </div>
