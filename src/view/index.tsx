@@ -381,7 +381,7 @@ export default function Home() {
     return chainValue === 'Pi Browser' ? (
       <Box
         click={() => {
-          piUser.user && piUser.user.uid && !pidKey ? '' : getBind()
+          piUser.user && piUser.user.uid && !pidKey ? getBind() : ''
         }}
       >
         <Icon name="wallet" className="w-[26px] h-[26px]" />
