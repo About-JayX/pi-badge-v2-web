@@ -30,6 +30,7 @@ export interface ethersType {
   pidUserInfo: PidUserInfo //pid详情
   walletStatus: boolean // 钱包弹框状态
   piUser: any
+  pidKey: string
 }
 
 // 初始化state
@@ -48,6 +49,7 @@ const initialState = {
   pidUserInfo: {},
   walletStatus: false,
   piUser: {},
+  pidKey: '',
 } as unknown as ethersType
 
 // 初始化创建state及actions
@@ -100,6 +102,9 @@ const initialSlice = createSlice({
     updatePiUser(state, action) {
       state.piUser = action.payload
     },
+    updatePidKey(state, action) {
+      state.pidKey = action.payload
+    },
   },
   // 异步处理
   extraReducers: builder => {
@@ -128,6 +133,7 @@ export const {
   updateWalletId,
   updateNetworkName,
   updatePiUser,
+  updatePidKey,
 } = initialSlice.actions
 // 导出state变量
 export default initialSlice.reducer
