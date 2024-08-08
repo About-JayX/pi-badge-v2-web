@@ -1,42 +1,44 @@
-import Header from '@/components/header'
-import Router from '@/router'
+import { useEffect } from "react";
 
-import { bindPidAPI, requestPiLogin } from './axios/api'
-import BgAnimation from './components/animation/bg'
-import Message from './components/message'
-import useInitialize from './hook/initialize'
-import { getCookieKey } from './util'
-import { useEffect } from 'react'
-import { useStoreDispatch } from './hook'
-import { updatepidUserInfo, updatePiUser } from './store/ethers'
+import Header from "@/components/header";
+import Router from "@/router";
+
+import { bindPidAPI } from "./axios/api";
+import BgAnimation from "./components/animation/bg";
+import Message from "./components/message";
+import PiModal from "./components/piModal";
+import { useStoreDispatch } from "./hook";
+import useInitialize from "./hook/initialize";
+import { updatePiUser } from "./store/ethers";
 
 export default function App() {
-  useInitialize()
-  const dispatch = useStoreDispatch()
+  useInitialize();
+  const dispatch = useStoreDispatch();
   const signPiBrowser = async () => {
     try {
-      const scopes = ['payments', 'username']
-      const authResponse = await window.Pi.authenticate(scopes, () => {})
-      dispatch(updatePiUser({ ...authResponse }))
-
+      const scopes = ["payments", "username"];
+      const authResponse = await window.Pi.authenticate(scopes, () => {});
+      dispatch(updatePiUser({ ...authResponse }));
+      alert(authResponse.user.uid);
       if (authResponse && authResponse.user && authResponse.user.uid) {
         try {
-          const result = await bindPidAPI({ pid: authResponse.user.uid })
-          alert(JSON.stringify(result))
+          const result = await bindPidAPI({ pid: authResponse.user.uid });
+          alert(JSON.stringify(result));
         } catch (error) {
-          console.log(error, 'bind_error_')
+          alert(JSON.stringify(error) + " error");
         }
       }
     } catch (error) {
-      console.log(error, 'pi_web_error_')
+      console.log(error, "pi_web_error_");
     }
-  }
+  };
 
   useEffect(() => {
-    signPiBrowser()
-  }, [])
+    signPiBrowser();
+  }, []);
   return (
     <>
+      <PiModal open setWalletOpen={()=>false}/>
       <Message />
       <Header />
       <BgAnimation />
@@ -44,5 +46,5 @@ export default function App() {
         <Router />
       </main>
     </>
-  )
+  );
 }
