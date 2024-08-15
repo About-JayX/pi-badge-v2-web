@@ -10,11 +10,16 @@ import locale from "@/config/locale";
 import Dropdowns from "../dropdown";
 
 export const Nav = () => {
+  const { t } = useTranslation();
+
+  const nav: any[] = t("nav", { returnObjects: true });
   return (
     <div className="nav !hidden lg:!flex">
-      <a>Home</a>
-      <a>Home</a>
-      <a>Home</a>
+      {nav.map((itme, index) => (
+        <a key={index} href={itme.url} target="_blank">
+          {itme.name}
+        </a>
+      ))}
     </div>
   );
 };

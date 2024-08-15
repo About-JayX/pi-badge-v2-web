@@ -1,6 +1,8 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { Fragment, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
+// import { disconnect, switchNetwork } from "@/hook/ethers";
+import {useTranslation} from "react-i18next"
+// import { Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 import Web3 from "web3";
 
@@ -14,20 +16,19 @@ import {
   getUserAPI,
 } from "@/axios/api";
 import Box from "@/components/box";
-import Button from "@/components/button";
-import Dropdowns from "@/components/dropdown";
+// import Button from "@/components/button";
+// import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
 import Wallet from "@/components/wallet";
 import telegramBotUrl from "@/config/telegramBotUrl";
 import { useStoreDispatch, useStoreSelector } from "@/hook";
-import { disconnect, switchNetwork } from "@/hook/ethers";
 import {
   updateAddress,
-  updatepageNetworkId,
+  // updatepageNetworkId,
   updatePidKey,
-  updateWalletStatus,
+  // updateWalletStatus,
 } from "@/store/ethers";
 import { ellipsisMiddle, semicolon } from "@/util";
 const PisSvg = ({
@@ -243,25 +244,26 @@ const Pis = () => {
 };
 
 export default function Home() {
+  const {t} = useTranslation()
   const { userid } = useParams();
-  const { address, networkId, piUser, pidKey } = useStoreSelector(
+  const { address, piUser, pidKey } = useStoreSelector(
     (state) => state.ethers
   );
   const dispatch = useStoreDispatch();
 
-  const chain: string[] = ["Solana", "ETh/BSC", "Pi Browser"];
+  const chain: string[] = [t("public.piBrowser")];
   const [chainValue, setChainValue] = useState<string>(
-    userid != undefined ? chain?.[0] : chain?.[2]
+    userid != undefined ? chain?.[0] : chain?.[0]
   );
 
-  const chains = [
-    { name: "SOLANA", value: "solana", chainId: -1 },
-    { name: "ETH", value: "eth", chainId: 1 },
-    { name: "BSC", value: "bsc", chainId: 56 },
-  ];
-  const [network, setNetwork] = useState<any>(chains[0]);
+  // const chains = [
+  //   { name: "SOLANA", value: "solana", chainId: -1 },
+  //   { name: "ETH", value: "eth", chainId: 1 },
+  //   { name: "BSC", value: "bsc", chainId: 56 },
+  // ];
+  // const [network, setNetwork] = useState<any>(chains[0]);
 
-  const [, setChainValues] = useState("eth");
+  // const [, setChainValues] = useState("eth");
 
   const [walletStatus, setWalletStatus] = useState<boolean>(false);
 
@@ -388,8 +390,8 @@ export default function Home() {
         {piUser.user && piUser.user.uid
           ? pidKey
             ? ellipsisMiddle(pidKey, 12)
-            : "bind"
-          : "请使用pi浏览器打开"}
+            :  t("public.bind")
+          : t("public.piBrowserText")}
         <img
           src={pidKey ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -433,6 +435,7 @@ export default function Home() {
     const solRes: any = await findBind({ type: "solana" });
     setSolData(solRes);
   };
+  
   return (
     <Fragment>
       <Wallet
@@ -448,18 +451,18 @@ export default function Home() {
           <div className="grid h-fit gap-[16px] lg:gap-[26px]">
             <div className="col-span-12 grid gap-[6px]">
               <span className="text-[32px] font-[700] flex items-center gap-[16px]">
-                <Icon
+                {/* <Icon
                   name="telegram"
                   className="w-[32px] h-[32px] text-[#718096]"
-                />
-                {user.user_id ? user.user_name : "--"}
+                /> */}
+                {user.user_id ? user.user_name : t("home.title")}
               </span>
               <span className="text-[#718096] text-[20px]">
-                Telegram ID : {user.user_id ? user.user_id : "--"}
+                {user.user_id ? 'Telegram ID : '+user.user_id : t("home.text")}
               </span>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
-              <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
+              {/* <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
                 <Dropdowns
                   menu={
                     <>
@@ -529,16 +532,15 @@ export default function Home() {
                     connect
                   </Button>
                 )}
-              </div>
+              </div> */}
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-                <HeaderTitle className="order-2 sm:!order-1">Bind</HeaderTitle>
+                <HeaderTitle className="order-2 sm:!order-1">{t("public.bind")}</HeaderTitle>
                 <a
                   className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline"
                   target="_blank"
                   href={telegramBotUrl}
                 >
-                  <Icon name="robot" className="w-[22px] h-[22px]" /> Telegram
-                  Bot
+                  <Icon name="robot" className="w-[22px] h-[22px]" /> {t("public.telegramBot")}
                 </a>
               </div>
               <div className="col-span-12">
@@ -565,7 +567,7 @@ export default function Home() {
         </div>
         <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
           <div className="col-span-12">
-            <HeaderTitle>Donate</HeaderTitle>
+            <HeaderTitle>{t("public.donate")}</HeaderTitle>
           </div>
           <div className="col-span-12 grid grid-cols-12 gap-[16px]">
             <div className="col-span-6 md:col-span-4 lg:col-span-3">

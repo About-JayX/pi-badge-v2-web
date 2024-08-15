@@ -9,7 +9,7 @@ import Message from './components/message'
 import PiModal from './components/piModal'
 import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
-import { updatePiUser, updatePidKey } from './store/ethers'
+import { updatePidKey,updatePiUser } from './store/ethers'
 
 export default function App() {
   const [open, setOpen] = useState(false)
