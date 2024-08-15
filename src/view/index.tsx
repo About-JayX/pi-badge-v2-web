@@ -1,7 +1,7 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { Fragment, useEffect, useState } from "react";
 // import { disconnect, switchNetwork } from "@/hook/ethers";
-import {useTranslation} from "react-i18next"
+import { useTranslation } from "react-i18next";
 // import { Dropdown } from "react-bootstrap";
 import { useParams } from "react-router";
 import Web3 from "web3";
@@ -31,6 +31,7 @@ import {
   // updateWalletStatus,
 } from "@/store/ethers";
 import { ellipsisMiddle, semicolon } from "@/util";
+import Button from "@/components/button";
 const PisSvg = ({
   status = "",
   buyStatus = "min",
@@ -244,11 +245,9 @@ const Pis = () => {
 };
 
 export default function Home() {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const { userid } = useParams();
-  const { address, piUser, pidKey } = useStoreSelector(
-    (state) => state.ethers
-  );
+  const { address, piUser, pidKey } = useStoreSelector((state) => state.ethers);
   const dispatch = useStoreDispatch();
 
   const chain: string[] = [t("public.piBrowser")];
@@ -390,7 +389,7 @@ export default function Home() {
         {piUser.user && piUser.user.uid
           ? pidKey
             ? ellipsisMiddle(pidKey, 12)
-            :  t("public.bind")
+            : t("public.bind")
           : t("public.piBrowserText")}
         <img
           src={pidKey ? SuccessDonePng : SuccessNonePng}
@@ -435,7 +434,7 @@ export default function Home() {
     const solRes: any = await findBind({ type: "solana" });
     setSolData(solRes);
   };
-  
+
   return (
     <Fragment>
       <Wallet
@@ -458,8 +457,16 @@ export default function Home() {
                 {user.user_id ? user.user_name : t("home.title")}
               </span>
               <span className="text-[#718096] text-[20px]">
-                {user.user_id ? 'Telegram ID : '+user.user_id : t("home.text")}
+                {user.user_id
+                  ? "Telegram ID : " + user.user_id
+                  : t("home.text")}
               </span>
+              <a target="_blank" href={telegramBotUrl} className="w-fit">
+                <Button>
+                  <Icon name="robot" className="w-[22px] h-[22px]" />{" "}
+                  {t("public.telegramBot")}
+                </Button>
+              </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
               {/* <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
@@ -534,14 +541,9 @@ export default function Home() {
                 )}
               </div> */}
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-                <HeaderTitle className="order-2 sm:!order-1">{t("public.bind")}</HeaderTitle>
-                <a
-                  className="order-1 sm:!order-2 flex items-center gap-[6px] text-[#0CB1A0] text-[22px] font-[500] underline"
-                  target="_blank"
-                  href={telegramBotUrl}
-                >
-                  <Icon name="robot" className="w-[22px] h-[22px]" /> {t("public.telegramBot")}
-                </a>
+                <HeaderTitle className="order-2 sm:!order-1">
+                  {t("public.bind")}
+                </HeaderTitle>
               </div>
               <div className="col-span-12">
                 <Segmentation
