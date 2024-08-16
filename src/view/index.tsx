@@ -250,7 +250,7 @@ export default function Home() {
   const { address, piUser, pidKey } = useStoreSelector(state => state.ethers)
   const dispatch = useStoreDispatch()
 
-  const chain: string[] = [t('public.piBrowser')]
+  const [chain, setChain] = useState(['Pi Browser'])
   const [chainValue, setChainValue] = useState<string>(
     userid != undefined ? chain?.[0] : chain?.[0]
   )
@@ -264,6 +264,12 @@ export default function Home() {
 
   // const [, setChainValues] = useState("eth");
 
+  useEffect(() => {
+    const token = location.pathname.replace('/', '')
+    if (pidKey && token) {
+      setChain(['Solana', 'ETh/BSC', 'Pi Browser'])
+    }
+  }, [pidKey])
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
 
   const [ercData, setErcData] = useState({ Address: '', Link: '' })
