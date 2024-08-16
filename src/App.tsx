@@ -28,7 +28,6 @@ export default function App() {
       authResponse.user &&
       authResponse.user.uid &&
       setOpen(true);
-      alert(authResponse.user.uid)
   };
 
   const getBind = async () => {
