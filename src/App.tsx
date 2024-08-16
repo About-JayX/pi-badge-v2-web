@@ -9,7 +9,7 @@ import Message from './components/message'
 import PiModal from './components/piModal'
 import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
-import { updatePidKey,updatePiUser } from './store/ethers'
+import { updatePidKey, updatePiUser } from './store/ethers'
 
 export default function App() {
   const [open, setOpen] = useState(false)
@@ -17,7 +17,8 @@ export default function App() {
   const dispatch = useStoreDispatch()
   const { pidKey, piUser } = useStoreSelector(state => state.ethers)
   const signPiBrowser = async () => {
-    const result: any = await findPidAPI()
+    const token = location.pathname.replace('/', '')
+    const result: any = token ? await findPidAPI() : ''
     const scopes = ['payments', 'username']
     const authResponse = await window.Pi.authenticate(scopes, () => {})
     dispatch(updatePiUser({ ...authResponse }))
