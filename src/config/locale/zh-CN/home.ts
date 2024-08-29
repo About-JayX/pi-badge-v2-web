@@ -1,4 +1,4 @@
 export default {
   title: "綁定 Pi Network",
-  text: "將鏈接複製到Pi 瀏覽器中打开，進行连接綁定",
+  text: "在Pi 瀏覽器中連接後，複製綁定碼到APP中進行綁定",
 };

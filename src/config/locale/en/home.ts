@@ -1,4 +1,4 @@
 export default {
   title: "Bind Pi Network",
-  text: "Copy the link into the Pi browser to open and bind.",
+  text: "After connecting in Pi Browser, copy the binding code into the app to bind.",
 };

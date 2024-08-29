@@ -1,4 +1,4 @@
 export default {
-  title: "Pi Ağı Bağla",
-  text: "Bağlanmak için bağlantıyı Pi tarayıcısına kopyalayın ve açın.",
+  title: "Pi Network Bağla",
+  text: "Pi Tarayıcısında bağlandıktan sonra, bağlama kodunu uygulamaya kopyalayın ve bağlayın.",
 };

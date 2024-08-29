@@ -1,4 +1,4 @@
 export default {
-  title: "Kết nối Pi Network",
-  text: "Sao chép liên kết vào trình duyệt Pi để mở và kết nối.",
+  title: "Kết Nối Pi Network",
+  text: "Sau khi kết nối trong Pi Browser, sao chép mã liên kết vào ứng dụng để kết nối.",
 };
