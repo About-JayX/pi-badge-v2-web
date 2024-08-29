@@ -1,4 +1,4 @@
 export default {
-  title: "Pi War 𝜋",
-  text: "Copy the link to the Wallet/Pi Browser for signature binding",
+  title: "Bind Pi Network",
+  text: "Copy the link into the Pi browser to open and bind.",
 };

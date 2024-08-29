@@ -1,4 +1,4 @@
 export default {
-  title: "Pi War 𝜋",
-  text: "將鏈接複製到 錢包/Pi 瀏覽器進行簽名綁定",
+  title: "綁定 Pi Network",
+  text: "將鏈接複製到Pi 瀏覽器中打开，進行连接綁定",
 };

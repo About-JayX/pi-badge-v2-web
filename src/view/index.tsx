@@ -252,7 +252,7 @@ export default function Home() {
   const dispatch = useStoreDispatch();
 
   const [chain, setChain] = useState(
-    userid ? ["SOLANA", "ETH/BSC", "Pi Browser"] : ["Pi Browser"]
+    userid ? ["SOLANA", "ETH/BSC", "Pi Network"] : ["Pi Network"]
   );
   const [chainValue, setChainValue] = useState<string>(
     userid != undefined ? chain?.[2] : chain?.[0]
@@ -270,7 +270,7 @@ export default function Home() {
   useEffect(() => {
     const token = location.pathname.replace("/", "");
     if (pidKey && token) {
-      setChain(["Solana", "ETh/BSC", "Pi Browser"]);
+      setChain(["Solana", "ETh/BSC", "Pi Network"]);
     }
   }, [pidKey]);
   const [walletStatus, setWalletStatus] = useState<boolean>(false);
@@ -390,7 +390,7 @@ export default function Home() {
     const token = location.pathname.replace("/", "");
 
 
-    return chainValue === "Pi Browser" ? (
+    return chainValue === "Pi Network" ? (
       <Box
         click={() => {
           piUser.user && piUser.user.uid && !pidKey ? getBind() : "";
