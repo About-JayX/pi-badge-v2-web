@@ -15,7 +15,6 @@ import {
   getUserAPI,
 } from "@/axios/api";
 import Box from "@/components/box";
-import Button from "@/components/button";
 import Buttons from "@/components/buttons";
 import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
