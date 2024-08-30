@@ -396,7 +396,8 @@ export default function Home() {
           piUser.user && piUser.user.uid && !pidKey ? getBind() : "";
         }}
       >
-        <img src="/logos.svg" className="w-[26px] h-[26px]" />
+        {/* <img src="/logos.svg" className="w-[26px] h-[26px]" /> */}
+        <Icon name="piNetwork" className="w-[26px] h-[26px]"/>
 
         {piUser.user && piUser.user.uid
           ? token
