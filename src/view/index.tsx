@@ -16,11 +16,13 @@ import {
 } from "@/axios/api";
 import Box from "@/components/box";
 import Button from "@/components/button";
+import Buttons from "@/components/buttons";
 import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import Segmentation from "@/components/segmentation";
 import Wallet from "@/components/wallet";
+import Config from "@/config";
 import telegramBotUrl from "@/config/telegramBotUrl";
 import { useStoreDispatch, useStoreSelector } from "@/hook";
 import { disconnect, switchNetwork } from "@/hook/ethers";
@@ -389,14 +391,13 @@ export default function Home() {
     };
     const token = location.pathname.replace("/", "");
 
-
     return chainValue === "Pi Network" ? (
       <Box
         click={() => {
           piUser.user && piUser.user.uid && !pidKey ? getBind() : "";
         }}
       >
-        <Icon name="wallet" className="w-[26px] h-[26px]" />
+        <img src="/logos.svg" className="w-[26px] h-[26px]" />
 
         {piUser.user && piUser.user.uid
           ? token
@@ -475,11 +476,15 @@ export default function Home() {
                   ? "Telegram ID : " + user.user_id
                   : t("home.text")}
               </span>
-              <a target="_blank" href={telegramBotUrl} className="w-fit">
-                <Button>
-                  <Icon name="robot" className="w-[22px] h-[22px]" />{" "}
+              <a
+                target="_blank"
+                href={telegramBotUrl}
+                className="max-w-full sm:max-w-[200px]"
+              >
+                <Buttons>
+                  <Icon name="robot" className="w-[20px] h-[20px]" />
                   {t("public.telegramBot")}
-                </Button>
+                </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
@@ -543,19 +548,19 @@ export default function Home() {
                   <>
                     {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
                     {address ? (
-                      <Button
+                      <Buttons
                         className="uppercase"
                         onClick={() => dispatch(disconnect())}
                       >
                         disconnect
-                      </Button>
+                      </Buttons>
                     ) : (
-                      <Button
-                        className="uppercase"
+                      <Buttons
+                        className="uppercase max-w-[160px]"
                         onClick={() => setWalletStatus(true)}
                       >
                         connect
-                      </Button>
+                      </Buttons>
                     )}
                   </>
                 ) : (
@@ -589,35 +594,37 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
-          <div className="col-span-12">
-            <HeaderTitle>{t("public.donate")}</HeaderTitle>
+        {Config.status && (
+          <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
+            <div className="col-span-12">
+              <HeaderTitle>{t("public.donate")}</HeaderTitle>
+            </div>
+            <div className="col-span-12 grid grid-cols-12 gap-[16px]">
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg
+                  buyStatus="min"
+                  status="popular"
+                  quantity={1000}
+                  price={2.99}
+                />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg
+                  buyStatus="max"
+                  status="best"
+                  quantity={3000}
+                  price={6.99}
+                />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
+              </div>
+            </div>
           </div>
-          <div className="col-span-12 grid grid-cols-12 gap-[16px]">
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg
-                buyStatus="min"
-                status="popular"
-                quantity={1000}
-                price={2.99}
-              />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg
-                buyStatus="max"
-                status="best"
-                quantity={3000}
-                price={6.99}
-              />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </Fragment>
   );
