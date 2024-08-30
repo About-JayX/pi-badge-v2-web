@@ -29,7 +29,7 @@ const generateRoutes = (
 };
 
 // Fallback component for Suspense
-const LoadingFallback = () => <div>Loading...</div>;
+const LoadingFallback = () => null;
 
 export default function Router() {
   const { i18n } = useTranslation();
