@@ -14,7 +14,7 @@ const BntBox = ({
 }) => {
   return (
     <div
-      className={`h-[48px] w-full min-w-[90px] flex relative ${className} py-[2px] items-center justify-center`}
+      className={`bnt-box h-[48px] w-full min-w-[90px] flex relative ${className} py-[2px] items-center justify-center`}
       // @ts-ignore
       disabled={disabled}
       onClick={onClick}
