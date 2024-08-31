@@ -4,4 +4,5 @@ export default {
   piBrowser: "Pi 네트워크",
   piBrowserText: "Pi 브라우저에서 열어주세요",
   donate: "기부하기",
+  connect: "연결하다"
 };

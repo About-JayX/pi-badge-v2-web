@@ -420,7 +420,7 @@ export default function Home() {
         <Icon name="wallet" className="w-[26px] h-[26px]" />
         {data?.Address && data?.Address.address
           ? ellipsisMiddle(data?.Address.address, 6)
-          : "bind"}
+          : t("public.bind")}
         <img
           src={data?.Address ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -559,7 +559,8 @@ export default function Home() {
                         className="uppercase max-w-[160px]"
                         onClick={() => setWalletStatus(true)}
                       >
-                        connect
+                        
+                        {t("public.connect")}
                       </Buttons>
                     )}
                   </>

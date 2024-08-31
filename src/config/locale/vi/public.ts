@@ -4,4 +4,5 @@ export default {
   piBrowser: "Pi Network",
   piBrowserText: "Vui lòng mở trong Pi Browser",
   donate: "Quyên Góp",
+  connect: "Kết Nối Ngay"
 };
