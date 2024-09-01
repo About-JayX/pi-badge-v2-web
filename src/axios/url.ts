@@ -7,4 +7,4 @@ export const spiApiUrl = 'https://api.spiapi.top'
 // export const spiApiUrl = "https://api.spiapi.app";
 export const pidsignApiUrl = 'https://api.spi.top'
 
-export const telegramApiUrl = 'https://tbotapi.xdex.cc'
+export const telegramApiUrl ="https://piwar.dexcc.cc"

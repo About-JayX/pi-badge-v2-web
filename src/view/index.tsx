@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from 'react-i18next'
-// import { Dropdown } from "react-bootstrap";
+import { Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router'
 import Web3 from 'web3'
 
@@ -16,8 +16,7 @@ import {
   getUserAPI,
 } from '@/axios/api'
 import Box from '@/components/box'
-// import Button from "@/components/button";
-// import Dropdowns from "@/components/dropdown";
+import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
 import Segmentation from '@/components/segmentation'
@@ -26,12 +25,14 @@ import telegramBotUrl from '@/config/telegramBotUrl'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
 import {
   updateAddress,
-  // updatepageNetworkId,
+  updatepageNetworkId,
   updatePidKey,
-  // updateWalletStatus,
+  updateWalletStatus,
 } from '@/store/ethers'
-import { ellipsisMiddle, semicolon } from '@/util'
+import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
 import Button from '@/components/button'
+import { disconnect, switchNetwork } from '@/hook/ethers'
+import { networkId } from '@/config/network'
 const PisSvg = ({
   status = '',
   buyStatus = 'min',
@@ -249,31 +250,21 @@ export default function Home() {
   const { userid } = useParams()
   const { address, piUser, pidKey } = useStoreSelector(state => state.ethers)
   const dispatch = useStoreDispatch()
-
   const [chain, setChain] = useState(['Pi Browser'])
   const [chainValue, setChainValue] = useState<string>(
     userid != undefined ? chain?.[0] : chain?.[0]
   )
-
-  // const chains = [
-  //   { name: "SOLANA", value: "solana", chainId: -1 },
-  //   { name: "ETH", value: "eth", chainId: 1 },
-  //   { name: "BSC", value: "bsc", chainId: 56 },
-  // ];
-  // const [network, setNetwork] = useState<any>(chains[0]);
-
-  // const [, setChainValues] = useState("eth");
-
-  useEffect(() => {
-    const token = location.pathname.replace('/', '')
-    if (pidKey && token) {
-      setChain(['Solana', 'ETh/BSC', 'Pi Browser'])
-    }
-  }, [pidKey])
+  const chains = [
+    { name: 'SOLANA', value: 'solana', chainId: -1 },
+    { name: 'ETH', value: 'eth', chainId: 1 },
+    { name: 'BSC', value: 'bsc', chainId: 56 },
+  ]
+  const [network, setNetwork] = useState<any>(chains[0])
+  const [, setChainValues] = useState('eth')
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
-
   const [ercData, setErcData] = useState({ Address: '', Link: '' })
   const [solData, setSolData] = useState({ Address: '', Link: '' })
+  const [urlParmas, setUrlParams] = useState<any>({})
   const getBind = async () => {
     try {
       if (piUser && piUser.user && piUser.user.uid && !pidKey) {
@@ -431,6 +422,13 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(updateAddress(''))
+    const params = getUrlParams(location.search)
+    console.log(params, '??')
+
+    if (params.v) {
+      setUrlParams(params)
+      setChain(['Solana', 'ETh/BSC', 'Pi Browser'])
+    }
     init()
   }, [])
 
@@ -479,7 +477,7 @@ export default function Home() {
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
-              {/* <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
+              <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
                 <Dropdowns
                   menu={
                     <>
@@ -487,24 +485,23 @@ export default function Home() {
                         <Dropdown.Item
                           key={index}
                           onClick={async () => {
-                            console.log(networkId, item.chainId);
                             if (
                               (networkId === -1 && item.chainId !== -1) ||
                               (networkId !== -1 && item.chainId === -1)
                             ) {
                               // 存储钱包地址
-                              localStorage.setItem("address", "");
+                              localStorage.setItem('address', '')
                               // 更新钱包地址
-                              dispatch(updateAddress(""));
-                              dispatch(updateWalletStatus(true));
+                              dispatch(updateAddress(''))
+                              dispatch(updateWalletStatus(true))
                             }
                             // 更新网络ID
-                            setNetwork(item);
-                            dispatch(updatepageNetworkId(item.chainId));
+                            setNetwork(item)
+                            dispatch(updatepageNetworkId(item.chainId))
                             // 切换网络
                             dispatch(switchNetwork(item.chainId)).then(() => {
-                              setChainValues(item.value);
-                            });
+                              setChainValues(item.value)
+                            })
                           }}
                         >
                           <div className="flex items-center gap-[8px]">
@@ -512,7 +509,7 @@ export default function Home() {
                               <Icon
                                 name={`chain/${
                                   chains.find(
-                                    (items) => items.value === item.value
+                                    items => items.value === item.value
                                   )?.value
                                 }`}
                                 className="w-[16px] h-[16px]"
@@ -528,7 +525,7 @@ export default function Home() {
                 >
                   <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                     <Icon
-                      name={network ? `chain/${network.value}` : ""}
+                      name={network ? `chain/${network.value}` : ''}
                       className="w-[20px] h-[20px]"
                     />
                   </div>
@@ -549,7 +546,7 @@ export default function Home() {
                     connect
                   </Button>
                 )}
-              </div> */}
+              </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">
                   {t('public.bind')}
@@ -565,9 +562,6 @@ export default function Home() {
                       {
                         name: itme,
                         value: itme,
-                        disabled: userid
-                          ? index === -1
-                          : index === 0 || index === 1,
                       }
                     )
                   )}

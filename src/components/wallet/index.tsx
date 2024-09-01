@@ -62,7 +62,9 @@ export default function Wallet({
     {
       text: 'phantom',
       src: '/image/wallet/phantom.png',
-      click: () => {},
+      click: () => {
+        dispatch(connectWallet({ name: 'phantom' }))
+      },
     },
   ]
   return (

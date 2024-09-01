@@ -41,5 +41,7 @@ export const getUserAPI = (data?: any) =>
 
 export const bindPidAPI = (data?: any) =>
   api.post(`${telegramApiUrl}/authorize-Bind/bind-pid`, data)
+
+
 export const findPidAPI = (data?: any) =>
   api.post(`${telegramApiUrl}/authorize-Bind/find-pid`, data)
