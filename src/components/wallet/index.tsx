@@ -1,10 +1,12 @@
-import './index.css'
+import "./index.css";
 
-import Modal from 'react-bootstrap/Modal'
+import Modal from "react-bootstrap/Modal";
+import { useTranslation } from "react-i18next";
 
-import { useStoreDispatch } from '@/hook'
-import { connectWallet } from '@/hook/ethers'
-// import { useTranslation } from "react-i18next";
+import { useStoreDispatch } from "@/hook";
+import { connectWallet } from "@/hook/ethers";
+
+import { MessageError, MessageSuccess } from "../message";
 
 // import { MessageSuccess } from "@/components/message";
 // import { Text } from '@/components/text'
@@ -13,28 +15,30 @@ export default function Wallet({
   open = false,
   setWalletOpen,
 }: {
-  open?: boolean
-  setWalletOpen: (status: boolean) => void
-  getUrl: () => string
+  open?: boolean;
+  setWalletOpen: (status: boolean) => void;
+  getUrl: () => string;
 }) {
-  const dispatch = useStoreDispatch()
-  // const { t } = useTranslation();
+  const dispatch = useStoreDispatch();
+  const { t } = useTranslation();
   const swapList = [
     {
-      text: 'TP',
-      src: '/image/wallet/tp.png',
+      text: "TP",
+      src: "/image/wallet/tp.png",
       click: () => {
         // const urlData = {
         //   url: getUrl(),
         // };
         // const url = encodeURIComponent(JSON.stringify(urlData));
         // window.open(`tpdapp://open?params=${url}`);
-        dispatch(connectWallet({ name: 'tokenpocket' }))
+        dispatch(connectWallet({ name: "tokenpocket" })).then(() =>
+          MessageSuccess(t("message.connect.success"))
+        );
       },
     },
     {
-      text: 'OKX',
-      src: '/image/wallet/okx.png',
+      text: "OKX",
+      src: "/image/wallet/okx.png",
       click: () => {
         // const deepLink =
         //   "okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(getUrl());
@@ -42,37 +46,41 @@ export default function Wallet({
         //   "https://www.okx.com/download?deeplink=" +
         //   encodeURIComponent(deepLink);
         // window.open(encodedUrl);
-        dispatch(connectWallet({ name: 'okex' }))
+        dispatch(connectWallet({ name: "okex" }))
+          .then(() => MessageSuccess(t("message.connect.success")))
+          .catch(() => MessageError(t("message.connect.success")));
       },
     },
     {
-      text: 'MateMask',
-      src: '/image/wallet/metamask.png',
+      text: "MateMask",
+      src: "/image/wallet/metamask.png",
       click: () => {
-        dispatch(connectWallet({ name: 'ethereum' }))
+        dispatch(connectWallet({ name: "ethereum" }))
+          .then(() => MessageSuccess(t("message.connect.success")))
+          .catch(() => MessageError(t("message.connect.success")));
       },
     },
     {
-      text: 'Bitget',
-      src: '/image/wallet/bitget.png',
+      text: "Bitget",
+      src: "/image/wallet/bitget.png",
       click: () => {
-        dispatch(connectWallet({ name: 'bitkeep' }))
+        dispatch(connectWallet({ name: "bitkeep" }))
+          .then(() => MessageSuccess(t("message.connect.success")))
+          .catch(() => MessageError(t("message.connect.success")));
       },
     },
     {
-      text: 'phantom',
-      src: '/image/wallet/phantom.png',
+      text: "phantom",
+      src: "/image/wallet/phantom.png",
       click: () => {
-        dispatch(connectWallet({ name: 'phantom' }))
+        dispatch(connectWallet({ name: "phantom" }))
+          .then(() => MessageSuccess(t("message.connect.success")))
+          .catch(() => MessageError(t("message.connect.success")));
       },
     },
-  ]
+  ];
   return (
-    <Modal
-      show={open}
-      onHide={() => setWalletOpen(false)}
-      centered
-    >
+    <Modal show={open} onHide={() => setWalletOpen(false)} centered>
       <Modal.Header closeButton />
       <Modal.Body>
         <div className="grid w-full text-center gap-6">
@@ -99,5 +107,5 @@ export default function Wallet({
         </div>
       </Modal.Body>
     </Modal>
-  )
+  );
 }

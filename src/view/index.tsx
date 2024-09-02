@@ -1,8 +1,8 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { Fragment, useEffect, useState } from 'react'
+import { Dropdown } from 'react-bootstrap'
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from 'react-i18next'
-import { Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router'
 import Web3 from 'web3'
 
@@ -16,15 +16,18 @@ import {
   getUserAPI,
 } from '@/axios/api'
 import Box from '@/components/box'
+import Button from '@/components/button'
 import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
+import { MessageSuccess } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
 import telegramBotUrl from '@/config/telegramBotUrl'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
+import { disconnect, switchNetwork } from '@/hook/ethers'
 import {
   updateAddress,
   updatepageNetworkId,
@@ -32,8 +35,6 @@ import {
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
-import Button from '@/components/button'
-import { disconnect, switchNetwork } from '@/hook/ethers'
 
 const PisSvg = ({
   status = '',
@@ -321,8 +322,10 @@ export default function Home() {
         })
 
         console.log(res, 'res__erc')
+        MessageSuccess("message.bind.success")
       } catch (error) {
         console.error(error)
+        MessageSuccess("message.bind.fail")
       }
     } else {
       alert('Please install MetaMask, Bitget or OKX wallet')
@@ -354,14 +357,16 @@ export default function Home() {
         message: Array.from(encodedMessage),
         user: solData.Link,
       })
+      MessageSuccess("message.bind.success")
     } catch (error) {
       console.error(error)
+      MessageSuccess("message.bind.fail")
     }
   }
   const [user, setUser] = useState<any>({})
   const getAddressBox = () => {
     const params = getUrlParams(location.search)
-    let type = params.t ? params.t : chain[0]
+    const type = params.t ? params.t : chain[0]
     let data: any = {}
     if (chainValue === 'ETh/BSC') {
       data = ercData
@@ -429,7 +434,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(updateAddress(''))
     const params = getUrlParams(location.search)
-    let type = params.t ? params.t : chain[0]
+    const type = params.t ? params.t : chain[0]
     setNetwork((_: any) => {
       const obj: any =
         chains.find((item: any) =>
