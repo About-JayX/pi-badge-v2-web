@@ -1,5 +1,7 @@
 .header{
-  @apply h-[70px] flex  bg-black z-[1]
+  background: rgba(0, 0, 0, 0.36);
+  backdrop-filter: saturate(180%) blur(8px);
+  @apply h-[90px] flex  bg-black/35 z-[999] sticky top-0 border-b-white/20;
 }
 
 .header .container{

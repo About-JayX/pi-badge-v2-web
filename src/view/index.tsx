@@ -16,11 +16,13 @@ import {
   getUserAPI,
 } from '@/axios/api'
 import Box from '@/components/box'
+import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
+import Config from '@/config'
 import telegramBotUrl from '@/config/telegramBotUrl'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
 import {
@@ -380,20 +382,21 @@ export default function Home() {
     }
     const token = location.pathname.replace('/', '')
 
-    return chainValue === 'Pi Browser' ? (
+    return chainValue === 'Pi Network' ? (
       <Box
         click={() => {
           piUser.user && piUser.user.uid && !pidKey ? getBind() : ''
         }}
       >
-        <Icon name="wallet" className="w-[26px] h-[26px]" />
+        {/* <img src="/logos.svg" className="w-[26px] h-[26px]" /> */}
+        <Icon name="piNetwork" className="w-[26px] h-[26px]" />
 
         {piUser.user && piUser.user.uid
           ? token
             ? pidKey
-              ? ellipsisMiddle(pidKey, 12)
+              ? ellipsisMiddle(pidKey, 8)
               : t('public.bind')
-            : ellipsisMiddle(piUser.user.uid, 12)
+            : ellipsisMiddle(piUser.user.uid, 8)
           : t('public.piBrowserText')}
         <img
           src={pidKey ? SuccessDonePng : SuccessNonePng}
@@ -409,7 +412,7 @@ export default function Home() {
         <Icon name="wallet" className="w-[26px] h-[26px]" />
         {data?.Address && data?.Address.address
           ? ellipsisMiddle(data?.Address.address, 6)
-          : 'bind'}
+          : t('public.bind')}
         <img
           src={data?.Address ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -496,82 +499,72 @@ export default function Home() {
                   ? 'Telegram ID : ' + user.user_id
                   : t('home.text')}
               </span>
-              <a target="_blank" href={telegramBotUrl} className="w-fit">
-                <Button>
-                  <Icon name="robot" className="w-[22px] h-[22px]" />{' '}
+              <a
+                target="_blank"
+                href={telegramBotUrl}
+                className="max-w-full sm:max-w-[200px]"
+              >
+                <Buttons>
+                  <Icon name="robot" className="w-[20px] h-[20px]" />
                   {t('public.telegramBot')}
-                </Button>
+                </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
-                <Dropdowns
-                  menu={
-                    <>
-                      {chains.map((item, index) => (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={async () => {
-                            if (
-                              (pageNetworkId === -1 && item.chainId !== -1) ||
-                              (pageNetworkId !== -1 && item.chainId === -1)
-                            ) {
-                              // 存储钱包地址
-                              localStorage.setItem('address', '')
-                              // 更新钱包地址
-                              dispatch(updateAddress(''))
-                              dispatch(updateWalletStatus(true))
-                            }
-                            // 更新网络ID
-                            setNetwork(item)
-                            dispatch(updatepageNetworkId(item.chainId))
-                            // 切换网络
-                            dispatch(switchNetwork(item.chainId)).then(() => {
-                              setChainValues(item.value)
-                            })
-                          }}
-                        >
-                          <div className="flex items-center gap-[8px]">
-                            <div className="">
-                              <Icon
-                                name={`chain/${
-                                  chains.find(
-                                    items => items.value === item.value
-                                  )?.value
-                                }`}
-                                className="w-[16px] h-[16px]"
-                              />
-                            </div>
+                {userid && (
+                  <Dropdowns
+                    menu={
+                      <>
+                        {chains.map((item, index) => (
+                          <Dropdown.Item
+                            key={index}
+                            onClick={async () => {
+                              if (
+                                (pageNetworkId === -1 && item.chainId !== -1) ||
+                                (pageNetworkId !== -1 && item.chainId === -1)
+                              ) {
+                                // 存储钱包地址
+                                localStorage.setItem('address', '')
+                                // 更新钱包地址
+                                dispatch(updateAddress(''))
+                                dispatch(updateWalletStatus(true))
+                              }
+                              // 更新网络ID
+                              setNetwork(item)
+                              dispatch(updatepageNetworkId(item.chainId))
+                              // 切换网络
+                              dispatch(switchNetwork(item.chainId)).then(() => {
+                                setChainValues(item.value)
+                              })
+                            }}
+                          >
+                            <div className="flex items-center gap-[8px]">
+                              <div className="">
+                                <Icon
+                                  name={`chain/${
+                                    chains.find(
+                                      items => items.value === item.value
+                                    )?.value
+                                  }`}
+                                  className="w-[16px] h-[16px]"
+                                />
+                              </div>
 
-                            {item.name}
-                          </div>
-                        </Dropdown.Item>
-                      ))}
-                    </>
-                  }
-                >
-                  <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
-                    <Icon
-                      name={network ? `chain/${network.value}` : ''}
-                      className="w-[20px] h-[20px]"
-                    />
-                  </div>
-                </Dropdowns>
-                {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
-                {address ? (
-                  <Button
-                    className="uppercase"
-                    onClick={() => dispatch(disconnect())}
+                              {item.name}
+                            </div>
+                          </Dropdown.Item>
+                        ))}
+                      </>
+                    }
                   >
-                    disconnect
-                  </Button>
-                ) : (
-                  <Button
-                    className="uppercase"
-                    onClick={() => setWalletStatus(true)}
-                  >
-                    connect
-                  </Button>
+                    <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
+                      <Icon
+                        name={network ? `chain/${network.value}` : ''}
+                        className="w-[20px] h-[20px]"
+                      />
+                    </div>
+                  </Dropdowns>
                 )}
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
@@ -583,7 +576,7 @@ export default function Home() {
                 <Segmentation
                   onChange={e => setChainValue(e)}
                   value={chainValue}
-                  data={chain.map((itme, index) =>
+                  data={chain.map(itme =>
                     Object.assign(
                       {},
                       {
@@ -598,35 +591,37 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
-          <div className="col-span-12">
-            <HeaderTitle>{t('public.donate')}</HeaderTitle>
+        {Config.status && (
+          <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
+            <div className="col-span-12">
+              <HeaderTitle>{t('public.donate')}</HeaderTitle>
+            </div>
+            <div className="col-span-12 grid grid-cols-12 gap-[16px]">
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg
+                  buyStatus="min"
+                  status="popular"
+                  quantity={1000}
+                  price={2.99}
+                />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg
+                  buyStatus="max"
+                  status="best"
+                  quantity={3000}
+                  price={6.99}
+                />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
+              </div>
+              <div className="col-span-6 md:col-span-4 lg:col-span-3">
+                <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
+              </div>
+            </div>
           </div>
-          <div className="col-span-12 grid grid-cols-12 gap-[16px]">
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg
-                buyStatus="min"
-                status="popular"
-                quantity={1000}
-                price={2.99}
-              />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg
-                buyStatus="max"
-                status="best"
-                quantity={3000}
-                price={6.99}
-              />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-3">
-              <PisSvg buyStatus="max-full" quantity={5000} price={9.99} />
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </Fragment>
   )

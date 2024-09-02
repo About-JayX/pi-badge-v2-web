@@ -72,26 +72,25 @@ export default function Wallet({
       show={open}
       onHide={() => setWalletOpen(false)}
       centered
-      dialogClassName="modal-animation"
     >
       <Modal.Header closeButton />
       <Modal.Body>
         <div className="grid w-full text-center gap-6">
-          <span className="text-[32px]">Connect your wallet</span>
-          <span className="mt-[-1rem] text-[18px]">
+          <span className="text-[30px]">Connect your wallet</span>
+          <span className="mt-[-1rem] text-[16px]">
             Open Wallet in Telegram or select your wallet to connect
           </span>
-          <div className="flex w-full gap-6 overflow-x-auto justify-center">
+          <div className="grid w-full gap-6 justify-items-center grid-cols-4 sm:grid-cols-5">
             {swapList.map((item, index) => (
               <a
                 key={index}
-                className="grid gap-1 w-min"
+                className="grid gap-1 justify-items-center items-center"
                 onClick={() => item.click && item.click()}
               >
-                <div className="w-[3.75rem] h-[3.75rem]">
+                <div className="w-[3.36rem] h-[3.36rem] sm:w-[3.75rem] sm:h-[3.75rem]">
                   <img src={item.src} alt="" className=" rounded" />
                 </div>
-                <span className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                <span className="overflow-hidden overflow-ellipsis whitespace-nowrap text-[16px]">
                   {item.text}
                 </span>
               </a>

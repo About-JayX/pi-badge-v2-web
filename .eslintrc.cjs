@@ -11,6 +11,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "import", "simple-import-sort"],
   rules: {
+    "@typescript-eslint/ban-ts-comment":"off",
     "import/no-anonymous-default-export": "off",
     "import/no-unresolved": "off",
     "import/no-named-as-default": "off",

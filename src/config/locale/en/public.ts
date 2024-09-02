@@ -1,7 +1,8 @@
 export default {
   bind: "Bind",
-  telegramBot: "Telegram Bot",
-  piBrowser: "Pi Browser",
-  piBrowserText:"请使用pi浏览器打开",
+  telegramBot: "Pi War 𝜋",
+  piBrowser: "Pi Network",
+  piBrowserText: "Please open in Pi Browser",
   donate: "Donate",
+  connect:"Connect"
 };

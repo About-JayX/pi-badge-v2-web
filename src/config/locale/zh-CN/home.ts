@@ -1,4 +1,4 @@
 export default {
-  title: "ABC001",
-  text: "Finish Tasks For More RewardsCopy the link to Wallet/Pi browser for signature.Finish Tasks For More RewardsCopy the link to Wallet/Pi browser for signature.Finish.",
+  title: "綁定 Pi Network",
+  text: "在Pi 瀏覽器中連接後，複製綁定碼到APP中進行綁定",
 };

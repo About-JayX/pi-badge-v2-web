@@ -4,8 +4,8 @@ import _public from "./public";
 
 export default {
   translation: {
-    language: "En",
-    lang:"Lang",
+    language: "日本語",
+    lang:"言語",
     nav,
     home,
     public:_public

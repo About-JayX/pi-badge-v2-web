@@ -4,10 +4,10 @@ import _public from "./public";
 
 export default {
   translation: {
-    language: "中文（简体）",
-    lang: "语言",
+    language: "中文",
+    lang: "語言",
     nav,
     home,
-    public:_public
+    public: _public
   },
 };
