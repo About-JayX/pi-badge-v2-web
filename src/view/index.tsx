@@ -32,7 +32,7 @@ import {
 import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
 import Button from '@/components/button'
 import { disconnect, switchNetwork } from '@/hook/ethers'
-import { networkId } from '@/config/network'
+
 const PisSvg = ({
   status = '',
   buyStatus = 'min',
@@ -248,7 +248,9 @@ const Pis = () => {
 export default function Home() {
   const { t } = useTranslation()
   const { userid } = useParams()
-  const { address, piUser, pidKey } = useStoreSelector(state => state.ethers)
+  const { address, piUser, pidKey, pageNetworkId } = useStoreSelector(
+    state => state.ethers
+  )
   const dispatch = useStoreDispatch()
   const [chain, setChain] = useState(['Pi Browser'])
   const [chainValue, setChainValue] = useState<string>(
@@ -260,7 +262,7 @@ export default function Home() {
     { name: 'BSC', value: 'bsc', chainId: 56 },
   ]
   const [network, setNetwork] = useState<any>(chains[0])
-  const [, setChainValues] = useState('eth')
+  const [_, setChainValues] = useState('eth')
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
   const [ercData, setErcData] = useState({ Address: '', Link: '' })
   const [solData, setSolData] = useState({ Address: '', Link: '' })
@@ -284,79 +286,80 @@ export default function Home() {
       console.log(error, 'pi_web_error_')
     }
   }
-  const [user, setUser] = useState<any>({})
-  const getAddressBox = () => {
-    const bindERC20Wallet = async () => {
-      if (window.ethereum) {
-        const web3 = new Web3(window.ethereum)
+  const bindERC20Wallet = async () => {
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum)
 
-        if (window.ethereum.isMetaMask) {
-          console.log('Using MetaMask')
-        } else if (window.ethereum.isBitget) {
-          console.log('Using Bitget Wallet')
-        } else if (window.ethereum.isOkxWallet) {
-          console.log('Using OKX Wallet')
-        } else {
-          console.log('Using an unknown Ethereum wallet')
-        }
-
-        try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' })
-          const accounts = await web3.eth.getAccounts()
-          const address = accounts[0]
-
-          const message = `BanDing wallet Address for erc20, User is ${
-            ercData.Link
-          }, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
-          const signature = await web3.eth.personal.sign(message, address, '')
-
-          const res = await bindWallet({
-            address,
-            user: ercData.Link,
-            signature,
-            message,
-            type: 'erc20',
-          })
-
-          console.log(res, 'res__erc')
-        } catch (error) {
-          console.error(error)
-        }
+      if (window.ethereum.isMetaMask) {
+        console.log('Using MetaMask')
+      } else if (window.ethereum.isBitget) {
+        console.log('Using Bitget Wallet')
+      } else if (window.ethereum.isOkxWallet) {
+        console.log('Using OKX Wallet')
       } else {
-        alert('Please install MetaMask, Bitget or OKX wallet')
+        console.log('Using an unknown Ethereum wallet')
       }
-    }
-    const bindSolanaWallet = async () => {
+      const accounts = await web3.eth.getAccounts()
+
       try {
-        const wallet = window.solana
+        const accounts = await web3.eth.getAccounts()
+        const address = accounts[0]
 
-        if (!wallet) {
-          alert('Please install Solana Wallet')
-          return
-        }
+        const message = `BanDing wallet Address for erc20, User is ${
+          ercData.Link
+        }, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
+        const signature = await web3.eth.personal.sign(message, address, '')
 
-        await wallet.connect()
-        const publicKey = wallet.publicKey.toString()
-
-        const message = `BanDing wallet Address for solana, User is ${
-          solData.Link
-        }, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
-        const encodedMessage = new TextEncoder().encode(message)
-        const signatureObj = await wallet.signMessage(encodedMessage)
-
-        const signature = Array.from(signatureObj.signature)
         const res = await bindWallet({
-          address: publicKey,
-          type: 'solana',
+          address,
+          user: ercData.Link,
           signature,
-          message: Array.from(encodedMessage),
-          user: solData.Link,
+          message,
+          type: 'erc20',
         })
-        console.log(res, 'res___')
+
+        console.log(res, 'res__erc')
       } catch (error) {
         console.error(error)
       }
+    } else {
+      alert('Please install MetaMask, Bitget or OKX wallet')
     }
+  }
+  const bindSolanaWallet = async () => {
+    try {
+      const wallet = window.solana
+
+      if (!wallet) {
+        alert('Please install Solana Wallet')
+        return
+      }
+
+      await wallet.connect()
+      const publicKey = wallet.publicKey.toString()
+
+      const message = `BanDing wallet Address for solana, User is ${
+        solData.Link
+      }, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
+      const encodedMessage = new TextEncoder().encode(message)
+      const signatureObj = await wallet.signMessage(encodedMessage)
+
+      const signature = Array.from(signatureObj.signature)
+      const res = await bindWallet({
+        address: publicKey,
+        type: 'solana',
+        signature,
+        message: Array.from(encodedMessage),
+        user: solData.Link,
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const [user, setUser] = useState<any>({})
+  const getAddressBox = () => {
+    const params = getUrlParams(location.search)
+    let type = params.t ? params.t : chain[0]
     let data: any = {}
     if (chainValue === 'ETh/BSC') {
       data = ercData
@@ -373,7 +376,7 @@ export default function Home() {
         await bindSolanaWallet()
       }
 
-      await init()
+      await init(type)
     }
     const token = location.pathname.replace('/', '')
 
@@ -423,20 +426,44 @@ export default function Home() {
   useEffect(() => {
     dispatch(updateAddress(''))
     const params = getUrlParams(location.search)
-    console.log(params, '??')
+    let type = params.t ? params.t : chain[0]
+    setNetwork((_: any) => {
+      const obj: any =
+        chains.find((item: any) =>
+          type === 'solana' ? item.value === type : item.value === 'eth'
+        ) || {}
+      dispatch(switchNetwork(obj.chainId ? obj.chainId : 1)).then(() => {
+        setChainValues(obj.value ? obj.value : 'eth')
+      })
+
+      return obj
+    })
+    setChainValue(type === 'solana' ? 'Solana' : 'ETh/BSC')
 
     if (params.v) {
       setUrlParams(params)
       setChain(['Solana', 'ETh/BSC', 'Pi Browser'])
     }
-    init()
+    init(type)
   }, [])
 
-  const init = async () => {
+  const init = async (type?: string) => {
+    const web3 = new Web3(window.ethereum)
+    let address = ''
+    if (type === 'solana') {
+      const wallet = window.solana
+      address = wallet.publicKey ? wallet.publicKey.toString() : ''
+    } else {
+      const accounts = await web3.eth.getAccounts()
+      address = accounts.length ? accounts[0] : ''
+    }
+
+    localStorage.setItem('address', address)
+    // 更新钱包地址
+    dispatch(updateAddress(address))
+
     const user = await getUserAPI()
-
     setUser(user)
-
     const ercRes: any = await findBind({ type: 'erc20' })
     setErcData(ercRes)
     const solRes: any = await findBind({ type: 'solana' })
@@ -486,8 +513,8 @@ export default function Home() {
                           key={index}
                           onClick={async () => {
                             if (
-                              (networkId === -1 && item.chainId !== -1) ||
-                              (networkId !== -1 && item.chainId === -1)
+                              (pageNetworkId === -1 && item.chainId !== -1) ||
+                              (pageNetworkId !== -1 && item.chainId === -1)
                             ) {
                               // 存储钱包地址
                               localStorage.setItem('address', '')
