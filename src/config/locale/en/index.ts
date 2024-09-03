@@ -1,4 +1,5 @@
 import home from "./home";
+import message from "./message";
 import nav from "./nav";
 import _public from "./public";
 
@@ -8,6 +9,7 @@ export default {
     lang:"Lang",
     nav,
     home,
-    public:_public
+    public:_public,
+    message
   },
 };
