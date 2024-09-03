@@ -319,10 +319,10 @@ export default function Home() {
         })
 
         console.log(res, 'res__erc')
-        MessageSuccess("message.bind.success")
+        MessageSuccess('message.bind.success')
       } catch (error) {
         console.error(error)
-        MessageSuccess("message.bind.fail")
+        MessageSuccess('message.bind.fail')
       }
     } else {
       alert('Please install MetaMask, Bitget or OKX wallet')
@@ -354,10 +354,10 @@ export default function Home() {
         message: Array.from(encodedMessage),
         user: ercData.Link || solData.Link,
       })
-      MessageSuccess("message.bind.success")
+      MessageSuccess('message.bind.success')
     } catch (error) {
       console.error(error)
-      MessageSuccess("message.bind.fail")
+      MessageSuccess('message.bind.fail')
     }
   }
   const [user, setUser] = useState<any>({})
