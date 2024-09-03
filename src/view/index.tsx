@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
 import Web3 from 'web3'
 
 import SuccessDonePng from '@/assets/image/success.png'
@@ -250,10 +249,7 @@ const Pis = () => {
 
 export default function Home() {
   const { t } = useTranslation()
-  const { userid } = useParams()
-  const { address, piUser, pidKey, pageNetworkId } = useStoreSelector(
-    state => state.ethers
-  )
+  const { address, piUser, pidKey } = useStoreSelector(state => state.ethers)
   const dispatch = useStoreDispatch()
   const [chain, setChain] = useState(['Pi Browser'])
   const [chainValue, setChainValue] = useState<string>(chain?.[0])
@@ -347,7 +343,7 @@ export default function Home() {
       const signatureObj = await wallet.signMessage(encodedMessage)
 
       const signature = Array.from(signatureObj.signature)
-      const res = await bindWallet({
+      await bindWallet({
         address: publicKey,
         type: 'solana',
         signature,
