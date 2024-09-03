@@ -18,17 +18,11 @@ export default function Wallet({
   getUrl: () => string
 }) {
   const dispatch = useStoreDispatch()
-  // const { t } = useTranslation();
   const swapList = [
     {
       text: 'TP',
       src: '/image/wallet/tp.png',
       click: () => {
-        // const urlData = {
-        //   url: getUrl(),
-        // };
-        // const url = encodeURIComponent(JSON.stringify(urlData));
-        // window.open(`tpdapp://open?params=${url}`);
         dispatch(connectWallet({ name: 'tokenpocket' }))
       },
     },
@@ -36,12 +30,6 @@ export default function Wallet({
       text: 'OKX',
       src: '/image/wallet/okx.png',
       click: () => {
-        // const deepLink =
-        //   "okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(getUrl());
-        // const encodedUrl =
-        //   "https://www.okx.com/download?deeplink=" +
-        //   encodeURIComponent(deepLink);
-        // window.open(encodedUrl);
         dispatch(connectWallet({ name: 'okex' }))
       },
     },
@@ -68,11 +56,7 @@ export default function Wallet({
     },
   ]
   return (
-    <Modal
-      show={open}
-      onHide={() => setWalletOpen(false)}
-      centered
-    >
+    <Modal show={open} onHide={() => setWalletOpen(false)} centered>
       <Modal.Header closeButton />
       <Modal.Body>
         <div className="grid w-full text-center gap-6">

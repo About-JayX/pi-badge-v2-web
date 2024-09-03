@@ -255,9 +255,7 @@ export default function Home() {
   )
   const dispatch = useStoreDispatch()
   const [chain, setChain] = useState(['Pi Browser'])
-  const [chainValue, setChainValue] = useState<string>(
-    userid != undefined ? chain?.[0] : chain?.[0]
-  )
+  const [chainValue, setChainValue] = useState<string>(chain?.[0])
   const chains = [
     { name: 'SOLANA', value: 'solana', chainId: -1 },
     { name: 'ETH', value: 'eth', chainId: 1 },
@@ -301,26 +299,24 @@ export default function Home() {
       } else {
         console.log('Using an unknown Ethereum wallet')
       }
-      const accounts = await web3.eth.getAccounts()
 
       try {
         const accounts = await web3.eth.getAccounts()
         const address = accounts[0]
 
         const message = `BanDing wallet Address for erc20, User is ${
-          ercData.Link
+          ercData.Link || solData.Link
         }, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
         const signature = await web3.eth.personal.sign(message, address, '')
 
         const res = await bindWallet({
           address,
-          user: ercData.Link,
+          user: ercData.Link || solData.Link,
           signature,
           message,
           type: 'erc20',
         })
-
-        console.log(res, 'res__erc')
+        console.log(res, '??')
       } catch (error) {
         console.error(error)
       }
@@ -341,7 +337,7 @@ export default function Home() {
       const publicKey = wallet.publicKey.toString()
 
       const message = `BanDing wallet Address for solana, User is ${
-        solData.Link
+        ercData.Link || solData.Link
       }, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
       const encodedMessage = new TextEncoder().encode(message)
       const signatureObj = await wallet.signMessage(encodedMessage)
@@ -352,7 +348,7 @@ export default function Home() {
         type: 'solana',
         signature,
         message: Array.from(encodedMessage),
-        user: solData.Link,
+        user: ercData.Link || solData.Link,
       })
     } catch (error) {
       console.error(error)
@@ -427,7 +423,6 @@ export default function Home() {
   }, [address])
 
   useEffect(() => {
-    dispatch(updateAddress(''))
     const params = getUrlParams(location.search)
     let type = params.t ? params.t : chain[0]
     setNetwork((_: any) => {
@@ -455,16 +450,14 @@ export default function Home() {
     let address = ''
     if (type === 'solana') {
       const wallet = window.solana
-      address = wallet.publicKey ? wallet.publicKey.toString() : ''
+      address = wallet && wallet.publicKey ? wallet.publicKey.toString() : ''
     } else {
       const accounts = await web3.eth.getAccounts()
       address = accounts.length ? accounts[0] : ''
     }
-
     localStorage.setItem('address', address)
     // 更新钱包地址
     dispatch(updateAddress(address))
-
     const user = await getUserAPI()
     setUser(user)
     const ercRes: any = await findBind({ type: 'erc20' })
@@ -512,7 +505,7 @@ export default function Home() {
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
-                {userid && (
+                {urlParmas.v && (
                   <Dropdowns
                     menu={
                       <>
@@ -520,16 +513,23 @@ export default function Home() {
                           <Dropdown.Item
                             key={index}
                             onClick={async () => {
-                              if (
-                                (pageNetworkId === -1 && item.chainId !== -1) ||
-                                (pageNetworkId !== -1 && item.chainId === -1)
-                              ) {
-                                // 存储钱包地址
-                                localStorage.setItem('address', '')
-                                // 更新钱包地址
-                                dispatch(updateAddress(''))
-                                dispatch(updateWalletStatus(true))
+                              let address = ''
+                              const web3 = new Web3(window.ethereum)
+                              if (item.value === 'solana') {
+                                const wallet = window.solana
+                                address =
+                                  wallet && wallet.publicKey
+                                    ? wallet.publicKey.toString()
+                                    : ''
+                              } else {
+                                const accounts = await web3.eth.getAccounts()
+                                address = accounts.length ? accounts[0] : ''
                               }
+                              // 存储钱包地址
+                              localStorage.setItem('address', address)
+                              // 更新钱包地址
+                              dispatch(updateAddress(address))
+                              dispatch(updateWalletStatus(true))
                               // 更新网络ID
                               setNetwork(item)
                               dispatch(updatepageNetworkId(item.chainId))
@@ -565,6 +565,28 @@ export default function Home() {
                       />
                     </div>
                   </Dropdowns>
+                )}
+                {urlParmas.v ? (
+                  <>
+                    {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
+                    {address ? (
+                      <Button
+                        className="uppercase"
+                        onClick={() => dispatch(disconnect())}
+                      >
+                        disconnect
+                      </Button>
+                    ) : (
+                      <Button
+                        className="uppercase"
+                        onClick={() => setWalletStatus(true)}
+                      >
+                        connect
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  ''
                 )}
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
