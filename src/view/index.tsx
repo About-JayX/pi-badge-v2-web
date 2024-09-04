@@ -315,10 +315,8 @@ export default function Home() {
         })
 
         console.log(res, 'res__erc')
-        MessageSuccess('message.bind.success')
       } catch (error) {
         console.error(error)
-        MessageSuccess('message.bind.fail')
       }
     } else {
       alert('Please install MetaMask, Bitget or OKX wallet')
@@ -350,10 +348,8 @@ export default function Home() {
         message: Array.from(encodedMessage),
         user: ercData.Link || solData.Link,
       })
-      MessageSuccess('message.bind.success')
     } catch (error) {
       console.error(error)
-      MessageSuccess('message.bind.fail')
     }
   }
   const [user, setUser] = useState<any>({})
@@ -369,14 +365,19 @@ export default function Home() {
     }
 
     const bind = async () => {
-      if (chainValue === 'ETh/BSC') {
-        await bindERC20Wallet()
-      }
-      if (chainValue === 'Solana') {
-        await bindSolanaWallet()
-      }
+      try {
+        if (chainValue === 'ETh/BSC') {
+          await bindERC20Wallet()
+        }
+        if (chainValue === 'Solana') {
+          await bindSolanaWallet()
+        }
 
-      await init(type)
+        await init(type)
+        MessageSuccess('message.bind.success')
+      } catch (error) {
+        MessageSuccess('message.bind.fail')
+      }
     }
     const token = location.pathname.replace('/', '')
 
