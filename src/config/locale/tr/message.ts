@@ -1,11 +1,10 @@
 export default {
-    connect: {
-      success: "Connect Success",
-      fail: "Connect Fail",
-    },
-    bind: {
-      success: "Bind Success",
-      fail: "Bind Fail",
-    },
-  };
-  
+  connect: {
+    success: "Bağlantı Başarılı",
+    fail: "Bağlantı Başarısız",
+  },
+  bind: {
+    success: "Bağlama Başarılı",
+    fail: "Bağlama Başarısız",
+  },
+};

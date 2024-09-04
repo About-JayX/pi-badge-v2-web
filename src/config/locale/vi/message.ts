@@ -1,11 +1,10 @@
 export default {
-    connect: {
-      success: "Connect Success",
-      fail: "Connect Fail",
-    },
-    bind: {
-      success: "Bind Success",
-      fail: "Bind Fail",
-    },
-  };
-  
+  connect: {
+    success: "Kết nối thành công",
+    fail: "Kết nối thất bại",
+  },
+  bind: {
+    success: "Liên kết thành công",
+    fail: "Liên kết thất bại",
+  },
+};

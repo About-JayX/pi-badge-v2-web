@@ -1,11 +1,10 @@
 export default {
-    connect: {
-      success: "Connect Success",
-      fail: "Connect Fail",
-    },
-    bind: {
-      success: "Bind Success",
-      fail: "Bind Fail",
-    },
-  };
-  
+  connect: {
+    success: "接続に成功しました",
+    fail: "接続に失敗しました",
+  },
+  bind: {
+    success: "バインドに成功しました",
+    fail: "バインドに失敗しました",
+  },
+};
