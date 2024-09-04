@@ -374,9 +374,9 @@ export default function Home() {
         }
 
         await init(type)
-        MessageSuccess('message.bind.success')
+        MessageSuccess(t('message.bind.success'))
       } catch (error) {
-        MessageSuccess('message.bind.fail')
+        MessageSuccess(t('message.bind.fail'))
       }
     }
     const token = location.pathname.replace('/', '')
