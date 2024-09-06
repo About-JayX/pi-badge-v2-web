@@ -355,7 +355,7 @@ export default function Home() {
     const pidKey =
       (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
 
-    let data: any = {}
+    let data: any = ''
     if (chainValue === 'ETH/BSC') {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
@@ -424,7 +424,7 @@ export default function Home() {
         />
         <span>{data && ellipsisMiddle(data, 6)}</span>
         <img
-          src={pidKey ? SuccessDonePng : SuccessNonePng}
+          src={data ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
         />
       </Box>
@@ -479,13 +479,8 @@ export default function Home() {
     const parmas = getUrlParams(location.search) || null
     let code = parmas ? parmas.v : ''
     const user = await findInfoAPI({ code })
-    console.log(user, 'user_')
 
-    // setUser(user)
-    // const ercRes: any = await findBind({ type: 'erc20' })
-    // setErcData(ercRes)
-    // const solRes: any = await findBind({ type: 'solana' })
-    // setSolData(solRes)
+    dispatch(updatepidUserInfo(user))
   }
 
   return (

@@ -100,8 +100,6 @@ export const connectWallet = createAsyncThunk(
         return false
       }
     } else {
-      console.log('else_')
-
       const { name = 'ethereum' } = _
 
       try {
@@ -189,9 +187,11 @@ export const connectWallet = createAsyncThunk(
           //   type: "success",
           //   content: t("message.connect.success"),
           // });
+          return true
         }
+        throw Error('fail')
       } catch (error: any) {
-        throw new Error('Check if the wallet is already installed')
+        return false
       }
     }
   }
