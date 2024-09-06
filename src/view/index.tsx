@@ -246,10 +246,10 @@ export default function Home() {
     state => state.ethers
   )
   const dispatch = useStoreDispatch()
-  const [chain, setChain] = useState(['Pi Browser'])
+  const [chain, setChain] = useState(['Pi'])
   const [chainValue, setChainValue] = useState<string>(chain?.[0])
   const chains = [
-    { name: 'SOLANA', value: 'solana', chainId: -1 },
+    { name: 'SOL', value: 'solana', chainId: -1 },
     { name: 'ETH', value: 'eth', chainId: 1 },
     { name: 'BSC', value: 'bsc', chainId: 56 },
   ]
@@ -300,7 +300,7 @@ export default function Home() {
         const accounts = await web3.eth.getAccounts()
         const address = accounts[0]
 
-        const message = `BanDing wallet Address for erc20, User is ${token}, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
+        const message = `Binding EVM Address: User is ${token}, Wallet Address is ${address.toLowerCase()}, Please Confirm The Sign`
         const signature = await web3.eth.personal.sign(message, address, '')
 
         const res = await bindWallet({
@@ -314,7 +314,7 @@ export default function Home() {
         console.error(error)
       }
     } else {
-      alert('Please install MetaMask, Bitget or OKX wallet')
+      alert('Please install EVM wallet')
     }
   }
 
@@ -323,7 +323,7 @@ export default function Home() {
       const wallet = window.solana
 
       if (!wallet) {
-        alert('Please install Solana Wallet')
+        alert('Please install Solana wallet')
         return
       }
 
@@ -331,7 +331,7 @@ export default function Home() {
       const publicKey = wallet.publicKey.toString()
       const params = getUrlParams(location.search)
       const token = params.v
-      const message = `BanDing wallet Address for solana, User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
+      const message = `Binding SOL Address: User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please Confirm The Sign`
       const encodedMessage = new TextEncoder().encode(message)
       const signatureObj = await wallet.signMessage(encodedMessage)
 
@@ -361,7 +361,7 @@ export default function Home() {
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
         ''
     }
-    if (chainValue === 'Solana') {
+    if (chainValue === 'SOL') {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
         ''
@@ -373,7 +373,7 @@ export default function Home() {
         if (chainValue === 'ETH/BSC') {
           await bindERC20Wallet()
         }
-        if (chainValue === 'Solana') {
+        if (chainValue === 'SOL') {
           await bindSolanaWallet()
         }
 
@@ -386,7 +386,7 @@ export default function Home() {
       }
     }
     const token = params.v
-    return chainValue === 'Pi Network' ? (
+    return chainValue === 'Pi' ? (
       <Box
         click={() => {
           piUser.user && piUser.user.uid && !pidKey
@@ -412,11 +412,11 @@ export default function Home() {
       <Box>
         <Icon
           name={
-            chainValue === 'Solana'
+            chainValue === 'SOL'
               ? 'sol'
               : '' || chainValue === 'ETH/BSC'
               ? 'wallet'
-              : '' || chainValue === 'Pi Browser'
+              : '' || chainValue === 'Pi'
               ? 'piNetwork'
               : ''
           }
@@ -454,11 +454,11 @@ export default function Home() {
 
       return obj
     })
-    setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
+    setChainValue(type === 'solana' ? 'SOL' : 'ETH/BSC')
 
     if (params.v) {
       setUrlParams(params)
-      setChain(['Solana', 'ETH/BSC', 'Pi Browser'])
+      setChain(['SOL', 'ETH/BSC', 'Pi'])
     }
     init(type)
   }, [])
