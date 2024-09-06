@@ -2,8 +2,8 @@
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     transform: scale(1);
-
-    &:active {
+    cursor: pointer;
+    &:active,&:hover {
         transform: scale(1.03);
     }
 

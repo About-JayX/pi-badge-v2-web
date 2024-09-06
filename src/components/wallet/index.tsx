@@ -84,9 +84,10 @@ export default function Wallet({
       <Modal.Header closeButton />
       <Modal.Body>
         <div className="grid w-full text-center gap-6">
-          <span className="text-[30px]">Connect your wallet</span>
+          <span className="text-[30px]">{t("wallet.title")}</span>
           <span className="mt-[-1rem] text-[16px]">
-            Open Wallet in Telegram or select your wallet to connect
+          {t("wallet.text")}
+            
           </span>
           <div className="grid w-full gap-6 justify-items-center grid-cols-4 sm:grid-cols-5">
             {swapList.map((item, index) => (
