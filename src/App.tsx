@@ -3,30 +3,32 @@ import { useEffect, useState } from 'react'
 import Header from '@/components/header'
 import Router from '@/router'
 
-import { bindPidAPI, findPidAPI } from './axios/api'
+import { bindPidAPI, findInfoAPI } from './axios/api'
 import BgAnimation from './components/animation/bg'
 import Message from './components/message'
 import PiModal from './components/piModal'
 import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
-import { updatePidKey, updatePiUser } from './store/ethers'
+import { updatepidUserInfo, updatePiUser } from './store/ethers'
 import { getUrlParams } from './util'
 
 export default function App() {
   const [open, setOpen] = useState(false)
   useInitialize()
   const dispatch = useStoreDispatch()
-  const { pidKey, piUser } = useStoreSelector(state => state.ethers)
+  const { pidUserInfo, piUser } = useStoreSelector(state => state.ethers)
 
   const signPiBrowser = async () => {
     const params = (location.search && getUrlParams(location.search)) || null
 
-    const result: any = params ? await findPidAPI() : ''
+    const result: any = params ? await findInfoAPI({ code: params.v }) : ''
+
+    dispatch(updatepidUserInfo(result))
+
     const scopes = ['payments', 'username']
     const authResponse = await window.Pi.authenticate(scopes, () => {})
     dispatch(updatePiUser({ ...authResponse }))
     alert(JSON.stringify(authResponse))
-    dispatch(updatePidKey(result ? result.pId : result))
     !result &&
       authResponse &&
       authResponse.user &&
@@ -35,12 +37,19 @@ export default function App() {
   }
 
   const getBind = async () => {
+    const params = (location.search && getUrlParams(location.search)) || null
+    const pidKey =
+      (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
+
     if (piUser && piUser.user && piUser.user.uid && !pidKey) {
       try {
-        const result: any = await bindPidAPI({ pid: piUser.user.uid })
+        const result: any = await bindPidAPI({
+          code: params.v,
+          pid: piUser.user.uid,
+        })
         if (result.success) {
-          const res: any = await findPidAPI()
-          dispatch(updatePidKey(res ? res.pId : res))
+          const res: any = await findInfoAPI({ code: params.v })
+          dispatch(updatepidUserInfo(res))
         } else {
           alert(JSON.stringify(result))
         }
@@ -56,7 +65,7 @@ export default function App() {
   return (
     <>
       <PiModal
-        open={open}
+        open={true}
         setWalletOpen={bool => setOpen(bool)}
         bind={getBind}
       />

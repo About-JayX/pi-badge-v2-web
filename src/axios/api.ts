@@ -28,20 +28,12 @@ export const requestPiLogin = async (param: any, key?: any) => {
   })
 }
 
-export const findBind = (data: any) => {
-  return api.post(`${telegramApiUrl}/authorize-Bind/find-address`, data)
-}
-
 export const bindWallet = (data: any) => {
   return api.post(`${telegramApiUrl}/authorize-Bind/bind-wallet`, data)
 }
 
-export const getUserAPI = (data?: any) =>
-  api.post(`${telegramApiUrl}/botapp/current-user`, data)
-
 export const bindPidAPI = (data?: any) =>
   api.post(`${telegramApiUrl}/authorize-Bind/bind-pid`, data)
 
-
-export const findPidAPI = (data?: any) =>
-  api.post(`${telegramApiUrl}/authorize-Bind/find-pid`, data)
+export const findInfoAPI = (data?: any) =>
+  api.post(`${telegramApiUrl}/authorize-Bind/find-info`, data)

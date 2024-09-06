@@ -26,9 +26,7 @@ api.interceptors.request.use(
     config.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
     config.headers['Access-Control-Allow-Headers'] =
       'Content-Type, Authorization'
-    const parmas = getUrlParams(location.search) || null
-    let token = parmas ? parmas.v : ''
-    config.headers['authorization'] = token
+
     return config
   },
   error => {

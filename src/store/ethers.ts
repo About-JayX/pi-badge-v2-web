@@ -27,7 +27,7 @@ export interface ethersType {
   walletId: number // 钱包ID
   rpc: string // RPC
   providers: JsonRpcProvider // 提供者
-  pidUserInfo: PidUserInfo //pid详情
+  pidUserInfo: any //pid详情
   walletStatus: boolean // 钱包弹框状态
   piUser: any
   pidKey: string
@@ -65,7 +65,7 @@ const initialSlice = createSlice({
     },
     // 更新用户详情
     updatepidUserInfo(state, action) {
-      state.pidUserInfo = action.payload
+      state.pidUserInfo = { ...action.payload }
     },
     // 更新余额
     updateBalance(state, action) {

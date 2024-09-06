@@ -7,13 +7,7 @@ import Web3 from 'web3'
 
 import SuccessDonePng from '@/assets/image/success.png'
 import SuccessNonePng from '@/assets/image/success-none.png'
-import {
-  bindPidAPI,
-  bindWallet,
-  findBind,
-  findPidAPI,
-  getUserAPI,
-} from '@/axios/api'
+import { bindPidAPI, bindWallet, findInfoAPI } from '@/axios/api'
 import Box from '@/components/box'
 import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
@@ -29,7 +23,7 @@ import { disconnect, switchNetwork } from '@/hook/ethers'
 import {
   updateAddress,
   updatepageNetworkId,
-  updatePidKey,
+  updatepidUserInfo,
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
@@ -248,7 +242,9 @@ const Pis = () => {
 
 export default function Home() {
   const { t } = useTranslation()
-  const { address, piUser, pidKey } = useStoreSelector(state => state.ethers)
+  const { address, piUser, pidUserInfo } = useStoreSelector(
+    state => state.ethers
+  )
   const dispatch = useStoreDispatch()
   const [chain, setChain] = useState(['Pi Browser'])
   const [chainValue, setChainValue] = useState<string>(chain?.[0])
@@ -260,17 +256,19 @@ export default function Home() {
   const [network, setNetwork] = useState<any>(chains[0])
   const [_, setChainValues] = useState('eth')
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
-  const [ercData, setErcData] = useState({ Address: '', Link: '' })
-  const [solData, setSolData] = useState({ Address: '', Link: '' })
+
   const [urlParmas, setUrlParams] = useState<any>({})
-  const getBind = async () => {
+  const getBind = async (pidKey: any, code: any) => {
     try {
       if (piUser && piUser.user && piUser.user.uid && !pidKey) {
         try {
-          const result: any = await bindPidAPI({ pid: piUser.user.uid })
+          const result: any = await bindPidAPI({
+            code,
+            pid: piUser.user.uid,
+          })
           if (result.success) {
-            const res: any = await findPidAPI()
-            dispatch(updatePidKey(res ? res.pId : res))
+            const res: any = await findInfoAPI({ code })
+            dispatch(updatepidUserInfo({ res }))
           } else {
             alert(JSON.stringify(result))
           }
@@ -295,19 +293,19 @@ export default function Home() {
       } else {
         console.log('Using an unknown Ethereum wallet')
       }
+      const params = getUrlParams(location.search)
 
+      const token = params.v
       try {
         const accounts = await web3.eth.getAccounts()
         const address = accounts[0]
 
-        const message = `BanDing wallet Address for erc20, User is ${
-          ercData.Link || solData.Link
-        }, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
+        const message = `BanDing wallet Address for erc20, User is ${token}, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
         const signature = await web3.eth.personal.sign(message, address, '')
 
         const res = await bindWallet({
           address,
-          user: ercData.Link || solData.Link,
+          user: token,
           signature,
           message,
           type: 'erc20',
@@ -330,10 +328,9 @@ export default function Home() {
 
       await wallet.connect()
       const publicKey = wallet.publicKey.toString()
-
-      const message = `BanDing wallet Address for solana, User is ${
-        ercData.Link || solData.Link
-      }, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
+      const params = getUrlParams(location.search)
+      const token = params.v
+      const message = `BanDing wallet Address for solana, User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
       const encodedMessage = new TextEncoder().encode(message)
       const signatureObj = await wallet.signMessage(encodedMessage)
 
@@ -343,7 +340,7 @@ export default function Home() {
         type: 'solana',
         signature,
         message: Array.from(encodedMessage),
-        user: ercData.Link || solData.Link,
+        user: token,
       })
     } catch (error) {
       console.error(error)
@@ -353,12 +350,19 @@ export default function Home() {
   const getAddressBox = () => {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
+    const pidKey =
+      (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
+
     let data: any = {}
     if (chainValue === 'ETH/BSC') {
-      data = ercData
+      data =
+        (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
+        ''
     }
     if (chainValue === 'Solana') {
-      data = solData
+      data =
+        (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
+        ''
     }
 
     const bind = async () => {
@@ -376,12 +380,13 @@ export default function Home() {
         MessageSuccess(t('message.bind.fail'))
       }
     }
-    const token = location.pathname.replace('/', '')
-
+    const token = params.v
     return chainValue === 'Pi Network' ? (
       <Box
         click={() => {
-          piUser.user && piUser.user.uid && !pidKey ? getBind() : ''
+          piUser.user && piUser.user.uid && !pidKey
+            ? getBind(pidKey, token)
+            : ''
         }}
       >
         <Icon name="piNetwork" className="w-[26px] h-[26px]" />
@@ -398,7 +403,7 @@ export default function Home() {
           className="w-[22px] h-[16px]"
         />
       </Box>
-    ) : data?.Address && data?.Address.address ? (
+    ) : data ? (
       <Box>
         <Icon
           name={
@@ -412,11 +417,7 @@ export default function Home() {
           }
           className="w-[26px] h-[26px]"
         />
-        <span>
-          {data?.Address &&
-            data?.Address.address &&
-            ellipsisMiddle(data?.Address.address, 6)}
-        </span>
+        <span>{data && ellipsisMiddle(data, 6)}</span>
         <img
           src={pidKey ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -468,12 +469,16 @@ export default function Home() {
     localStorage.setItem('address', address)
     // 更新钱包地址
     dispatch(updateAddress(address))
-    const user = await getUserAPI()
-    setUser(user)
-    const ercRes: any = await findBind({ type: 'erc20' })
-    setErcData(ercRes)
-    const solRes: any = await findBind({ type: 'solana' })
-    setSolData(solRes)
+    const parmas = getUrlParams(location.search) || null
+    let code = parmas ? parmas.v : ''
+    const user = await findInfoAPI({ code })
+    console.log(user, 'user_')
+
+    // setUser(user)
+    // const ercRes: any = await findBind({ type: 'erc20' })
+    // setErcData(ercRes)
+    // const solRes: any = await findBind({ type: 'solana' })
+    // setSolData(solRes)
   }
 
   return (
