@@ -139,7 +139,11 @@ const BntBox = ({
         </svg>
       </div>
       <div className="absolute w-full h-full p-2 grid items-center justify-items-center">
-        <span className={`!text-[16px] !flex items-center justify-center gap-1 ${className} px-2`}>{children}</span>
+        <span
+          className={`!text-[16px] !flex items-center justify-center gap-1 ${className} px-2`}
+        >
+          {children}
+        </span>
       </div>
     </div>
   );
@@ -150,15 +154,17 @@ export default function Buttons({
   onClick,
   className = "",
   disabled = false,
+  loading = false,
 }: {
   children?: React.ReactNode;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  loading?: boolean;
 }) {
   return (
     <BntBox onClick={onClick} className={className} disabled={disabled}>
-      {children}
+      {loading ? <div className="loader !w-[26px] !h-[26px]" /> : children}
     </BntBox>
   );
 }

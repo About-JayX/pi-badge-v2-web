@@ -1,85 +1,94 @@
-import './index.css'
+import "./index.css";
 
-import Modal from 'react-bootstrap/Modal'
-import { useTranslation } from 'react-i18next'
+import Modal from "react-bootstrap/Modal";
+import { useTranslation } from "react-i18next";
 
-import { useStoreDispatch } from '@/hook'
-import { connectWallet } from '@/hook/ethers'
+import { useStoreDispatch } from "@/hook";
+import { connectWallet } from "@/hook/ethers";
 
-import { MessageError, MessageSuccess } from '../message'
+import { MessageError, MessageSuccess } from "../message";
 
 export default function Wallet({
   open = false,
   setWalletOpen,
+  setLoaderWalletStatus,
 }: {
-  open?: boolean
-  setWalletOpen: (status: boolean) => void
-  getUrl: () => string
+  open?: boolean;
+  setWalletOpen: (status: boolean) => void;
+  getUrl: () => string;
+  setLoaderWalletStatus?: (item: boolean) => void;
 }) {
-  const dispatch = useStoreDispatch()
-  const { t } = useTranslation()
+  const dispatch = useStoreDispatch();
+  const { t } = useTranslation();
   const swapList = [
     {
-      text: 'TP',
-      src: '/image/wallet/tp.png',
+      text: "TP",
+      src: "/image/wallet/tp.png",
       click: async () => {
-        const result = await dispatch(connectWallet({ name: 'tokenpocket' }))
+        setLoaderWalletStatus && setLoaderWalletStatus(true);
+        const result = await dispatch(connectWallet({ name: "tokenpocket" }));
+        setLoaderWalletStatus && setLoaderWalletStatus(false);
         result.payload
-          ? MessageSuccess(t('message.connect.success'))
-          : MessageError(t('message.connect.fail'))
+          ? MessageSuccess(t("message.connect.success"))
+          : MessageError(t("message.connect.fail"));
       },
     },
     {
-      text: 'OKX',
-      src: '/image/wallet/okx.png',
+      text: "OKX",
+      src: "/image/wallet/okx.png",
       click: async () => {
-        const result = await dispatch(connectWallet({ name: 'okex' }))
+        setLoaderWalletStatus && setLoaderWalletStatus(true);
+        const result = await dispatch(connectWallet({ name: "okex" }));
+        setLoaderWalletStatus && setLoaderWalletStatus(false);
         result.payload
-          ? MessageSuccess(t('message.connect.success'))
-          : MessageError(t('message.connect.fail'))
+          ? MessageSuccess(t("message.connect.success"))
+          : MessageError(t("message.connect.fail"));
       },
     },
     {
-      text: 'MateMask',
-      src: '/image/wallet/metamask.png',
+      text: "MateMask",
+      src: "/image/wallet/metamask.png",
       click: async () => {
-        const result = await dispatch(connectWallet({ name: 'ethereum' }))
+        setLoaderWalletStatus && setLoaderWalletStatus(true);
+        const result = await dispatch(connectWallet({ name: "ethereum" }));
+        setLoaderWalletStatus && setLoaderWalletStatus(false);
         result.payload
-          ? MessageSuccess(t('message.connect.success'))
-          : MessageError(t('message.connect.fail'))
+          ? MessageSuccess(t("message.connect.success"))
+          : MessageError(t("message.connect.fail"));
       },
     },
     {
-      text: 'Bitget',
-      src: '/image/wallet/bitget.png',
+      text: "Bitget",
+      src: "/image/wallet/bitget.png",
       click: async () => {
-        const result = await dispatch(connectWallet({ name: 'bitkeep' }))
+        setLoaderWalletStatus && setLoaderWalletStatus(true);
+        const result = await dispatch(connectWallet({ name: "bitkeep" }));
+        setLoaderWalletStatus && setLoaderWalletStatus(false);
         result.payload
-          ? MessageSuccess(t('message.connect.success'))
-          : MessageError(t('message.connect.fail'))
+          ? MessageSuccess(t("message.connect.success"))
+          : MessageError(t("message.connect.fail"));
       },
     },
     {
-      text: 'phantom',
-      src: '/image/wallet/phantom.png',
+      text: "phantom",
+      src: "/image/wallet/phantom.png",
       click: async () => {
-        const result = await dispatch(connectWallet({ name: 'phantom' }))
+        setLoaderWalletStatus && setLoaderWalletStatus(true);
+        const result = await dispatch(connectWallet({ name: "phantom" }));
+        setLoaderWalletStatus && setLoaderWalletStatus(false);
         result.payload
-          ? MessageSuccess(t('message.connect.success'))
-          : MessageError(t('message.connect.fail'))
+          ? MessageSuccess(t("message.connect.success"))
+          : MessageError(t("message.connect.fail"));
       },
     },
-  ]
+  ];
   return (
     <Modal show={open} onHide={() => setWalletOpen(false)} centered>
       <Modal.Header closeButton />
       <Modal.Body>
         <div className="grid w-full text-center gap-6">
           <span className="text-[30px]">{t("wallet.title")}</span>
-          <span className="mt-[-1rem] text-[16px]">
-          {t("wallet.text")}
-            
-          </span>
+          <span className="mt-[-1rem] text-[16px]">{t("wallet.text")}</span>
           <div className="grid w-full gap-6 justify-items-center grid-cols-4 sm:grid-cols-5">
             {swapList.map((item, index) => (
               <a
@@ -99,5 +108,5 @@ export default function Wallet({
         </div>
       </Modal.Body>
     </Modal>
-  )
+  );
 }

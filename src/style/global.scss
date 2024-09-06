@@ -47,13 +47,13 @@ body,
 
   @keyframes umbral {
     0% {
-      stop-color: rgba(72,183,242,1);
+      stop-color: rgba(72, 183, 242, 1);
     }
     50% {
-      stop-color: rgba(72,183,242, 0.519);
+      stop-color: rgba(72, 183, 242, 0.519);
     }
     100% {
-      stop-color: rgba(72,183,242,1);
+      stop-color: rgba(72, 183, 242, 1);
     }
   }
   @keyframes partciles {
@@ -80,9 +80,41 @@ body,
     translate: 0px 40px;
     animation-delay: 0.5s;
   }
-  #bounce3{
+  #bounce3 {
     animation: bounce3 4s ease-in-out infinite;
     translate: 0px 10px;
     animation-delay: 0.5s;
+  }
+}
+
+.loader {
+  width: 100%;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-left-color: transparent;
+  border-radius: 50%;
+}
+
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-left-color: transparent;
+  width: 36px;
+  height: 36px;
+}
+
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-left-color: transparent;
+  width: 36px;
+  height: 36px;
+  animation: spin89345 1s linear infinite;
+}
+
+@keyframes spin89345 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
