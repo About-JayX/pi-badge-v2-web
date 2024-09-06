@@ -15,7 +15,6 @@ import {
   getUserAPI,
 } from "@/axios/api";
 import Box from "@/components/box";
-import Button from "@/components/button";
 import Buttons from "@/components/buttons";
 import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
@@ -401,17 +400,32 @@ export default function Home() {
           className="w-[22px] h-[16px]"
         />
       </Box>
+    ) : data?.Address && data?.Address.address ? (
+      <Box>
+        <Icon
+          name={
+            chainValue === "Solana"
+              ? "sol"
+              : "" || chainValue === "ETH/BSC"
+              ? "wallet"
+              : "" || chainValue === "Pi Browser"
+              ? "piNetwork"
+              : ""
+          }
+          className="w-[26px] h-[26px]"
+        />
+        <span>
+          {data?.Address &&
+            data?.Address.address &&
+            ellipsisMiddle(data?.Address.address, 6)}
+        </span>
+        <img
+          src={pidKey ? SuccessDonePng : SuccessNonePng}
+          className="w-[22px] h-[16px]"
+        />
+      </Box>
     ) : (
-      <Buttons
-        className=""
-        onClick={() => {
-          data?.Address && data?.Address.address ? "" : bind();
-        }}
-      >
-        {data?.Address && data?.Address.address
-          ? ellipsisMiddle(data?.Address.address, 6)
-          : t("public.bind")}
-      </Buttons>
+      <Buttons onClick={() => bind()}>{t("public.bind")}</Buttons>
     );
   };
   useEffect(() => {
