@@ -18,11 +18,6 @@
     transform: scale(1);
     cursor: pointer;
 
-    &:active {
-        animation: bnt-start 0.5s ease forwards;
-        -webkit-animation: bnt-start 0.5s ease forwards;
-    }
-
     &:hover {
         transform: scale(0.95);
     }
