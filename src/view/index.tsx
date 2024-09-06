@@ -19,7 +19,7 @@ import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
-import { MessageSuccess } from '@/components/message'
+import { MessageError, MessageSuccess } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -373,7 +373,7 @@ export default function Home() {
         await init(type)
         MessageSuccess(t('message.bind.success'))
       } catch (error) {
-        MessageSuccess(t('message.bind.fail'))
+        MessageError(t('message.bind.fail'))
       }
     }
     const token = location.pathname.replace('/', '')
