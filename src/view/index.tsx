@@ -15,7 +15,6 @@ import {
   getUserAPI,
 } from '@/axios/api'
 import Box from '@/components/box'
-import Button from '@/components/button'
 import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
@@ -355,7 +354,7 @@ export default function Home() {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
     let data: any = {}
-    if (chainValue === 'ETh/BSC') {
+    if (chainValue === 'ETH/BSC') {
       data = ercData
     }
     if (chainValue === 'Solana') {
@@ -364,7 +363,7 @@ export default function Home() {
 
     const bind = async () => {
       try {
-        if (chainValue === 'ETh/BSC') {
+        if (chainValue === 'ETH/BSC') {
           await bindERC20Wallet()
         }
         if (chainValue === 'Solana') {
@@ -399,21 +398,32 @@ export default function Home() {
           className="w-[22px] h-[16px]"
         />
       </Box>
-    ) : (
-      <Box
-        click={() => {
-          data?.Address && data?.Address.address ? '' : bind()
-        }}
-      >
-        <Icon name="wallet" className="w-[26px] h-[26px]" />
-        {data?.Address && data?.Address.address
-          ? ellipsisMiddle(data?.Address.address, 6)
-          : t('public.bind')}
+    ) : data?.Address && data?.Address.address ? (
+      <Box>
+        <Icon
+          name={
+            chainValue === 'Solana'
+              ? 'sol'
+              : '' || chainValue === 'ETH/BSC'
+              ? 'wallet'
+              : '' || chainValue === 'Pi Browser'
+              ? 'piNetwork'
+              : ''
+          }
+          className="w-[26px] h-[26px]"
+        />
+        <span>
+          {data?.Address &&
+            data?.Address.address &&
+            ellipsisMiddle(data?.Address.address, 6)}
+        </span>
         <img
-          src={data?.Address ? SuccessDonePng : SuccessNonePng}
+          src={pidKey ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
         />
       </Box>
+    ) : (
+      <Buttons onClick={() => bind()}>{t('public.bind')}</Buttons>
     )
   }
   useEffect(() => {
@@ -436,11 +446,11 @@ export default function Home() {
 
       return obj
     })
-    setChainValue(type === 'solana' ? 'Solana' : 'ETh/BSC')
+    setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
 
     if (params.v) {
       setUrlParams(params)
-      setChain(['Solana', 'ETh/BSC', 'Pi Browser'])
+      setChain(['Solana', 'ETH/BSC', 'Pi Browser'])
     }
     init(type)
   }, [])
@@ -497,7 +507,7 @@ export default function Home() {
                 href={telegramBotUrl}
                 className="max-w-full sm:max-w-[200px]"
               >
-                <Buttons>
+                <Buttons className="max-w-[160px]">
                   <Icon name="robot" className="w-[20px] h-[20px]" />
                   {t('public.telegramBot')}
                 </Buttons>
@@ -570,19 +580,19 @@ export default function Home() {
                   <>
                     {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
                     {address ? (
-                      <Button
-                        className="uppercase"
+                      <Buttons
+                        className="uppercase max-w-[160px]"
                         onClick={() => dispatch(disconnect())}
                       >
-                        disconnect
-                      </Button>
+                        {t('public.disconnect')}
+                      </Buttons>
                     ) : (
-                      <Button
-                        className="uppercase"
+                      <Buttons
+                        className="uppercase max-w-[160px]"
                         onClick={() => setWalletStatus(true)}
                       >
-                        connect
-                      </Button>
+                        {t('public.connect')}
+                      </Buttons>
                     )}
                   </>
                 ) : (

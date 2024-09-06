@@ -14,7 +14,7 @@ const BntBox = ({
 }) => {
   return (
     <div
-      className={`bnt-box h-[48px] w-full min-w-[90px] flex relative ${className} py-[2px] items-center justify-center`}
+      className={`bnt-box h-[48px] w-full min-w-[160px] flex relative ${className} py-[2px] items-center justify-center w-full`}
       // @ts-ignore
       disabled={disabled}
       onClick={onClick}
@@ -49,7 +49,7 @@ const BntBox = ({
         </defs>
       </svg>
 
-      <div className="w-[calc(100%-32px)] !h-[42.67px] relative">
+      <div className="w-[calc(100%-28px)] !h-[42.67px] relative">
         <div className="absolute top-0 left-[-1px] h-full bg-[#4ab9f2] w-[calc(100%+2px)]"></div>
       </div>
       <svg
@@ -139,7 +139,7 @@ const BntBox = ({
         </svg>
       </div>
       <div className="absolute w-full h-full p-2 grid items-center justify-items-center">
-        <span className="!text-[16px] !flex items-center justify-center gap-1">{children}</span>
+        <span className={`!text-[16px] !flex items-center justify-center gap-1 ${className} px-2`}>{children}</span>
       </div>
     </div>
   );

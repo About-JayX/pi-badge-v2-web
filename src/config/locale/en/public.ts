@@ -4,5 +4,6 @@ export default {
   piBrowser: "Pi Network",
   piBrowserText: "Please open in Pi Browser",
   donate: "Donate",
-  connect:"Connect"
+  connect:"Connect",
+  disconnect:'Disconnect'
 };
