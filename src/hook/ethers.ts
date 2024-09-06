@@ -19,6 +19,8 @@ import {
   updateWalletId,
   updateWalletStatus,
 } from '@/store/ethers'
+import { MessageError } from '@/components/message'
+import { useTranslation } from 'react-i18next'
 // 钱包提供者
 export const walletProviders = createAsyncThunk(
   'ethers/walletProviders',
@@ -77,25 +79,29 @@ export const connectWallet = createAsyncThunk(
     const { ethers } = getState() as any
     let accounts: string = ''
 
+    console.log(ethers.networkId, 'ethers.networkId')
+
     if (ethers.networkId === -1) {
-      const result = await window.solana.connect()
+      try {
+        const result = await window.solana.connect()
+        const address = result.publicKey.toString()
+        accounts = address
 
-      const address = result.publicKey.toString()
-      accounts = address
+        if (accounts) {
+          // 存储钱包地址
+          localStorage.setItem('address', accounts)
 
-      if (accounts) {
-        // 存储钱包地址
-        localStorage.setItem('address', accounts)
-
-        // 更新钱包地址
-        dispatch(updateAddress(accounts))
-        dispatch(updateWalletStatus(false))
-        // message.open({
-        //   type: "success",
-        //   content: t("message.connect.success"),
-        // });
+          // 更新钱包地址
+          dispatch(updateAddress(accounts))
+          dispatch(updateWalletStatus(false))
+        }
+        return true
+      } catch (error) {
+        return false
       }
     } else {
+      console.log('else_')
+
       const { name = 'ethereum' } = _
 
       try {

@@ -313,8 +313,6 @@ export default function Home() {
           message,
           type: 'erc20',
         })
-
-        console.log(res, 'res__erc')
       } catch (error) {
         console.error(error)
       }
@@ -387,7 +385,6 @@ export default function Home() {
           piUser.user && piUser.user.uid && !pidKey ? getBind() : ''
         }}
       >
-        {/* <img src="/logos.svg" className="w-[26px] h-[26px]" /> */}
         <Icon name="piNetwork" className="w-[26px] h-[26px]" />
 
         {piUser.user && piUser.user.uid
