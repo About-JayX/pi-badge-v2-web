@@ -314,7 +314,7 @@ export default function Home() {
         console.error(error)
       }
     } else {
-      alert('Please install MetaMask, Bitget or OKX wallet')
+      throw new Error('install b')
     }
   }
 
@@ -323,8 +323,7 @@ export default function Home() {
       const wallet = window.solana
 
       if (!wallet) {
-        alert('Please install Solana Wallet')
-        return
+        throw new Error('install b')
       }
 
       await wallet.connect()
@@ -344,7 +343,7 @@ export default function Home() {
         user: token,
       })
     } catch (error) {
-      console.error(error)
+      throw new Error('install b')
     }
   }
   const [user, setUser] = useState<any>({})
@@ -409,25 +408,9 @@ export default function Home() {
         />
       </Box>
     ) : data ? (
-      <Box>
-        <Icon
-          name={
-            chainValue === 'Solana'
-              ? 'sol'
-              : '' || chainValue === 'ETH/BSC'
-              ? 'wallet'
-              : '' || chainValue === 'Pi Browser'
-              ? 'piNetwork'
-              : ''
-          }
-          className="w-[26px] h-[26px]"
-        />
-        <span>{data && ellipsisMiddle(data, 6)}</span>
-        <img
-          src={data ? SuccessDonePng : SuccessNonePng}
-          className="w-[22px] h-[16px]"
-        />
-      </Box>
+      <Buttons onClick={() => bind()} loading={bindStatus}>
+        {t('public.bind')}
+      </Buttons>
     ) : (
       <Buttons onClick={() => bind()} loading={bindStatus}>
         {t('public.bind')}
