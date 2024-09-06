@@ -4,5 +4,6 @@ export default {
   piBrowser: "Pi Network",
   piBrowserText: "Sila buka dalam Pi Browser",
   donate: "Derma",
-  connect: "Hubungkan"
+  connect: "Hubungkan",
+  disconnect: "Putuskan Sambungan"
 };
