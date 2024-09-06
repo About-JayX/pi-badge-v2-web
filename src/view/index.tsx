@@ -13,7 +13,7 @@ import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
-import { MessageSuccess } from '@/components/message'
+import { MessageSuccess, MessageError } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -256,7 +256,7 @@ export default function Home() {
   const [network, setNetwork] = useState<any>(chains[0])
   const [_, setChainValues] = useState('eth')
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
-
+  const [loaderWalletStatus, setLoaderWalletStatus] = useState(false)
   const [urlParmas, setUrlParams] = useState<any>({})
   const getBind = async (pidKey: any, code: any) => {
     try {
@@ -317,6 +317,7 @@ export default function Home() {
       alert('Please install MetaMask, Bitget or OKX wallet')
     }
   }
+
   const bindSolanaWallet = async () => {
     try {
       const wallet = window.solana
@@ -347,6 +348,7 @@ export default function Home() {
     }
   }
   const [user, setUser] = useState<any>({})
+  const [bindStatus, setBindStatus] = useState(false)
   const getAddressBox = () => {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
@@ -367,6 +369,7 @@ export default function Home() {
 
     const bind = async () => {
       try {
+        setBindStatus(true)
         if (chainValue === 'ETH/BSC') {
           await bindERC20Wallet()
         }
@@ -375,9 +378,11 @@ export default function Home() {
         }
 
         await init(type)
+        setBindStatus(false)
         MessageSuccess(t('message.bind.success'))
       } catch (error) {
-        MessageSuccess(t('message.bind.fail'))
+        setBindStatus(false)
+        MessageError(t('message.bind.fail'))
       }
     }
     const token = params.v
@@ -424,7 +429,9 @@ export default function Home() {
         />
       </Box>
     ) : (
-      <Buttons onClick={() => bind()}>{t('public.bind')}</Buttons>
+      <Buttons onClick={() => bind()} loading={bindStatus}>
+        {t('public.bind')}
+      </Buttons>
     )
   }
   useEffect(() => {
@@ -484,6 +491,7 @@ export default function Home() {
   return (
     <Fragment>
       <Wallet
+        setLoaderWalletStatus={setLoaderWalletStatus}
         open={walletStatus}
         setWalletOpen={e => setWalletStatus(e)}
         getUrl={() => ''}
@@ -593,8 +601,11 @@ export default function Home() {
                       </Buttons>
                     ) : (
                       <Buttons
+                        loading={loaderWalletStatus}
                         className="uppercase max-w-[160px]"
-                        onClick={() => setWalletStatus(true)}
+                        onClick={() => {
+                          setWalletStatus(true)
+                        }}
                       >
                         {t('public.connect')}
                       </Buttons>
