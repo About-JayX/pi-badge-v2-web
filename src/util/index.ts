@@ -18,7 +18,7 @@ export const ellipsisMiddle = (
 
 export const getUrlParams = (url: string) => {
   // 通过 ? 分割获取后面的参数字符串
-  let urlStr = url.split('?')[1]
+  let urlStr = url && url.split('?')[1]
   // 创建空对象存储参数
   let obj: any = {}
   // 再通过 & 将每一个参数单独分割出来

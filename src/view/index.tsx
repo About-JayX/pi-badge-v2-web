@@ -346,7 +346,6 @@ export default function Home() {
       throw new Error('install b')
     }
   }
-  const [user, setUser] = useState<any>({})
   const [bindStatus, setBindStatus] = useState(false)
   const getAddressBox = () => {
     const params = getUrlParams(location.search)
@@ -385,32 +384,49 @@ export default function Home() {
       }
     }
     const token = params.v
-    return chainValue === 'Pi Network' ? (
-      <Box
-        click={() => {
-          piUser.user && piUser.user.uid && !pidKey
-            ? getBind(pidKey, token)
-            : ''
-        }}
-      >
-        <Icon name="piNetwork" className="w-[26px] h-[26px]" />
-
-        {piUser.user && piUser.user.uid
-          ? token
-            ? pidKey
-              ? ellipsisMiddle(pidKey, 8)
-              : t('public.bind')
-            : ellipsisMiddle(piUser.user.uid, 8)
-          : t('public.piBrowserText')}
+    return chainValue === 'Pi Browser' ? (
+      <>
+        <Box
+          click={() => {
+            piUser.user && piUser.user.uid && !pidKey
+              ? getBind(pidKey, token)
+              : ''
+          }}
+        >
+          <Icon name="piNetwork" className="w-[26px] h-[26px]" />
+          {piUser.user && piUser.user.uid
+            ? token
+              ? pidKey
+                ? ellipsisMiddle(pidKey, 8)
+                : t('public.bind')
+              : ellipsisMiddle(piUser.user.uid, 8)
+            : t('public.piBrowserText')}
+          <img
+            src={pidKey ? SuccessDonePng : SuccessNonePng}
+            className="w-[22px] h-[16px]"
+          />
+        </Box>
+      </>
+    ) : data ? (
+      <Box>
+        <Icon
+          name={
+            chainValue === 'Solana'
+              ? 'sol'
+              : '' || chainValue === 'ETH/BSC'
+              ? 'wallet'
+              : '' || chainValue === 'Pi Browser'
+              ? 'piNetwork'
+              : ''
+          }
+          className="w-[26px] h-[26px]"
+        />
+        <span>{data && ellipsisMiddle(data, 6)}</span>
         <img
-          src={pidKey ? SuccessDonePng : SuccessNonePng}
+          src={data ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
         />
       </Box>
-    ) : data ? (
-      <Buttons onClick={() => bind()} loading={bindStatus}>
-        {t('public.bind')}
-      </Buttons>
     ) : (
       <Buttons onClick={() => bind()} loading={bindStatus}>
         {t('public.bind')}
@@ -442,6 +458,8 @@ export default function Home() {
     if (params.v) {
       setUrlParams(params)
       setChain(['Solana', 'ETH/BSC', 'Pi Browser'])
+    } else {
+      setChainValue('Pi Browser')
     }
     init(type)
   }, [])
@@ -486,11 +504,13 @@ export default function Home() {
                   name="telegram"
                   className="w-[32px] h-[32px] text-[#718096]"
                 /> */}
-                {user.user_id ? user.user_name : t('home.title')}
+                {pidUserInfo && pidUserInfo.user_id
+                  ? pidUserInfo.user_name
+                  : t('home.title')}
               </span>
               <span className="text-[#718096] text-[20px]">
-                {user.user_id
-                  ? 'Telegram ID : ' + user.user_id
+                {pidUserInfo && pidUserInfo.user_id
+                  ? 'Telegram ID : ' + pidUserInfo.user_id
                   : t('home.text')}
               </span>
               <a
