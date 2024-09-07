@@ -14,13 +14,13 @@ const BntBox = ({
 }) => {
   return (
     <div
-      className={`bnt-box h-[48px] w-full min-w-[160px] flex relative ${className} py-[2px] items-center justify-center w-full`}
+      className={`bnt-box h-[3rem] w-full min-w-[160px] flex relative ${className} py-[2px] items-center justify-center w-full`}
       // @ts-ignore
       disabled={disabled}
       onClick={onClick}
     >
       <svg
-        className="z-10"
+        className=""
         width="16"
         height="48"
         viewBox="0 0 16 48"
@@ -50,11 +50,11 @@ const BntBox = ({
         </defs>
       </svg>
 
-      <div className="w-[calc(100%-28px)] !h-[42.67px] relative z-10">
+      <div className="w-[calc(100%-28px)] !h-[42.67px] relative ">
         <div className="absolute top-0 left-[-1px] h-full bg-[#4ab9f2] w-[calc(100%+2px)]"></div>
       </div>
       <svg
-      className="z-10"
+      className=""
         width="16"
         height="48"
         viewBox="0 0 16 48"
@@ -83,8 +83,8 @@ const BntBox = ({
           />
         </defs>
       </svg>
-      <div className="absolute w-full h-[42px] p-[4px] flex items-center justify-center z-10">
-        <svg width="14" height="42" viewBox="0 0 14 42" fill="none" className="z-10">
+      <div className="absolute w-full h-[42px] p-[4px] flex items-center justify-center ">
+        <svg width="14" height="42" viewBox="0 0 14 42" fill="none" className="">
           <rect width="14" height="42" fill="url(#pattern0_23_6)" />
           <defs>
             <pattern
@@ -107,7 +107,7 @@ const BntBox = ({
           </defs>
         </svg>
 
-        <div className="w-[calc(100%-28px)] h-[37.34px] relative z-10">
+        <div className="w-[calc(100%-28px)] h-[37.34px] relative ">
           <div className="absolute top-0 left-[-1px] h-full bg-[#035cad] w-[calc(100%+2px)]"></div>
         </div>
         <svg
@@ -117,7 +117,7 @@ const BntBox = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
-          className="z-10"
+          className=""
         >
           <rect width="14" height="42" fill="url(#pattern0_23_7)" />
           <defs>
@@ -141,7 +141,7 @@ const BntBox = ({
           </defs>
         </svg>
       </div>
-      <div className="absolute w-full h-full p-2 grid items-center justify-items-center z-10">
+      <div className="absolute w-full h-full p-2 grid items-center justify-items-center ">
         <span
           className={`!text-[16px] !flex items-center justify-center gap-1 ${className} px-2`}
         >

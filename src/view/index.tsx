@@ -399,9 +399,9 @@ export default function Home() {
         {piUser.user && piUser.user.uid
           ? token
             ? pidKey
-              ? ellipsisMiddle(pidKey, 8)
+              ? ellipsisMiddle(pidKey, 9)
               : t('public.bind')
-            : ellipsisMiddle(piUser.user.uid, 8)
+            : ellipsisMiddle(piUser.user.uid, 9)
           : t('public.piBrowserText')}
         <img
           src={pidKey ? SuccessDonePng : SuccessNonePng}
@@ -422,7 +422,7 @@ export default function Home() {
           }
           className="w-[26px] h-[26px]"
         />
-        <span>{data && ellipsisMiddle(data, 6)}</span>
+        <span>{data && ellipsisMiddle(data, 9)}</span>
         <img
           src={data ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -576,7 +576,7 @@ export default function Home() {
                       </>
                     }
                   >
-                    <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
+                    <div className="w-[3rem] h-[3rem] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                       <Icon
                         name={network ? `chain/${network.value}` : ''}
                         className="w-[20px] h-[20px]"
@@ -586,7 +586,7 @@ export default function Home() {
                 )}
                 {urlParmas.v ? (
                   <>
-                    {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
+                    {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
                       <Buttons
                         className="uppercase max-w-[160px]"
