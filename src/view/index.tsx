@@ -13,7 +13,7 @@ import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
-import { MessageSuccess, MessageError } from '@/components/message'
+import { MessageError,MessageSuccess } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -477,7 +477,7 @@ export default function Home() {
     // 更新钱包地址
     dispatch(updateAddress(address))
     const parmas = getUrlParams(location.search) || null
-    let code = parmas ? parmas.v : ''
+    const code = parmas ? parmas.v : ''
     const user = await findInfoAPI({ code })
 
     dispatch(updatepidUserInfo(user))
