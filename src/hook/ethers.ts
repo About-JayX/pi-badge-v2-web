@@ -374,7 +374,7 @@ export const switchNetwork = createAsyncThunk(
           res.chainId === pageNetworkId ||
           res.chainId.toString() === pageNetworkId.toString()
       ) as networkConfigType
-
+      if (!network) return
       // 判断钱包是否存在
       if (typeof window.ethereum !== 'undefined') {
         // 检测当前网络是否存在:不存在就增加

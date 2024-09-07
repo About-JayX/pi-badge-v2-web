@@ -20,20 +20,22 @@ export default function App() {
 
   const signPiBrowser = async () => {
     const params = (location.search && getUrlParams(location.search)) || null
-
     const result: any = params ? await findInfoAPI({ code: params.v }) : ''
-
     dispatch(updatepidUserInfo(result))
-
     const scopes = ['payments', 'username']
-    const authResponse = await window.Pi.authenticate(scopes, () => {})
-    dispatch(updatePiUser({ ...authResponse }))
-    alert(JSON.stringify(authResponse))
-    !result &&
-      authResponse &&
-      authResponse.user &&
-      authResponse.user.uid &&
-      setOpen(true)
+    try {
+      dispatch(updatePiUser({ user: { uid: '1234' } }))
+      // const authResponse = await window.Pi.authenticate(scopes, () => {})
+      // dispatch(updatePiUser({ ...authResponse }))
+      // alert(JSON.stringify(authResponse))
+      // !result &&
+      //   authResponse &&
+      //   authResponse.user &&
+      //   authResponse.user.uid &&
+      //   setOpen(true)
+    } catch (error) {
+      console.log(error, 'error_')
+    }
   }
 
   const getBind = async () => {

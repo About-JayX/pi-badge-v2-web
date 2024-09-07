@@ -268,7 +268,7 @@ export default function Home() {
           })
           if (result.success) {
             const res: any = await findInfoAPI({ code })
-            dispatch(updatepidUserInfo({ res }))
+            dispatch(updatepidUserInfo(res))
           } else {
             alert(JSON.stringify(result))
           }
@@ -364,7 +364,14 @@ export default function Home() {
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
         ''
     }
-
+    const copyPid = async () => {
+      try {
+        await navigator.clipboard.writeText(piUser.user.uid)
+        MessageSuccess(t('message.copy.success'))
+      } catch (error) {
+        MessageError(t('message.copy.fail'))
+      }
+    }
     const bind = async () => {
       try {
         setBindStatus(true)
@@ -384,12 +391,17 @@ export default function Home() {
       }
     }
     const token = params.v
+
     return chainValue === 'Pi Browser' ? (
       <>
         <Box
           click={() => {
-            piUser.user && piUser.user.uid && !pidKey
-              ? getBind(pidKey, token)
+            piUser.user && piUser.user.uid
+              ? token
+                ? pidKey
+                  ? ''
+                  : getBind(piUser.user.uid, token)
+                : copyPid()
               : ''
           }}
         >
@@ -401,10 +413,20 @@ export default function Home() {
                 : t('public.bind')
               : ellipsisMiddle(piUser.user.uid, 8)
             : t('public.piBrowserText')}
-          <img
-            src={pidKey ? SuccessDonePng : SuccessNonePng}
-            className="w-[22px] h-[16px]"
-          />
+
+          {piUser.user && piUser.user.uid ? (
+            token ? (
+              pidKey ? (
+                <img src={SuccessDonePng} className="w-[22px] h-[16px]" />
+              ) : (
+                <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
+              )
+            ) : (
+              '复制'
+            )
+          ) : (
+            ''
+          )}
         </Box>
       </>
     ) : data ? (
