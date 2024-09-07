@@ -270,10 +270,8 @@ export default function Home() {
             const res: any = await findInfoAPI({ code })
             dispatch(updatepidUserInfo(res))
           } else {
-            alert(JSON.stringify(result))
           }
         } catch (error) {
-          alert(JSON.stringify(error) + ' error')
         }
       }
     } catch (error) {

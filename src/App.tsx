@@ -24,15 +24,13 @@ export default function App() {
     dispatch(updatepidUserInfo(result))
     const scopes = ['payments', 'username']
     try {
-      dispatch(updatePiUser({ user: { uid: '1234' } }))
-      // const authResponse = await window.Pi.authenticate(scopes, () => {})
-      // dispatch(updatePiUser({ ...authResponse }))
-      // alert(JSON.stringify(authResponse))
-      // !result &&
-      //   authResponse &&
-      //   authResponse.user &&
-      //   authResponse.user.uid &&
-      //   setOpen(true)
+      const authResponse = await window.Pi.authenticate(scopes, () => {})
+      dispatch(updatePiUser({ ...authResponse }))
+      !result &&
+        authResponse &&
+        authResponse.user &&
+        authResponse.user.uid &&
+        setOpen(true)
     } catch (error) {
       console.log(error, 'error_')
     }
@@ -53,11 +51,8 @@ export default function App() {
           const res: any = await findInfoAPI({ code: params.v })
           dispatch(updatepidUserInfo(res))
         } else {
-          alert(JSON.stringify(result))
         }
-      } catch (error) {
-        alert(JSON.stringify(error) + ' error')
-      }
+      } catch (error) {}
       setOpen(false)
     }
   }
