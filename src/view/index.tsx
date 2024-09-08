@@ -261,6 +261,7 @@ export default function Home() {
   const [urlParmas, setUrlParams] = useState<any>({})
   const [bindLoading, setBindLoading] = useState(false)
   const getBind = async (pidKey: any, code: any) => {
+    setBindLoading(true)
     if (pidKey) {
       try {
         const result: any = await bindPidAPI({
@@ -279,6 +280,7 @@ export default function Home() {
         MessageError(t('message.bind.fail'))
       }
     }
+    setBindLoading(false)
   }
   const bindERC20Wallet = async () => {
     if (window.ethereum) {
@@ -397,7 +399,6 @@ export default function Home() {
         <Box
           click={() => {
             if (bindLoading) return
-            setBindLoading(true)
             piUser.user && piUser.user.uid
               ? token
                 ? pidKey
