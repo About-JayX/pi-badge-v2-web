@@ -271,10 +271,10 @@ export default function Home() {
           dispatch(updatepidUserInfo(res))
           MessageSuccess(t('message.bind.success'))
         } else {
-          MessageSuccess(t('message.bind.fail'))
+          MessageError(t('message.bind.fail'))
         }
       } catch (error) {
-        MessageSuccess(t('message.bind.fail'))
+        MessageError(t('message.bind.fail'))
       }
     }
   }

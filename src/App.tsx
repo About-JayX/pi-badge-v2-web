@@ -5,7 +5,7 @@ import Router from '@/router'
 
 import { bindPidAPI, findInfoAPI } from './axios/api'
 import BgAnimation from './components/animation/bg'
-import Message, { MessageSuccess } from './components/message'
+import Message, { MessageError, MessageSuccess } from './components/message'
 import PiModal from './components/piModal'
 import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
@@ -58,10 +58,10 @@ export default function App() {
           dispatch(updatepidUserInfo(res))
           MessageSuccess(t('message.bind.success'))
         } else {
-          MessageSuccess(t('message.bind.fail'))
+          MessageError(t('message.bind.fail'))
         }
       } catch (error) {
-        MessageSuccess(t('message.bind.fail'))
+        MessageError(t('message.bind.fail'))
       }
       setOpen(false)
     }
