@@ -7,13 +7,14 @@ import Web3 from 'web3'
 
 import SuccessDonePng from '@/assets/image/success.png'
 import SuccessNonePng from '@/assets/image/success-none.png'
+import copyPng from '@/assets/image/copy.png'
 import { bindPidAPI, bindWallet, findInfoAPI } from '@/axios/api'
 import Box from '@/components/box'
 import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
-import { MessageError,MessageSuccess } from '@/components/message'
+import { MessageError, MessageSuccess } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -271,8 +272,7 @@ export default function Home() {
             dispatch(updatepidUserInfo(res))
           } else {
           }
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     } catch (error) {
       console.log(error, 'pi_web_error_')
@@ -420,7 +420,7 @@ export default function Home() {
                 <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
               )
             ) : (
-              '复制'
+              <img src={copyPng} className="w-[30px] h-[30px]" />
             )
           ) : (
             ''
