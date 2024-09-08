@@ -21,12 +21,17 @@ export default function App() {
   const signPiBrowser = async () => {
     const params = (location.search && getUrlParams(location.search)) || null
     const result: any = params ? await findInfoAPI({ code: params.v }) : ''
+
     dispatch(updatepidUserInfo(result))
     const scopes = ['payments', 'username']
     try {
-      const authResponse = await window.Pi.authenticate(scopes, () => {})
+      // await window.Pi.authenticate(scopes, () => {})
+      const authResponse = { user: { uid: 1234 } }
       dispatch(updatePiUser({ ...authResponse }))
-      !result &&
+      params.v &&
+        result &&
+        result.BindInfo &&
+        !result.BindInfo.Pid &&
         authResponse &&
         authResponse.user &&
         authResponse.user.uid &&
