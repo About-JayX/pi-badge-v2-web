@@ -1,16 +1,12 @@
 .btn-group {
-  @apply p-[6px] bg-[#0460b2]/10 border-t-[2px] border-b-[2px] border-[#09518A] w-full gap-[6px];
+  @apply gap-[0.3rem] w-full rounded-md border-[#09518A] border-t border-b bg-[rgba(4_96_178_0.10)] p-2 grid grid-flow-col justify-items-center text-[#48B7F2] text-sm font-normal;
 }
 
 .btn-group .btn {
-  @apply bg-transparent border-0 border-t-[1px] border-b-[1px] border-transparent  text-[#48B7F2] text-[16px] !rounded-[6px] p-0 pt-[2px] pb-[2px];
+  @apply w-full p-[0.3rem] flex justify-center items-center border border-transparent bg-transparent !rounded-md
 }
+
 .btn-group .active,
 .btn-group .btn:active {
-  @apply bg-[#0460B2] border-[#48B7F2] text-white;
-}
-
-
-.btn-group .cursor-not-allowed{
-  @apply border-0 !text-[#48B7F2]  !bg-transparent !border-transparent opacity-50
+  @apply w-full rounded-md border border-t-[#48B7F2] border-b-[#48B7F2] bg-[#0460B2] text-[#FFF]
 }

@@ -13,7 +13,7 @@ import Buttons from '@/components/buttons'
 import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
-import { MessageSuccess, MessageError } from '@/components/message'
+import { MessageError,MessageSuccess } from '@/components/message'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -246,10 +246,10 @@ export default function Home() {
     state => state.ethers
   )
   const dispatch = useStoreDispatch()
-  const [chain, setChain] = useState(['Pi Browser'])
+  const [chain, setChain] = useState(['Pi'])
   const [chainValue, setChainValue] = useState<string>(chain?.[0])
   const chains = [
-    { name: 'SOLANA', value: 'solana', chainId: -1 },
+    { name: 'SOL', value: 'solana', chainId: -1 },
     { name: 'ETH', value: 'eth', chainId: 1 },
     { name: 'BSC', value: 'bsc', chainId: 56 },
   ]
@@ -298,7 +298,7 @@ export default function Home() {
         const accounts = await web3.eth.getAccounts()
         const address = accounts[0]
 
-        const message = `BanDing wallet Address for erc20, User is ${token}, Wallet Address is ${address.toLowerCase()}, Please confirm the sign`
+        const message = `Binding EVM Address: User is ${token}, Wallet Address is ${address.toLowerCase()}, Please Confirm The Sign`
         const signature = await web3.eth.personal.sign(message, address, '')
 
         const res = await bindWallet({
@@ -328,7 +328,7 @@ export default function Home() {
       const publicKey = wallet.publicKey.toString()
       const params = getUrlParams(location.search)
       const token = params.v
-      const message = `BanDing wallet Address for solana, User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please confirm the sign`
+      const message = `Binding SOL Address: User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please Confirm The Sign`
       const encodedMessage = new TextEncoder().encode(message)
       const signatureObj = await wallet.signMessage(encodedMessage)
 
@@ -357,7 +357,7 @@ export default function Home() {
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
         ''
     }
-    if (chainValue === 'Solana') {
+    if (chainValue === 'SOL') {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
         ''
@@ -376,7 +376,7 @@ export default function Home() {
         if (chainValue === 'ETH/BSC') {
           await bindERC20Wallet()
         }
-        if (chainValue === 'Solana') {
+        if (chainValue === 'SOL') {
           await bindSolanaWallet()
         }
 
@@ -390,7 +390,7 @@ export default function Home() {
     }
     const token = params.v
 
-    return chainValue === 'Pi Browser' ? (
+    return chainValue === 'Pi' ? (
       <>
         <Box
           click={() => {
@@ -431,17 +431,17 @@ export default function Home() {
       <Box>
         <Icon
           name={
-            chainValue === 'Solana'
+            chainValue === 'SOL'
               ? 'sol'
               : '' || chainValue === 'ETH/BSC'
               ? 'wallet'
-              : '' || chainValue === 'Pi Browser'
+              : '' || chainValue === 'Pi'
               ? 'piNetwork'
               : ''
           }
           className="w-[26px] h-[26px]"
         />
-        <span>{data && ellipsisMiddle(data, 6)}</span>
+        <span>{data && ellipsisMiddle(data, 9)}</span>
         <img
           src={data ? SuccessDonePng : SuccessNonePng}
           className="w-[22px] h-[16px]"
@@ -473,13 +473,13 @@ export default function Home() {
 
       return obj
     })
-    setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
+    setChainValue(type === 'solana' ? 'SOL' : 'ETH/BSC')
 
     if (params.v) {
       setUrlParams(params)
-      setChain(['Solana', 'ETH/BSC', 'Pi Browser'])
+      setChain(['Solana', 'ETH/BSC', 'Pi'])
     } else {
-      setChainValue('Pi Browser')
+      setChainValue('Pi')
     }
     init(type)
   }, [])
@@ -498,7 +498,7 @@ export default function Home() {
     // 更新钱包地址
     dispatch(updateAddress(address))
     const parmas = getUrlParams(location.search) || null
-    let code = parmas ? parmas.v : ''
+    const code = parmas ? parmas.v : ''
     const user = await findInfoAPI({ code })
 
     dispatch(updatepidUserInfo(user))
@@ -599,7 +599,7 @@ export default function Home() {
                       </>
                     }
                   >
-                    <div className="w-[40px] h-[40px] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
+                    <div className="w-[3rem] h-[3rem] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                       <Icon
                         name={network ? `chain/${network.value}` : ''}
                         className="w-[20px] h-[20px]"
@@ -609,7 +609,7 @@ export default function Home() {
                 )}
                 {urlParmas.v ? (
                   <>
-                    {address && <Box>{ellipsisMiddle(address, 4, 3)}</Box>}
+                    {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
                       <Buttons
                         className="uppercase max-w-[160px]"
