@@ -260,22 +260,22 @@ export default function Home() {
   const [loaderWalletStatus, setLoaderWalletStatus] = useState(false)
   const [urlParmas, setUrlParams] = useState<any>({})
   const getBind = async (pidKey: any, code: any) => {
-    try {
-      if (piUser && piUser.user && piUser.user.uid && !pidKey) {
-        try {
-          const result: any = await bindPidAPI({
-            code,
-            pid: piUser.user.uid,
-          })
-          if (result.success) {
-            const res: any = await findInfoAPI({ code })
-            dispatch(updatepidUserInfo(res))
-          } else {
-          }
-        } catch (error) {}
+    if (pidKey) {
+      try {
+        const result: any = await bindPidAPI({
+          code,
+          pid: pidKey,
+        })
+        if (result.success) {
+          const res: any = await findInfoAPI({ code })
+          dispatch(updatepidUserInfo(res))
+          MessageSuccess(t('message.bind.success'))
+        } else {
+          MessageSuccess(t('message.bind.fail'))
+        }
+      } catch (error) {
+        MessageSuccess(t('message.bind.fail'))
       }
-    } catch (error) {
-      console.log(error, 'pi_web_error_')
     }
   }
   const bindERC20Wallet = async () => {

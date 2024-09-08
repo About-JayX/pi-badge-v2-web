@@ -5,16 +5,18 @@ import Router from '@/router'
 
 import { bindPidAPI, findInfoAPI } from './axios/api'
 import BgAnimation from './components/animation/bg'
-import Message from './components/message'
+import Message, { MessageSuccess } from './components/message'
 import PiModal from './components/piModal'
 import { useStoreDispatch, useStoreSelector } from './hook'
 import useInitialize from './hook/initialize'
 import { updatepidUserInfo, updatePiUser } from './store/ethers'
 import { getUrlParams } from './util'
+import { useTranslation } from 'react-i18next'
 
 export default function App() {
   const [open, setOpen] = useState(false)
   useInitialize()
+  const { t } = useTranslation()
   const dispatch = useStoreDispatch()
   const { pidUserInfo, piUser } = useStoreSelector(state => state.ethers)
 
@@ -55,9 +57,13 @@ export default function App() {
         if (result.success) {
           const res: any = await findInfoAPI({ code: params.v })
           dispatch(updatepidUserInfo(res))
+          MessageSuccess(t('message.bind.success'))
         } else {
+          MessageSuccess(t('message.bind.fail'))
         }
-      } catch (error) {}
+      } catch (error) {
+        MessageSuccess(t('message.bind.fail'))
+      }
       setOpen(false)
     }
   }
