@@ -27,8 +27,7 @@ export default function App() {
     dispatch(updatepidUserInfo(result))
     const scopes = ['payments', 'username']
     try {
-      // await window.Pi.authenticate(scopes, () => {})
-      const authResponse = { user: { uid: 1234 } }
+      const authResponse = await window.Pi.authenticate(scopes, () => {})
       dispatch(updatePiUser({ ...authResponse }))
       params.v &&
         result &&
