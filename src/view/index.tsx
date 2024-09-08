@@ -266,6 +266,9 @@ export default function Home() {
           code,
           pid: pidKey,
         })
+
+
+        alert(JSON.stringify(result))
         if (result.success) {
           const res: any = await findInfoAPI({ code })
           dispatch(updatepidUserInfo(res))
