@@ -259,6 +259,7 @@ export default function Home() {
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
   const [loaderWalletStatus, setLoaderWalletStatus] = useState(false)
   const [urlParmas, setUrlParams] = useState<any>({})
+  const [bindLoading, setBindLoading] = useState(false)
   const getBind = async (pidKey: any, code: any) => {
     if (pidKey) {
       try {
@@ -267,8 +268,6 @@ export default function Home() {
           pid: pidKey,
         })
 
-
-        alert(JSON.stringify(result))
         if (result.success) {
           const res: any = await findInfoAPI({ code })
           dispatch(updatepidUserInfo(res))
@@ -397,6 +396,8 @@ export default function Home() {
       <>
         <Box
           click={() => {
+            if (bindLoading) return
+            setBindLoading(true)
             piUser.user && piUser.user.uid
               ? token
                 ? pidKey
