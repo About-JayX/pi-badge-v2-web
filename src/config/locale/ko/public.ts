@@ -9,5 +9,5 @@ export default {
   cancel: '취소',
   isBind: 'Pi 브라우저가 연결되었습니까?',
   openWallet: 'Telegram에서 지갑을 열거나 연결할 지갑을 선택하세요',
-  copy: "Copy",
+  copy: "복사",
 }

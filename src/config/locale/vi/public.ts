@@ -9,5 +9,5 @@ export default {
   cancel: 'Hủy',
   isBind: 'Trình duyệt Pi đã được liên kết chưa?',
   openWallet: 'Mở Ví trong Telegram hoặc chọn ví của bạn để kết nối',
-  copy: "Copy",
+  copy: 'Sao Chép',
 }

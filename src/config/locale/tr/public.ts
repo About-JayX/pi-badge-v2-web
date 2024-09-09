@@ -8,6 +8,6 @@ export default {
   disconnect: 'Bağlantıyı Kes',
   cancel: 'İptal',
   isBind: 'Pi Tarayıcı bağlı mı?',
-  openWallet: "Telegram'da Cüzdanı Açın veya bağlanmak için cüzdanınızı seçin",
-  copy: "Copy",
+  openWallet: 'Telegram\'da Cüzdanı Açın veya bağlanmak için cüzdanınızı seçin',
+  copy: 'Kopyala',
 }

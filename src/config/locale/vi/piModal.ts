@@ -1,5 +1,5 @@
 export default {
-  title: "Pi Browser",
-  text: "to get invitation code",
-  miniProgramText: "Click to jump to PI applet binding"
+  title: "Trình duyệt Pi",
+  text: "để nhận mã mời",
+  miniProgramText: "Nhấp để chuyển đến liên kết applet Pi",
 };

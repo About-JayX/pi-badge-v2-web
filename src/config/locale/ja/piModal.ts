@@ -1,6 +1,6 @@
 export default {
-  title: "Pi Browser",
-  text: "to get invitation code",
-  miniProgramText: "Click to jump to PI applet binding",
-  ok: "Ok",
+  title: "Pi ブラウザー",
+  text: "招待コードを取得するには",
+  miniProgramText: "クリックしてPIアプレットのバインディングに移動",
+  ok: "確認",
 };

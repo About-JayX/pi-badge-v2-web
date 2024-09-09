@@ -3,11 +3,12 @@ import { Fragment, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from "react-i18next";
+import { AiFillCopy } from "react-icons/ai";
 import Web3 from "web3";
 
+import copyPng from "@/assets/image/copy.png";
 import SuccessDonePng from "@/assets/image/success.png";
 import SuccessNonePng from "@/assets/image/success-none.png";
-import copyPng from "@/assets/image/copy.png";
 import { bindPidAPI, bindWallet, findInfoAPI } from "@/axios/api";
 import Box from "@/components/box";
 import Buttons from "@/components/buttons";
@@ -15,9 +16,11 @@ import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
 import { MessageError, MessageSuccess } from "@/components/message";
+import GetBindCode from "@/components/piModal/getBindCode";
 import Segmentation from "@/components/segmentation";
 import Wallet from "@/components/wallet";
 import Config from "@/config";
+import miniProgramUrl from "@/config/miniProgramUrl";
 import telegramBotUrl from "@/config/telegramBotUrl";
 import { useStoreDispatch, useStoreSelector } from "@/hook";
 import { disconnect, switchNetwork } from "@/hook/ethers";
@@ -28,8 +31,6 @@ import {
   updateWalletStatus,
 } from "@/store/ethers";
 import { ellipsisMiddle, getUrlParams, semicolon } from "@/util";
-import { AiFillCopy } from "react-icons/ai";
-import GetBindCode from "@/components/piModal/getBindCode";
 
 const PisSvg = ({
   status = "",
@@ -352,6 +353,7 @@ export default function Home() {
   };
   const [bindStatus, setBindStatus] = useState(false);
   const [bnidCodeStatus, setBnidCodeStatus] = useState(false);
+
   const getAddressBox = () => {
     const params = getUrlParams(location.search);
     const type = params.t ? params.t : chain[0];
@@ -399,7 +401,7 @@ export default function Home() {
 
     return chainValue === "Pi" ? (
       <>
-        {/* <Box
+        <Box
           click={() => {
             if (bindLoading) return;
             piUser.user && piUser.user.uid
@@ -433,28 +435,7 @@ export default function Home() {
           ) : (
             ""
           )}
-        </Box> */}
-        {piUser.user && piUser.user.uid ? (
-          token ? (
-            pidKey ? (
-              <Box>
-                <Icon name="piNetwork" className="w-[26px] h-[26px]" />
-                {ellipsisMiddle(pidKey, 8)}
-                <img src={SuccessDonePng} className="w-[22px] h-[16px]" />
-              </Box>
-            ) : (
-              <Buttons>{t("public.bind")}</Buttons>
-            )
-          ) : (
-            <Box>
-              <Icon name="piNetwork" className="w-[26px] h-[26px]" />
-              {ellipsisMiddle(piUser.user.uid, 8)}
-              <img src={SuccessDonePng} className="w-[22px] h-[16px]" />
-            </Box>
-          )
-        ) : (
-          <Buttons>{t("public.piBrowserText")}</Buttons>
-        )}
+        </Box>
       </>
     ) : data ? (
       <Box>
@@ -541,7 +522,11 @@ export default function Home() {
         setWalletOpen={(e) => setWalletStatus(e)}
         getUrl={() => ""}
       />
-      <GetBindCode open={bnidCodeStatus} onHide={() => setBindStatus(false)} />
+      <GetBindCode
+        open={bnidCodeStatus}
+        onHide={() => setBindStatus(false)}
+        url={miniProgramUrl}
+      />
       <div className="grid grid-cols-12">
         <div className="z-[1] col-span-12 grid items-center grid-cols-[1fr] lg:grid-cols-[320px,1fr] xl:grid-cols-[360px,1fr] gap-[36px] xl:gap-[50px]">
           <div className="hidden lg:flex">
