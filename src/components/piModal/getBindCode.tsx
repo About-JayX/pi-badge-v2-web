@@ -78,7 +78,7 @@ export default function GetBindCode({
         <div className="grid gap-4 w-full items-center justify-items-center">
           <div className="w-full grid gap-4 text-center">
             {params && params.v && !pidKey ? (
-              <Text className="text-[#A7BBCA]">{'public.isBind'}</Text>
+              <Text className="text-[#A7BBCA]">{t('public.isBind')}</Text>
             ) : (
               <Text className="text-[#A7BBCA]">{t('piModal.text')}</Text>
             )}
