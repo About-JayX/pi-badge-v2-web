@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from 'react-i18next'
+import { AiFillCopy } from 'react-icons/ai'
 import Web3 from 'web3'
 
 import copyPng from '@/assets/image/copy.png'
@@ -15,6 +16,7 @@ import Dropdowns from '@/components/dropdown'
 import { HeaderTitle } from '@/components/header'
 import Icon from '@/components/icon'
 import { MessageError, MessageSuccess } from '@/components/message'
+import GetBindCode from '@/components/piModal/getBindCode'
 import Segmentation from '@/components/segmentation'
 import Wallet from '@/components/wallet'
 import Config from '@/config'
@@ -29,8 +31,6 @@ import {
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
-import { AiFillCopy } from 'react-icons/ai'
-import GetBindCode from '@/components/piModal/getBindCode'
 
 const PisSvg = ({
   status = '',
@@ -520,7 +520,7 @@ export default function Home() {
             <Pis />
           </div>
           <div className="grid h-fit gap-[16px] lg:gap-[26px]">
-            <div className="col-span-12 grid gap-[6px]">
+            <div className="col-span-12 grid gap-[6px] justify-items-center sm:justify-items-start text-center sm:text-left">
               <span className="text-[32px] font-[700] flex items-center gap-[16px]">
                 {/* <Icon
                   name="telegram"
@@ -541,12 +541,17 @@ export default function Home() {
                 className="max-w-full sm:max-w-[200px]"
               >
                 <Buttons className="max-w-[160px]">
-                  <Icon name="robot" className="w-[20px] h-[20px]" />
-                  {t('public.telegramBot')}
+                  <Icon name="logos" className="w-[20px] h-[20px]" />
+                  {t("public.telegramBot")}
                 </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
+              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
+                <HeaderTitle className="order-2 sm:!order-1">
+                  {t("public.bind")}
+                </HeaderTitle>
+              </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
                 {urlParmas.v && (
                   <Dropdowns
@@ -634,11 +639,6 @@ export default function Home() {
                 ) : (
                   ''
                 )}
-              </div>
-              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-                <HeaderTitle className="order-2 sm:!order-1">
-                  {t('public.bind')}
-                </HeaderTitle>
               </div>
               <div className="col-span-12">
                 <Segmentation
