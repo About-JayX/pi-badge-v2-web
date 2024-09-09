@@ -533,7 +533,7 @@ export default function Home() {
             <Pis />
           </div>
           <div className="grid h-fit gap-[16px] lg:gap-[26px]">
-            <div className="col-span-12 grid gap-[6px]">
+            <div className="col-span-12 grid gap-[6px] justify-items-center sm:justify-items-start text-center sm:text-left">
               <span className="text-[32px] font-[700] flex items-center gap-[16px]">
                 {/* <Icon
                   name="telegram"
@@ -554,12 +554,17 @@ export default function Home() {
                 className="max-w-full sm:max-w-[200px]"
               >
                 <Buttons className="max-w-[160px]">
-                  <Icon name="robot" className="w-[20px] h-[20px]" />
+                  <Icon name="logos" className="w-[20px] h-[20px]" />
                   {t("public.telegramBot")}
                 </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
+              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
+                <HeaderTitle className="order-2 sm:!order-1">
+                  {t("public.bind")}
+                </HeaderTitle>
+              </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
                 {urlParmas.v && (
                   <Dropdowns
@@ -647,11 +652,6 @@ export default function Home() {
                 ) : (
                   ""
                 )}
-              </div>
-              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-                <HeaderTitle className="order-2 sm:!order-1">
-                  {t("public.bind")}
-                </HeaderTitle>
               </div>
               <div className="col-span-12">
                 <Segmentation

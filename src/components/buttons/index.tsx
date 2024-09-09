@@ -143,7 +143,7 @@ const BntBox = ({
       </div>
       <div className="absolute w-full h-full p-2 grid items-center justify-items-center ">
         <span
-          className={`!text-[16px] !flex items-center justify-center gap-1 ${className} px-2`}
+          className={`!text-[16px] !flex items-center justify-center gap-2 ${className} px-2`}
         >
           {children}
         </span>
