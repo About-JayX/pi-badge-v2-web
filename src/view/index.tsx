@@ -262,29 +262,7 @@ export default function Home() {
   const [walletStatus, setWalletStatus] = useState<boolean>(false)
   const [loaderWalletStatus, setLoaderWalletStatus] = useState(false)
   const [urlParmas, setUrlParams] = useState<any>({})
-  const [bindLoading, setBindLoading] = useState(false)
-  const getBind = async (pidKey: any, code: any) => {
-    setBindLoading(true)
-    if (pidKey) {
-      try {
-        const result: any = await bindPidAPI({
-          code,
-          pid: pidKey,
-        })
 
-        if (result.success) {
-          const res: any = await findInfoAPI({ code })
-          dispatch(updatepidUserInfo(res))
-          MessageSuccess(t('message.bind.success'))
-        } else {
-          MessageError(t('message.bind.fail'))
-        }
-      } catch (error) {
-        MessageError(t('message.bind.fail'))
-      }
-    }
-    setBindLoading(false)
-  }
   const bindERC20Wallet = async () => {
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum)
@@ -357,8 +335,6 @@ export default function Home() {
   const getAddressBox = () => {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
-    const pidKey =
-      (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
 
     let data: any = ''
     if (chainValue === 'ETH/BSC') {
@@ -371,14 +347,7 @@ export default function Home() {
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
         ''
     }
-    const copyPid = async () => {
-      try {
-        await navigator.clipboard.writeText(piUser.user.uid)
-        MessageSuccess(t('message.copy.success'))
-      } catch (error) {
-        MessageError(t('message.copy.fail'))
-      }
-    }
+
     const bind = async () => {
       try {
         setBindStatus(true)
@@ -397,11 +366,29 @@ export default function Home() {
         MessageError(t('message.bind.fail'))
       }
     }
-    const token = params.v
 
     return chainValue === 'Pi' ? (
       <>
-        <Box
+        {piUser.user && piUser.user.uid ? (
+          pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid ? (
+            <Box>
+              <Icon name="piNetwork" className="w-[26px] h-[26px]" />
+              {ellipsisMiddle(pidUserInfo.BindInfo.Pid, 8)}
+              {<img src={SuccessDonePng} className="w-[22px] h-[16px]" />}
+            </Box>
+          ) : (
+            <Buttons onClick={() => setBnidCodeStatus(true)}>
+              {t('public.bind')}
+            </Buttons>
+          )
+        ) : (
+          <Box>
+            <Icon name="piNetwork" className="w-[26px] h-[26px]" />
+            {t('public.piBrowserText')}
+          </Box>
+        )}
+
+        {/* <Box
           click={() => {
             if (bindLoading) return
             piUser.user && piUser.user.uid
@@ -435,7 +422,7 @@ export default function Home() {
           ) : (
             ''
           )}
-        </Box>
+        </Box> */}
       </>
     ) : data ? (
       <Box>
@@ -523,7 +510,7 @@ export default function Home() {
         getUrl={() => ''}
       />
       <GetBindCode
-        open={bnidCodeStatus}
+        open={bindStatus}
         onHide={() => setBindStatus(false)}
         url={miniProgramUrl}
       />
