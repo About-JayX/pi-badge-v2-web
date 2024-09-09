@@ -511,7 +511,7 @@ export default function Home() {
       />
       <GetBindCode
         open={bnidCodeStatus}
-        onHide={() => setBindStatus(false)}
+        onHide={() => setBnidCodeStatus(false)}
         url={miniProgramUrl}
       />
       <div className="grid grid-cols-12">

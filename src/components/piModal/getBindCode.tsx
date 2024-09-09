@@ -27,7 +27,9 @@ export default function GetBindCode({
   const { pidUserInfo, piUser } = useStoreSelector(state => state.ethers)
   const [params, setParams] = useState<any>(null)
   const dispatch = useStoreDispatch()
+  const [bindLoading, setBinding] = useState(false)
   const getBind = async (pidKey: any, code: any) => {
+    setBinding(true)
     if (pidKey) {
       try {
         const result: any = await bindPidAPI({
@@ -46,6 +48,7 @@ export default function GetBindCode({
         MessageError(t('message.bind.fail'))
       }
     }
+    setBinding(false)
   }
   useEffect(() => {
     setPidKey(
@@ -83,6 +86,7 @@ export default function GetBindCode({
               <div className="w-full grid gap-2 text-center">
                 <Text className="!font-normal">({uid})</Text>
                 <Buttons
+                  loading={bindLoading}
                   onClick={() => {
                     getBind(uid, params.v || '')
                   }}
