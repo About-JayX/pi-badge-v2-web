@@ -36,7 +36,7 @@ export default function PiModal({
           <span className="mt-[-1rem] text-[18px]">
             {t('public.openWallet')}
           </span>
-          <div className="grid w-full gap-6 overflow-x-auto justify-center grid-flow-col grid-cols-[repeat(2,1fr)]">
+          <div className="flex w-full overflow-x-auto justify-center ">
             <Buttons
               onClick={async () => {
                 setBindLoading(true)
@@ -47,9 +47,9 @@ export default function PiModal({
             >
               {t('public.bind')}
             </Buttons>
-            <Buttons onClick={() => setWalletOpen(false)}>
+            {/* <Buttons onClick={() => setWalletOpen(false)}>
               {t('public.cancel')}
-            </Buttons>
+            </Buttons> */}
           </div>
         </div>
       </Modal.Body>
