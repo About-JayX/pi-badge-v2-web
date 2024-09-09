@@ -3,7 +3,7 @@
 }
 
 .box div {
-  @apply bg-[url("./image/2.png")] bg-no-repeat bg-full w-[calc(100%-2rem)] h-full grid grid-flow-col  grid-cols-[auto,1fr,auto] gap-[16px] text-center items-center p-0 pl-[1px] pr-[1px];
+  @apply bg-[url("./image/2.png")] text-[14px] bg-no-repeat bg-full w-[calc(100%-2rem)] h-full grid grid-flow-col  grid-cols-[auto,1fr,auto] gap-[16px] text-center items-center p-0 pl-[1px] pr-[1px];
 }
 
 .box div::after {
