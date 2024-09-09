@@ -38,9 +38,9 @@ export default function PiModal({
           <div className="grid w-full gap-6 overflow-x-auto justify-center grid-flow-col grid-cols-[repeat(2,1fr)]">
             <Button
               onClick={async () => {
-                setBindLoading(false)
-                await bind()
                 setBindLoading(true)
+                await bind()
+                setBindLoading(false)
               }}
               loading={bindLoading}
             >
