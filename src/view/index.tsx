@@ -510,7 +510,7 @@ export default function Home() {
         getUrl={() => ''}
       />
       <GetBindCode
-        open={bindStatus}
+        open={bnidCodeStatus}
         onHide={() => setBindStatus(false)}
         url={miniProgramUrl}
       />
@@ -542,14 +542,14 @@ export default function Home() {
               >
                 <Buttons className="max-w-[160px]">
                   <Icon name="logos" className="w-[20px] h-[20px]" />
-                  {t("public.telegramBot")}
+                  {t('public.telegramBot')}
                 </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">
-                  {t("public.bind")}
+                  {t('public.bind')}
                 </HeaderTitle>
               </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
