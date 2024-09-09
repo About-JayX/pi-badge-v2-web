@@ -5,7 +5,7 @@ export default function Button({
   className = '',
   type = 'primary',
   onClick,
-  loading,
+  loading = false,
 }: {
   children?: React.ReactNode
   className?: string
@@ -14,12 +14,17 @@ export default function Button({
   loading?: boolean
 }) {
   return (
-    <a className={`button ${className}`} onClick={() => onClick && onClick()}>
+    <>
       {loading ? (
-        <div className={`${type === 'primary' ? 'a' : 'b'}`}>{children}</div>
+        <div className="loader !w-[26px] !h-[26px]" />
       ) : (
-        children
+        <a
+          className={`button ${className}`}
+          onClick={() => onClick && onClick()}
+        >
+          <div className={`${type === 'primary' ? 'a' : 'b'}`}>{children}</div>
+        </a>
       )}
-    </a>
+    </>
   )
 }
