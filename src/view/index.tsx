@@ -616,12 +616,12 @@ export default function Home() {
                   <>
                     {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
-                      <Buttons
-                        className="uppercase max-w-[160px]"
+                      <div
+                        className="w-[3rem] h-[3rem] bg-[#0a284e] border-1 border-[#266395] rounded flex items-center justify-center"
                         onClick={() => dispatch(disconnect())}
                       >
-                        {t('public.disconnect')}
-                      </Buttons>
+                        <Icon name="out" className="w-[20px] h-[20px]" />
+                      </div>
                     ) : (
                       <Buttons
                         loading={loaderWalletStatus}
