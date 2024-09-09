@@ -1,5 +1,5 @@
 // 网络ID
-export const networkId = Number(localStorage.getItem('networkId')) || 56
+export const networkId = Number(localStorage.getItem('networkId')) || 1
 
 // 网络配置接口类型
 export interface configType {
