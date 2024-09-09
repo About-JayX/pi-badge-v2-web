@@ -28,6 +28,7 @@ import {
   updateWalletStatus,
 } from '@/store/ethers'
 import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
+import { AiFillCopy } from "react-icons/ai";
 
 const PisSvg = ({
   status = '',
@@ -425,7 +426,7 @@ export default function Home() {
                 <img src={SuccessNonePng} className="w-[22px] h-[16px]" />
               )
             ) : (
-              <img src={copyPng} className="w-[30px] h-[30px]" />
+              <AiFillCopy />
             )
           ) : (
             ''
