@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import Button from '../button'
 import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 // import { useTranslation } from "react-i18next";
 
 // import { MessageSuccess } from "@/components/message";
@@ -16,9 +17,10 @@ export default function PiModal({
 }: {
   open?: boolean
   setWalletOpen: (status: boolean) => void
-  bind: () => void
+  bind: () => Promise<any>
 }) {
   const { t } = useTranslation()
+  const [bindLoading, setBindLoading] = useState(false)
   return (
     <Modal
       show={open}
@@ -34,7 +36,16 @@ export default function PiModal({
             {t('public.openWallet')}
           </span>
           <div className="grid w-full gap-6 overflow-x-auto justify-center grid-flow-col grid-cols-[repeat(2,1fr)]">
-            <Button onClick={bind}>{t('public.bind')}</Button>
+            <Button
+              onClick={async () => {
+                setBindLoading(false)
+                await bind()
+                setBindLoading(true)
+              }}
+              loading={bindLoading}
+            >
+              {t('public.bind')}
+            </Button>
             <Button onClick={() => setWalletOpen(false)}>
               {t('public.cancel')}
             </Button>
