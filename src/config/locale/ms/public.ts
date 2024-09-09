@@ -4,11 +4,10 @@ export default {
   piBrowser: 'Pi Network',
   piBrowserText: 'Sila buka dalam Pi Browser',
   donate: 'Derma',
-  connect: 'Hubungkan',
+  connect: 'Sambungkan',
   disconnect: 'Putuskan Sambungan',
   cancel: 'Batal',
   isBind: 'Adakah Pi Browser terikat?',
-  openWallet:
-    'Buka Dompet di Telegram atau pilih dompet anda untuk disambungkan',
-    copy: "Copy",
+  openWallet: 'Buka Dompet di Telegram atau pilih dompet anda untuk disambungkan',
+  copy: "Salin",
 }

@@ -1,7 +1,7 @@
 export default {
   bind: "接続",
   telegramBot: "Pi War 𝜋",
-  piBrowser: "Pi Network",
+  piBrowser: "Pi ネットワーク",
   piBrowserText: "Piブラウザで開いてください",
   donate: "寄付",
   connect: "接続",
@@ -10,5 +10,5 @@ export default {
   isBind: "Piブラウザがバインドされていますか？",
   openWallet:
     "Telegramでウォレットを開くか、接続するウォレットを選択してください",
-  copy: "Copy",
+  copy: "コピー",
 };
