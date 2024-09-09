@@ -10,4 +10,5 @@ export default {
   isBind: 'Pi Browser ถูกผูกไว้หรือไม่?',
   openWallet:
     'เปิดกระเป๋าสตางค์ใน Telegram หรือเลือกกระเป๋าสตางค์ของคุณเพื่อเชื่อมต่อ',
+    copy: "Copy",
 }

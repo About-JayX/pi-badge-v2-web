@@ -10,4 +10,5 @@ export default {
   isBind: 'Adakah Pi Browser terikat?',
   openWallet:
     'Buka Dompet di Telegram atau pilih dompet anda untuk disambungkan',
+    copy: "Copy",
 }

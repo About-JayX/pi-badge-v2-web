@@ -9,4 +9,5 @@ export default {
   cancel: 'İptal',
   isBind: 'Pi Tarayıcı bağlı mı?',
   openWallet: "Telegram'da Cüzdanı Açın veya bağlanmak için cüzdanınızı seçin",
+  copy: "Copy",
 }
