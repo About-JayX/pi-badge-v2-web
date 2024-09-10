@@ -30,7 +30,6 @@ export default function App() {
     const scopes = ['payments', 'username']
     try {
       const authResponse = await window.Pi.authenticate(scopes, () => {})
-      alert(JSON.stringify(authResponse))
 
       dispatch(updatePiUser({ ...authResponse }))
       params &&
