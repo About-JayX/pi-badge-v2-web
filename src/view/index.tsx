@@ -1,4 +1,6 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import "./index.css";
+
 import { Fragment, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 // import { disconnect, switchNetwork } from "@/hook/ethers";
@@ -542,16 +544,11 @@ export default function Home() {
               >
                 <Buttons className="max-w-[160px]">
                   <Icon name="logos" className="w-[20px] h-[20px]" />
-                  {t('public.telegramBot')}
+                  {t("public.telegramBot")}
                 </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
-              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
-                <HeaderTitle className="order-2 sm:!order-1">
-                  {t('public.bind')}
-                </HeaderTitle>
-              </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
                 {urlParmas.v && (
                   <Dropdowns
@@ -640,22 +637,29 @@ export default function Home() {
                   ""
                 )}
               </div>
-              <div className="col-span-12">
-                <Segmentation
-                  onChange={(e) => setChainValue(e)}
-                  value={chainValue}
-                  data={chain.map((itme) =>
-                    Object.assign(
-                      {},
-                      {
-                        name: itme,
-                        value: itme,
-                      }
-                    )
-                  )}
-                />
+              <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
+                <HeaderTitle className="order-2 sm:!order-1">
+                  {t("public.bind")}
+                </HeaderTitle>
               </div>
-              <div className="col-span-12">{getAddressBox()}</div>
+              <div className="binding-card-bg grid grid-cols-12 w-full col-span-12 gap-[16px]">
+                <div className="col-span-12">
+                  <Segmentation
+                    onChange={(e) => setChainValue(e)}
+                    value={chainValue}
+                    data={chain.map((itme) =>
+                      Object.assign(
+                        {},
+                        {
+                          name: itme,
+                          value: itme,
+                        }
+                      )
+                    )}
+                  />
+                </div>
+                <div className="col-span-12">{getAddressBox()}</div>
+              </div>
             </div>
           </div>
         </div>
