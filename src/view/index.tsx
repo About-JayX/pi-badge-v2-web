@@ -369,7 +369,7 @@ export default function Home() {
 
     return chainValue === 'Pi' ? (
       <>
-        {piUser.user && piUser.user.accessToken ? (
+        {piUser && piUser.accessToken ? (
           pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid ? (
             <Box>
               <Icon name="piNetwork" className="w-[26px] h-[26px]" />

@@ -58,7 +58,7 @@ export default function GetBindCode({
   }, [pidUserInfo])
   useEffect(() => {
     setUid((piUser && piUser.user && piUser.user.uid) || '')
-    setAccessToken((piUser && piUser.user && piUser.user.accessToken) || '')
+    setAccessToken((piUser && piUser.accessToken) || '')
   }, [piUser])
 
   useEffect(() => {

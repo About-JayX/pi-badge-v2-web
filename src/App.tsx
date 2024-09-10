@@ -39,8 +39,7 @@ export default function App() {
         result.BindInfo &&
         !result.BindInfo.Pid &&
         authResponse &&
-        authResponse.user &&
-        authResponse.user.accessToken &&
+        authResponse.accessToken &&
         setOpen(true)
     } catch (error) {
       console.log(error, 'error_')
@@ -52,11 +51,11 @@ export default function App() {
     const pidKey =
       (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
 
-    if (piUser && piUser.user && piUser.user.accessToken && !pidKey) {
+    if (piUser && piUser.accessToken && !pidKey) {
       try {
         const result: any = await bindPidAPI({
           code: params.v,
-          pid: piUser.user.accessToken,
+          pid: piUser.accessToken,
         })
         if (result.success) {
           const res: any = await findInfoAPI({ code: params.v })
