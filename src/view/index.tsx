@@ -423,27 +423,27 @@ export default function Home() {
   useEffect(() => {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
-    setNetwork((_: any) => {
-      const obj: any =
-        chains.find((item: any) =>
-          type === 'solana' ? item.value === type : item.value === 'eth'
-        ) || {}
-      dispatch(switchNetwork(obj.chainId ? obj.chainId : 1)).then(() => {
-        setChainValues(obj.value ? obj.value : 'eth')
-      })
-
-      return obj
-    })
-    setChainValue(type === 'solana' ? 'SOL' : 'ETH/BSC')
-
-    if (params.v) {
-      setUrlParams(params)
-      setChain(['Solana', 'ETH/BSC', 'Pi'])
-    } else {
+    setChain(['Solana', 'ETH/BSC', 'Pi'])
+    if (Object.keys(piUser).length) {
+      setChain(['Pi'])
       setChainValue('Pi')
     }
-    init(type)
-  }, [])
+    if (params.v) {
+      setNetwork((_: any) => {
+        const obj: any =
+          chains.find((item: any) =>
+            type === 'solana' ? item.value === type : item.value === 'eth'
+          ) || {}
+        dispatch(switchNetwork(obj.chainId ? obj.chainId : 1)).then(() => {
+          setChainValues(obj.value ? obj.value : 'eth')
+        })
+        return obj
+      })
+      setChainValue(type === 'solana' ? 'SOL' : 'ETH/BSC')
+      setUrlParams(params)
+      init(type)
+    }
+  }, [piUser])
 
   const init = async (type?: string) => {
     const web3 = new Web3(window.ethereum)
@@ -517,7 +517,7 @@ export default function Home() {
                 </HeaderTitle>
               </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
-                {urlParmas.v && (
+                {!Object.keys(piUser).length && (
                   <Dropdowns
                     menu={
                       <>
@@ -578,7 +578,7 @@ export default function Home() {
                     </div>
                   </Dropdowns>
                 )}
-                {urlParmas.v ? (
+                {!Object.keys(piUser).length ? (
                   <>
                     {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
