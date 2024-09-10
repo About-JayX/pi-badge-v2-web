@@ -26,11 +26,12 @@ export default function App() {
     const result: any = params
       ? await findInfoAPI({ code: params && params.v })
       : ''
-    alert(JSON.stringify(result))
     dispatch(updatepidUserInfo(result))
     const scopes = ['payments', 'username']
     try {
       const authResponse = await window.Pi.authenticate(scopes, () => {})
+      alert(JSON.stringify(authResponse))
+
       dispatch(updatePiUser({ ...authResponse }))
       params &&
         params.v &&
