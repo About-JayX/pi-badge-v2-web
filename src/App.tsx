@@ -26,11 +26,11 @@ export default function App() {
     const result: any = params
       ? await findInfoAPI({ code: params && params.v })
       : ''
-
     dispatch(updatepidUserInfo(result))
     const scopes = ['payments', 'username']
     try {
       const authResponse = await window.Pi.authenticate(scopes, () => {})
+
       dispatch(updatePiUser({ ...authResponse }))
       params &&
         params.v &&
@@ -38,8 +38,7 @@ export default function App() {
         result.BindInfo &&
         !result.BindInfo.Pid &&
         authResponse &&
-        authResponse.user &&
-        authResponse.user.uid &&
+        authResponse.accessToken &&
         setOpen(true)
     } catch (error) {
       console.log(error, 'error_')
@@ -51,11 +50,11 @@ export default function App() {
     const pidKey =
       (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid) || ''
 
-    if (piUser && piUser.user && piUser.user.uid && !pidKey) {
+    if (piUser && piUser.accessToken && !pidKey) {
       try {
         const result: any = await bindPidAPI({
           code: params.v,
-          pid: piUser.user.uid,
+          pid: piUser.accessToken,
         })
         if (result.success) {
           const res: any = await findInfoAPI({ code: params.v })
