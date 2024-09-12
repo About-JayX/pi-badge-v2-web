@@ -7,7 +7,7 @@ export default {
   connect: '連接',
   disconnect: '斷開',
   cancel: '取消',
-  isBind: '是否綁定 Pi 瀏覽器',
-  openWallet: '在 Telegram 中打開錢包或選擇您的錢包進行連接',
+  isBind: '綁定 Pi Network',
+  openWallet: '绑定你的 Pi Network 账号 ',
   copy: '複製',
 }

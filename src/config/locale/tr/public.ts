@@ -7,7 +7,7 @@ export default {
   connect: 'Bağlan',
   disconnect: 'Bağlantıyı Kes',
   cancel: 'İptal',
-  isBind: 'Pi Tarayıcı bağlı mı?',
-  openWallet: 'Telegram\'da Cüzdanı Açın veya bağlanmak için cüzdanınızı seçin',
+  isBind: 'Pi Network Bağla',
+  openWallet: 'Pi Network hesabınızı bağlayın',
   copy: 'Kopyala',
 }
