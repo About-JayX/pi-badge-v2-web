@@ -371,7 +371,7 @@ export default function Home() {
 
     return chainValue === 'Pi' ? (
       <>
-        {piUser && piUser.accessToken ? (
+        {/* {piUser && piUser.accessToken ? (
           pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid ? (
             <Box>
               <Icon name="piNetwork" className="w-[26px] h-[26px]" />
@@ -383,6 +383,22 @@ export default function Home() {
               {t('public.bind')}
             </Buttons>
           )
+        ) : (
+          <Box>
+            <Icon name="piNetwork" className="w-[26px] h-[26px]" />
+            {t('public.piBrowserText')}
+          </Box>
+        )} */}
+        {pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid ? (
+          <Box>
+            <Icon name="piNetwork" className="w-[26px] h-[26px]" />
+            {ellipsisMiddle(pidUserInfo.BindInfo.Pid, 8)}
+            {<img src={SuccessDonePng} className="w-[22px] h-[16px]" />}
+          </Box>
+        ) : piUser && piUser.accessToken ? (
+          <Buttons onClick={() => setBnidCodeStatus(true)}>
+            {t('public.bind')}
+          </Buttons>
         ) : (
           <Box>
             <Icon name="piNetwork" className="w-[26px] h-[26px]" />
@@ -426,7 +442,7 @@ export default function Home() {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
     setChain(['Solana', 'ETH/BSC', 'Pi'])
-    if (!Object.keys(piUser).length && urlParmas.v) {
+    if (!Object.keys(piUser).length && params.v) {
       setNetwork((_: any) => {
         const obj: any =
           chains.find((item: any) =>
@@ -445,7 +461,6 @@ export default function Home() {
       setChainValue('Pi')
       init()
     }
-  
   }, [piUser])
 
   const init = async (type?: string) => {
