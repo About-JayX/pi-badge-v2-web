@@ -356,6 +356,7 @@ export const switchNetwork = createAsyncThunk(
   async (value: any, { getState, dispatch }) => {
     const { ethers } = getState() as stateType
     const { rpc, pageNetworkId } = ethers
+    console.log(value, 'network_val_')
 
     if (value === -1) {
       dispatch(updateNetworkStatus(false))
@@ -375,6 +376,7 @@ export const switchNetwork = createAsyncThunk(
           res.chainId.toString() === pageNetworkId.toString()
       ) as networkConfigType
       if (!network) return
+
       // 判断钱包是否存在
       if (typeof window.ethereum !== 'undefined') {
         // 检测当前网络是否存在:不存在就增加
@@ -403,6 +405,7 @@ export const switchNetwork = createAsyncThunk(
           })
           .catch((error: any) => {
             // dispatch(updateNetworkStatus(true));
+            console.log(network, '??')
 
             console.error(error, '检查网络是否存在')
             // 返回失败就增加网络
@@ -416,7 +419,7 @@ export const switchNetwork = createAsyncThunk(
                     ).toHexString(),
                     chainName: network.chainName,
                     nativeCurrency: network.nativeCurrency,
-                    rpcUrls: [rpc],
+                    rpcUrls: network.rpcUrls,
                     blockExplorerUrls: network.blockExplorerUrls,
                   },
                 ],

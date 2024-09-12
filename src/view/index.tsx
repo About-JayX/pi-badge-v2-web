@@ -336,8 +336,6 @@ export default function Home() {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
 
-    console.log(chainValue, 'chainvalue_')
-
     let data: any = ''
     if (chainValue === 'ETH/BSC') {
       data =
@@ -519,7 +517,8 @@ export default function Home() {
                 </HeaderTitle>
               </div>
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
-                {!Object.keys(piUser).length && (
+                {/* !Object.keys(piUser).length && urlParmas.v  */}
+                {true ? (
                   <Dropdowns
                     menu={
                       <>
@@ -579,8 +578,12 @@ export default function Home() {
                       />
                     </div>
                   </Dropdowns>
+                ) : (
+                  ''
                 )}
-                {!Object.keys(piUser).length ? (
+                {/* 不在pi浏览器且不携带参数 存在length则为pi浏览器环境*/}
+                {/* !Object.keys(piUser).length && urlParmas.v  */}
+                {true ? (
                   <>
                     {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
