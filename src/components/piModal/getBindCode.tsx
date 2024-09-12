@@ -23,7 +23,7 @@ export default function GetBindCode({
 }) {
   // pidUserInfo request api message // piUser piBrowser message
   const [pidKey, setPidKey] = useState('')
-  const [uid, setUid] = useState('')
+
   const [accessToken, setAccessToken] = useState('')
   const { pidUserInfo, piUser } = useStoreSelector(state => state.ethers)
   const [params, setParams] = useState<any>(null)
@@ -57,7 +57,6 @@ export default function GetBindCode({
     )
   }, [pidUserInfo])
   useEffect(() => {
-    setUid((piUser && piUser.user && piUser.user.uid) || '')
     setAccessToken((piUser && piUser.accessToken) || '')
   }, [piUser])
 
@@ -86,7 +85,9 @@ export default function GetBindCode({
             )}
             {params && params.v && !pidKey ? (
               <div className="w-full grid gap-2 text-center">
-                <Text className="!font-normal !text-[#A7BBCA]">({uid})</Text>
+                <Text className="!font-normal !text-[#A7BBCA]">
+                  ({accessToken})
+                </Text>
                 <Buttons
                   loading={bindLoading}
                   onClick={() => {
@@ -99,7 +100,7 @@ export default function GetBindCode({
             ) : (
               <div>
                 <Input
-                  value={uid}
+                  value={accessToken}
                   disabled
                   button={{
                     text: t('public.copy'),
