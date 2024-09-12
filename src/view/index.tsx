@@ -502,7 +502,7 @@ export default function Home() {
             <Pis />
           </div>
           <div className="grid h-fit gap-[16px] lg:gap-[26px]">
-            <div className="col-span-12 grid gap-[6px] justify-items-center sm:justify-items-start text-center sm:!text-left">
+            <div className="col-span-12 grid gap-[6px] justify-items-start text-center !text-left">
               <span className="text-[32px] font-[700] flex items-center gap-[16px]">
                 {/* <Icon
                   name="telegram"
