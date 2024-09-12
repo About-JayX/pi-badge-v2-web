@@ -336,13 +336,15 @@ export default function Home() {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
 
+    console.log(chainValue, 'chainvalue_')
+
     let data: any = ''
     if (chainValue === 'ETH/BSC') {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
         ''
     }
-    if (chainValue === 'SOL') {
+    if (chainValue === 'Solana') {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
         ''
@@ -354,7 +356,7 @@ export default function Home() {
         if (chainValue === 'ETH/BSC') {
           await bindERC20Wallet()
         }
-        if (chainValue === 'SOL') {
+        if (chainValue === 'Solana') {
           await bindSolanaWallet()
         }
 
@@ -392,7 +394,7 @@ export default function Home() {
       <Box>
         <Icon
           name={
-            chainValue === 'SOL'
+            chainValue === 'Solana'
               ? 'sol'
               : '' || chainValue === 'ETH/BSC'
               ? 'wallet'
@@ -439,7 +441,7 @@ export default function Home() {
         })
         return obj
       })
-      setChainValue(type === 'solana' ? 'SOL' : 'ETH/BSC')
+      setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
       setUrlParams(params)
       init(type)
     }
