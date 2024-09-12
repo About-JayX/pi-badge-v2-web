@@ -1,8 +1,8 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
-import "./index.css";
+import './index.css'
 
-import { Fragment, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Fragment, useEffect, useState } from 'react'
+import { Dropdown } from 'react-bootstrap'
 // import { disconnect, switchNetwork } from "@/hook/ethers";
 import { useTranslation } from 'react-i18next'
 import { AiFillCopy } from 'react-icons/ai'
@@ -426,11 +426,7 @@ export default function Home() {
     const params = getUrlParams(location.search)
     const type = params.t ? params.t : chain[0]
     setChain(['Solana', 'ETH/BSC', 'Pi'])
-    if (Object.keys(piUser).length) {
-      setChain(['Pi'])
-      setChainValue('Pi')
-    }
-    if (params.v) {
+    if (!Object.keys(piUser).length && urlParmas.v) {
       setNetwork((_: any) => {
         const obj: any =
           chains.find((item: any) =>
@@ -444,10 +440,20 @@ export default function Home() {
       setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
       setUrlParams(params)
       init(type)
+    } else {
+      setChain(['Pi'])
+      setChainValue('Pi')
+      init()
     }
+  
   }, [piUser])
 
   const init = async (type?: string) => {
+    const parmas = getUrlParams(location.search) || null
+    const code = parmas ? parmas.v : ''
+    const user = await findInfoAPI({ code })
+    dispatch(updatepidUserInfo(user))
+    if (!type) return
     const web3 = new Web3(window.ethereum)
     let address = ''
     if (type === 'solana') {
@@ -460,11 +466,6 @@ export default function Home() {
     localStorage.setItem('address', address)
     // 更新钱包地址
     dispatch(updateAddress(address))
-    const parmas = getUrlParams(location.search) || null
-    const code = parmas ? parmas.v : ''
-    const user = await findInfoAPI({ code })
-
-    dispatch(updatepidUserInfo(user))
   }
 
   return (
@@ -508,14 +509,13 @@ export default function Home() {
               >
                 <Buttons className="max-w-[160px]">
                   <Icon name="logos" className="w-[20px] h-[20px]" />
-                  {t("public.telegramBot")}
+                  {t('public.telegramBot')}
                 </Buttons>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
               <div className="col-span-12 flex gap-[8px] items-center mb-[-8px] sm:mb-[0] flex-wrap">
-                {/* !Object.keys(piUser).length && urlParmas.v  */}
-                {true ? (
+                {!Object.keys(piUser).length && urlParmas.v ? (
                   <Dropdowns
                     menu={
                       <>
@@ -579,8 +579,8 @@ export default function Home() {
                   ''
                 )}
                 {/* 不在pi浏览器且不携带参数 存在length则为pi浏览器环境*/}
-                {/* !Object.keys(piUser).length && urlParmas.v  */}
-                {true ? (
+
+                {!Object.keys(piUser).length && urlParmas.v ? (
                   <>
                     {address && <Box>{ellipsisMiddle(address, 6, 6)}</Box>}
                     {address ? (
@@ -608,15 +608,15 @@ export default function Home() {
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">
-                  {t("public.bind")}
+                  {t('public.bind')}
                 </HeaderTitle>
               </div>
               <div className="binding-card-bg grid grid-cols-12 w-full col-span-12 gap-[16px]">
                 <div className="col-span-12">
                   <Segmentation
-                    onChange={(e) => setChainValue(e)}
+                    onChange={e => setChainValue(e)}
                     value={chainValue}
-                    data={chain.map((itme) =>
+                    data={chain.map(itme =>
                       Object.assign(
                         {},
                         {
