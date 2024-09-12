@@ -1,1 +1,1 @@
-export default `https://t.me/pidWarTest_bot/pidWar/`
+export default `https://t.me/pi_war_bot/app`

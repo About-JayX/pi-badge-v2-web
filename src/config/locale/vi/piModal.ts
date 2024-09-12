@@ -1,5 +1,5 @@
 export default {
-  title: "Trình duyệt Pi",
-  text: "để nhận mã mời",
-  miniProgramText: "Nhấp để chuyển đến liên kết applet Pi",
+  title: "Liên kết Pi War 𝜋",
+  text: "Vui lòng sao chép mã liên kết",
+  miniProgramText: "Pi War 𝜋",
 };

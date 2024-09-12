@@ -1,5 +1,5 @@
 export default {
-  title: "Pi 瀏覽器",
-  text: "取得邀請碼",
-  miniProgramText: "點擊跳轉到 PI 小程式綁定",
+  title: "綁定 Pi War 𝜋",
+  text: "請複製綁定碼",
+  miniProgramText: "Pi War 𝜋",
 };

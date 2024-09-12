@@ -1,6 +1,5 @@
 export default {
-  title: "Pi Browser",
-  text: "to get invitation code",
-  miniProgramText: "Click to jump to PI applet binding",
-  ok: "Ok",
+  title: "Bind Pi War 𝜋",
+  text: "Please copy the binding code",
+  miniProgramText: "Pi War 𝜋",
 };

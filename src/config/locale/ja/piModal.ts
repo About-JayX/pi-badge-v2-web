@@ -1,6 +1,5 @@
 export default {
-  title: "Pi ブラウザー",
-  text: "招待コードを取得するには",
-  miniProgramText: "クリックしてPIアプレットのバインディングに移動",
-  ok: "確認",
+  title: "Pi War 𝜋 をバインド",
+  text: "バインドコードをコピーしてください",
+  miniProgramText: "Pi War 𝜋",
 };

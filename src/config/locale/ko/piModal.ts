@@ -1,5 +1,5 @@
 export default {
-  title: "Pi 브라우저",
-  text: "초대 코드를 받으려면",
-  miniProgramText: "클릭하여 PI 애플릿 바인딩으로 이동",
+  title: "Pi War 𝜋 바인딩",
+  text: "바인딩 코드를 복사하세요",
+  miniProgramText: "Pi War 𝜋",
 };
