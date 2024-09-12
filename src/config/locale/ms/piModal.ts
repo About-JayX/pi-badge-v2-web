@@ -1,5 +1,5 @@
 export default {
-  title: "Pi Browser",
-  text: "untuk mendapatkan kod jemputan",
-  miniProgramText: "Klik untuk lompat ke pengikatan applet PI",
+  title: "Pautkan Pi War 𝜋",
+  text: "Sila salin kod pautan",
+  miniProgramText: "Pi War 𝜋",
 };

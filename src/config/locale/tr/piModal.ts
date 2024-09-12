@@ -1,5 +1,5 @@
 export default {
-  title: "Pi Tarayıcı",
-  text: "davet kodu almak için",
-  miniProgramText: "PI applet bağlamaya gitmek için tıklayın",
+  title: "Pi War 𝜋 Bağla",
+  text: "Lütfen bağlama kodunu kopyalayın",
+  miniProgramText: "Pi War 𝜋",
 };
