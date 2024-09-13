@@ -296,10 +296,10 @@ export default function Home() {
           type: 'erc20',
         })
       } catch (error) {
-        console.error(error)
+        throw new Error('reject transaction')
       }
     } else {
-      throw new Error('install b')
+      throw new Error('install erc20 wallet')
     }
   }
 
@@ -308,7 +308,7 @@ export default function Home() {
       const wallet = window.solana
 
       if (!wallet) {
-        throw new Error('install b')
+        throw new Error('install solana wallet')
       }
 
       await wallet.connect()
@@ -328,7 +328,7 @@ export default function Home() {
         user: token,
       })
     } catch (error) {
-      throw new Error('install b')
+      throw new Error('install erc20 wallet')
     }
   }
   const [bindStatus, setBindStatus] = useState(false)
@@ -361,12 +361,11 @@ export default function Home() {
         }
 
         await init(type)
-        setBindStatus(false)
         MessageSuccess(t('message.bind.success'))
       } catch (error) {
-        setBindStatus(false)
         MessageError(t('message.bind.fail'))
       }
+      setBindStatus(false)
     }
 
     return chainValue === 'Pi' ? (
