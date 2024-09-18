@@ -54,7 +54,7 @@ const BntBox = ({
         <div className="absolute top-0 left-[-1px] h-full bg-[#4ab9f2] w-[calc(100%+2px)]"></div>
       </div>
       <svg
-      className=""
+        className=""
         width="16"
         height="48"
         viewBox="0 0 16 48"
@@ -84,7 +84,13 @@ const BntBox = ({
         </defs>
       </svg>
       <div className="absolute w-full h-[42px] p-[4px] flex items-center justify-center ">
-        <svg width="14" height="42" viewBox="0 0 14 42" fill="none" className="">
+        <svg
+          width="14"
+          height="42"
+          viewBox="0 0 14 42"
+          fill="none"
+          className=""
+        >
           <rect width="14" height="42" fill="url(#pattern0_23_6)" />
           <defs>
             <pattern
@@ -171,3 +177,27 @@ export default function Buttons({
     </BntBox>
   );
 }
+
+export const ButtonB = ({
+  children,
+  loading = false,
+  onClick,
+  className,
+  disabled = false,
+}: {
+  children?: React.ReactNode;
+  loading?: boolean;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+}) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-[calc(100%-3px)] h-[calc(3rem-3px)] bg-[#4ab9f2] border-[3px] border-[#035cad] bnt-box rounded-md flex justify-center items-center ${className}`}
+      disabled={disabled}
+    >
+      {loading ? <div className="loader !w-[26px] !h-[26px]" /> : children}
+    </button>
+  );
+};
