@@ -194,7 +194,7 @@ export const ButtonB = ({
   return (
     <button
       onClick={onClick}
-      className={`w-[calc(100%-3px)] h-[calc(3rem-3px)] bg-[#4ab9f2] border-[3px] border-[#035cad] bnt-box rounded-md flex justify-center items-center ${className}`}
+      className={`w-full h-[calc(3rem-3px)] bg-[#035cad] border-[3px] border-[#4ab9f2] bnt-box rounded-md flex justify-center items-center ${className} px-4 gap-1`}
       disabled={disabled}
     >
       {loading ? <div className="loader !w-[26px] !h-[26px]" /> : children}
