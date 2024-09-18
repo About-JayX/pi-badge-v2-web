@@ -13,7 +13,7 @@ import SuccessDonePng from "@/assets/image/success.png";
 import SuccessNonePng from "@/assets/image/success-none.png";
 import { bindPidAPI, bindWallet, findInfoAPI } from "@/axios/api";
 import Box from "@/components/box";
-import Buttons, { ButtonB } from "@/components/buttons";
+import { ButtonB } from "@/components/buttons";
 import Dropdowns from "@/components/dropdown";
 import { HeaderTitle } from "@/components/header";
 import Icon from "@/components/icon";
@@ -521,10 +521,10 @@ export default function Home() {
                 href={telegramBotUrl}
                 className="max-w-full sm:max-w-[200px]"
               >
-                <Buttons className="max-w-[160px]">
+                <ButtonB className="max-w-[160px]">
                   <Icon name="logos" className="w-[20px] h-[20px]" />
                   {t("public.telegramBot")}
-                </Buttons>
+                </ButtonB>
               </a>
             </div>
             <div className="col-span-12 grid gap-[16px] h-fit">
@@ -605,7 +605,7 @@ export default function Home() {
                         <Icon name="out" className="w-[20px] h-[20px]" />
                       </div>
                     ) : (
-                      <Buttons
+                      <ButtonB
                         loading={loaderWalletStatus}
                         className="uppercase max-w-[160px]"
                         onClick={() => {
@@ -613,7 +613,7 @@ export default function Home() {
                         }}
                       >
                         {t("public.connect")}
-                      </Buttons>
+                      </ButtonB>
                     )}
                   </>
                 ) : (

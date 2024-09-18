@@ -1,16 +1,17 @@
+import { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
+import { bindPidAPI, findInfoAPI } from '@/axios/api'
+import { useStoreDispatch, useStoreSelector } from '@/hook'
+import { updatepidUserInfo } from '@/store/ethers'
+import { getUrlParams } from '@/util'
+
+import { ButtonB } from '../buttons'
 import Icon from '../icon'
 import Input from '../input'
-import { Text } from '../text'
 import { MessageError, MessageSuccess } from '../message'
-import { useStoreDispatch, useStoreSelector } from '@/hook'
-import { useEffect, useRef, useState } from 'react'
-import { getUrlParams } from '@/util'
-import Buttons from '../buttons'
-import { bindPidAPI, findInfoAPI } from '@/axios/api'
-import { updatepidUserInfo } from '@/store/ethers'
+import { Text } from '../text'
 
 export default function GetBindCode({
   open = false,
@@ -88,14 +89,14 @@ export default function GetBindCode({
                 <Text className="!font-normal !text-[#A7BBCA]">
                   ({accessToken})
                 </Text>
-                <Buttons
+                <ButtonB
                   loading={bindLoading}
                   onClick={() => {
                     getBind(accessToken, params.v || '')
                   }}
                 >
                   {t('public.bind')}
-                </Buttons>
+                </ButtonB>
               </div>
             ) : (
               <div>
