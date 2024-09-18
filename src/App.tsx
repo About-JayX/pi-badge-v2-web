@@ -30,6 +30,7 @@ export default function App() {
     const scopes = ['payments', 'username']
     try {
       const authResponse = await window.Pi.authenticate(scopes, () => {})
+      // const authResponse = {accessToken:"12ds12d1fs2"}
 
       dispatch(updatePiUser({ ...authResponse }))
       params &&

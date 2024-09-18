@@ -8,4 +8,4 @@ export const spiApiUrl = 'https://api.spiapi.top'
 export const pidsignApiUrl = 'https://api.spi.top'
 
 export const telegramApiUrl = 'https://piwar.dexcc.cc'
-// export const telegramApiUrl = 'https://piwartest.spiapi.top'
+// export const telegramApiUrl = 'https://piwar.spiapi.top'

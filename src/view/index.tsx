@@ -1,49 +1,49 @@
 // import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
-import './index.css'
+import "./index.css";
 
-import { Fragment, useEffect, useState } from 'react'
-import { Dropdown } from 'react-bootstrap'
+import { Fragment, useEffect, useState } from "react";
+import { Dropdown } from "react-bootstrap";
 // import { disconnect, switchNetwork } from "@/hook/ethers";
-import { useTranslation } from 'react-i18next'
-import { AiFillCopy } from 'react-icons/ai'
-import Web3 from 'web3'
+import { useTranslation } from "react-i18next";
+import { AiFillCopy } from "react-icons/ai";
+import Web3 from "web3";
 
-import copyPng from '@/assets/image/copy.png'
-import SuccessDonePng from '@/assets/image/success.png'
-import SuccessNonePng from '@/assets/image/success-none.png'
-import { bindPidAPI, bindWallet, findInfoAPI } from '@/axios/api'
-import Box from '@/components/box'
-import Buttons from '@/components/buttons'
-import Dropdowns from '@/components/dropdown'
-import { HeaderTitle } from '@/components/header'
-import Icon from '@/components/icon'
-import { MessageError, MessageSuccess } from '@/components/message'
-import GetBindCode from '@/components/piModal/getBindCode'
-import Segmentation from '@/components/segmentation'
-import Wallet from '@/components/wallet'
-import Config from '@/config'
-import miniProgramUrl from '@/config/miniProgramUrl'
-import telegramBotUrl from '@/config/telegramBotUrl'
-import { useStoreDispatch, useStoreSelector } from '@/hook'
-import { disconnect, switchNetwork } from '@/hook/ethers'
+import copyPng from "@/assets/image/copy.png";
+import SuccessDonePng from "@/assets/image/success.png";
+import SuccessNonePng from "@/assets/image/success-none.png";
+import { bindPidAPI, bindWallet, findInfoAPI } from "@/axios/api";
+import Box from "@/components/box";
+import Buttons, { ButtonB } from "@/components/buttons";
+import Dropdowns from "@/components/dropdown";
+import { HeaderTitle } from "@/components/header";
+import Icon from "@/components/icon";
+import { MessageError, MessageSuccess } from "@/components/message";
+import GetBindCode from "@/components/piModal/getBindCode";
+import Segmentation from "@/components/segmentation";
+import Wallet from "@/components/wallet";
+import Config from "@/config";
+import miniProgramUrl from "@/config/miniProgramUrl";
+import telegramBotUrl from "@/config/telegramBotUrl";
+import { useStoreDispatch, useStoreSelector } from "@/hook";
+import { disconnect, switchNetwork } from "@/hook/ethers";
 import {
   updateAddress,
   updatepageNetworkId,
   updatepidUserInfo,
   updateWalletStatus,
-} from '@/store/ethers'
-import { ellipsisMiddle, getUrlParams, semicolon } from '@/util'
+} from "@/store/ethers";
+import { ellipsisMiddle, getUrlParams, semicolon } from "@/util";
 
 const PisSvg = ({
-  status = '',
-  buyStatus = 'min',
+  status = "",
+  buyStatus = "min",
   price = 0,
   quantity = 0,
 }: {
-  status?: 'popular' | 'best' | ''
-  buyStatus?: 'min' | 'max' | 'max-full'
-  price?: number
-  quantity?: number
+  status?: "popular" | "best" | "";
+  buyStatus?: "min" | "max" | "max-full";
+  price?: number;
+  quantity?: number;
 }) => {
   return (
     <svg viewBox="0 0 249 268">
@@ -94,8 +94,8 @@ const PisSvg = ({
         </div>
       </foreignObject>
     </svg>
-  )
-}
+  );
+};
 
 const Pis = () => {
   return (
@@ -133,11 +133,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="10%" y1="0%" x1="0%" id="gradiente">
             <stop
-              style={{ stopColor: '#1e2026', stopOpacity: 1 }}
+              style={{ stopColor: "#1e2026", stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: '#414750', stopOpacity: 1 }}
+              style={{ stopColor: "#414750", stopOpacity: 1 }}
               offset="60%"
             ></stop>
           </linearGradient>
@@ -159,11 +159,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="0%" y1="-17%" x1="10%" id="gradiente2">
             <stop
-              style={{ stopColor: '#1c8dc900', stopOpacity: 1 }}
+              style={{ stopColor: "#1c8dc900", stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: '#48B7F2', stopOpacity: 1 }}
+              style={{ stopColor: "#48B7F2", stopOpacity: 1 }}
               offset="100%"
               id="animatedStop"
             ></stop>
@@ -186,11 +186,11 @@ const Pis = () => {
         <defs>
           <linearGradient y2="100%" x2="10%" y1="0%" x1="0%" id="gradiente3">
             <stop
-              style={{ stopColor: '#1c8dc900', stopOpacity: 1 }}
+              style={{ stopColor: "#1c8dc900", stopOpacity: 1 }}
               offset="20%"
             ></stop>
             <stop
-              style={{ stopColor: '#48B7F2', stopOpacity: 1 }}
+              style={{ stopColor: "#48B7F2", stopOpacity: 1 }}
               offset="100%"
               id="animatedStop"
             ></stop>
@@ -243,132 +243,132 @@ const Pis = () => {
         xlinkHref={`/logos.svg`}
       />
     </svg>
-  )
-}
+  );
+};
 
 export default function Home() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const { address, piUser, pidUserInfo } = useStoreSelector(
-    state => state.ethers
-  )
-  const dispatch = useStoreDispatch()
-  const [chain, setChain] = useState(['Pi'])
-  const [chainValue, setChainValue] = useState<string>(chain?.[0])
+    (state) => state.ethers
+  );
+  const dispatch = useStoreDispatch();
+  const [chain, setChain] = useState(["Pi"]);
+  const [chainValue, setChainValue] = useState<string>(chain?.[0]);
   const chains = [
-    { name: 'SOL', value: 'solana', chainId: -1 },
-    { name: 'ETH', value: 'eth', chainId: 1 },
-    { name: 'BSC', value: 'bsc', chainId: 56 },
-  ]
-  const [network, setNetwork] = useState<any>(chains[0])
-  const [_, setChainValues] = useState('eth')
-  const [walletStatus, setWalletStatus] = useState<boolean>(false)
-  const [loaderWalletStatus, setLoaderWalletStatus] = useState(false)
-  const [urlParmas, setUrlParams] = useState<any>({})
+    { name: "SOL", value: "solana", chainId: -1 },
+    { name: "ETH", value: "eth", chainId: 1 },
+    { name: "BSC", value: "bsc", chainId: 56 },
+  ];
+  const [network, setNetwork] = useState<any>(chains[0]);
+  const [_, setChainValues] = useState("eth");
+  const [walletStatus, setWalletStatus] = useState<boolean>(false);
+  const [loaderWalletStatus, setLoaderWalletStatus] = useState(false);
+  const [urlParmas, setUrlParams] = useState<any>({});
 
   const bindERC20Wallet = async () => {
     if (window.ethereum) {
-      const web3 = new Web3(window.ethereum)
+      const web3 = new Web3(window.ethereum);
 
       if (window.ethereum.isMetaMask) {
-        console.log('Using MetaMask')
+        console.log("Using MetaMask");
       } else if (window.ethereum.isBitget) {
-        console.log('Using Bitget Wallet')
+        console.log("Using Bitget Wallet");
       } else if (window.ethereum.isOkxWallet) {
-        console.log('Using OKX Wallet')
+        console.log("Using OKX Wallet");
       } else {
-        console.log('Using an unknown Ethereum wallet')
+        console.log("Using an unknown Ethereum wallet");
       }
-      const params = getUrlParams(location.search)
+      const params = getUrlParams(location.search);
 
-      const token = params.v
+      const token = params.v;
       try {
-        const accounts = await web3.eth.getAccounts()
-        const address = accounts[0]
+        const accounts = await web3.eth.getAccounts();
+        const address = accounts[0];
 
-        const message = `Binding EVM Address: User is ${token}, Wallet Address is ${address.toLowerCase()}, Please Confirm The Sign`
-        const signature = await web3.eth.personal.sign(message, address, '')
+        const message = `Binding EVM Address: User is ${token}, Wallet Address is ${address.toLowerCase()}, Please Confirm The Sign`;
+        const signature = await web3.eth.personal.sign(message, address, "");
 
         const res = await bindWallet({
           address,
           user: token,
           signature,
           message,
-          type: 'erc20',
-        })
+          type: "erc20",
+        });
       } catch (error) {
-        throw new Error('reject transaction')
+        throw new Error("reject transaction");
       }
     } else {
-      throw new Error('install erc20 wallet')
+      throw new Error("install erc20 wallet");
     }
-  }
+  };
 
   const bindSolanaWallet = async () => {
     try {
-      const wallet = window.solana
+      const wallet = window.solana;
 
       if (!wallet) {
-        throw new Error('install solana wallet')
+        throw new Error("install solana wallet");
       }
 
-      await wallet.connect()
-      const publicKey = wallet.publicKey.toString()
-      const params = getUrlParams(location.search)
-      const token = params.v
-      const message = `Binding SOL Address: User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please Confirm The Sign`
-      const encodedMessage = new TextEncoder().encode(message)
-      const signatureObj = await wallet.signMessage(encodedMessage)
+      await wallet.connect();
+      const publicKey = wallet.publicKey.toString();
+      const params = getUrlParams(location.search);
+      const token = params.v;
+      const message = `Binding SOL Address: User is ${token}, Wallet Address is ${publicKey.toLowerCase()}, Please Confirm The Sign`;
+      const encodedMessage = new TextEncoder().encode(message);
+      const signatureObj = await wallet.signMessage(encodedMessage);
 
-      const signature = Array.from(signatureObj.signature)
+      const signature = Array.from(signatureObj.signature);
       await bindWallet({
         address: publicKey,
-        type: 'solana',
+        type: "solana",
         signature,
         message: Array.from(encodedMessage),
         user: token,
-      })
+      });
     } catch (error) {
-      throw new Error('install erc20 wallet')
+      throw new Error("install erc20 wallet");
     }
-  }
-  const [bindStatus, setBindStatus] = useState(false)
-  const [bnidCodeStatus, setBnidCodeStatus] = useState(false)
+  };
+  const [bindStatus, setBindStatus] = useState(false);
+  const [bnidCodeStatus, setBnidCodeStatus] = useState(false);
 
   const getAddressBox = () => {
-    const params = getUrlParams(location.search)
-    const type = params.t ? params.t : chain[0]
+    const params = getUrlParams(location.search);
+    const type = params.t ? params.t : chain[0];
 
-    let data: any = ''
-    if (chainValue === 'ETH/BSC') {
+    let data: any = "";
+    if (chainValue === "ETH/BSC") {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Erc20) ||
-        ''
+        "";
     }
-    if (chainValue === 'Solana') {
+    if (chainValue === "Solana") {
       data =
         (pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Sonala) ||
-        ''
+        "";
     }
 
     const bind = async () => {
       try {
-        setBindStatus(true)
-        if (chainValue === 'ETH/BSC') {
-          await bindERC20Wallet()
+        setBindStatus(true);
+        if (chainValue === "ETH/BSC") {
+          await bindERC20Wallet();
         }
-        if (chainValue === 'Solana') {
-          await bindSolanaWallet()
+        if (chainValue === "Solana") {
+          await bindSolanaWallet();
         }
 
-        await init(type)
-        MessageSuccess(t('message.bind.success'))
+        await init(type);
+        MessageSuccess(t("message.bind.success"));
       } catch (error) {
-        MessageError(t('message.bind.fail'))
+        MessageError(t("message.bind.fail"));
       }
-      setBindStatus(false)
-    }
+      setBindStatus(false);
+    };
 
-    return chainValue === 'Pi' ? (
+    return chainValue === "Pi" ? (
       <>
         {/* {piUser && piUser.accessToken ? (
           pidUserInfo && pidUserInfo.BindInfo && pidUserInfo.BindInfo.Pid ? (
@@ -395,13 +395,13 @@ export default function Home() {
             {<img src={SuccessDonePng} className="w-[22px] h-[16px]" />}
           </Box>
         ) : piUser && piUser.accessToken ? (
-          <Buttons onClick={() => setBnidCodeStatus(true)}>
-            {t('public.bind')}
-          </Buttons>
+          <ButtonB onClick={() => setBnidCodeStatus(true)}>
+            {t("public.bind")}
+          </ButtonB>
         ) : (
           <Box>
             <Icon name="piNetwork" className="w-[26px] h-[26px]" />
-            {t('public.piBrowserText')}
+            {t("public.piBrowserText")}
           </Box>
         )}
       </>
@@ -409,13 +409,13 @@ export default function Home() {
       <Box>
         <Icon
           name={
-            chainValue === 'Solana'
-              ? 'sol'
-              : '' || chainValue === 'ETH/BSC'
-              ? 'wallet'
-              : '' || chainValue === 'Pi'
-              ? 'piNetwork'
-              : ''
+            chainValue === "Solana"
+              ? "sol"
+              : "" || chainValue === "ETH/BSC"
+              ? "wallet"
+              : "" || chainValue === "Pi"
+              ? "piNetwork"
+              : ""
           }
           className="w-[26px] h-[26px]"
         />
@@ -426,69 +426,69 @@ export default function Home() {
         />
       </Box>
     ) : (
-      <Buttons onClick={() => bind()} loading={bindStatus}>
-        {t('public.bind')}
-      </Buttons>
-    )
-  }
+      <ButtonB onClick={() => bind()} loading={bindStatus}>
+        {t("public.bind")}
+      </ButtonB>
+    );
+  };
   useEffect(() => {
     if (address) {
-      setWalletStatus(false)
+      setWalletStatus(false);
     }
-  }, [address])
+  }, [address]);
 
   useEffect(() => {
-    const params = getUrlParams(location.search)
-    const type = params.t ? params.t : chain[0]
-    setChain(['Solana', 'ETH/BSC', 'Pi'])
+    const params = getUrlParams(location.search);
+    const type = params.t ? params.t : chain[0];
+    setChain(["Solana", "ETH/BSC", "Pi"]);
     if (!Object.keys(piUser).length && params.v) {
       setNetwork((_: any) => {
         const obj: any =
           chains.find((item: any) =>
-            type === 'solana' ? item.value === type : item.value === 'eth'
-          ) || {}
+            type === "solana" ? item.value === type : item.value === "eth"
+          ) || {};
         dispatch(switchNetwork(obj.chainId ? obj.chainId : 1)).then(() => {
-          setChainValues(obj.value ? obj.value : 'eth')
-        })
-        return obj
-      })
-      setChainValue(type === 'solana' ? 'Solana' : 'ETH/BSC')
-      setUrlParams(params)
-      init(type)
+          setChainValues(obj.value ? obj.value : "eth");
+        });
+        return obj;
+      });
+      setChainValue(type === "solana" ? "Solana" : "ETH/BSC");
+      setUrlParams(params);
+      init(type);
     } else {
-      setChain(['Pi'])
-      setChainValue('Pi')
-      init()
+      setChain(["Pi"]);
+      setChainValue("Pi");
+      init();
     }
-  }, [piUser])
+  }, [piUser]);
 
   const init = async (type?: string) => {
-    const parmas = getUrlParams(location.search) || null
-    const code = parmas ? parmas.v : ''
-    const user = await findInfoAPI({ code })
-    dispatch(updatepidUserInfo(user))
-    if (!type) return
-    const web3 = new Web3(window.ethereum)
-    let address = ''
-    if (type === 'solana') {
-      const wallet = window.solana
-      address = wallet && wallet.publicKey ? wallet.publicKey.toString() : ''
+    const parmas = getUrlParams(location.search) || null;
+    const code = parmas ? parmas.v : "";
+    const user = await findInfoAPI({ code });
+    dispatch(updatepidUserInfo(user));
+    if (!type) return;
+    const web3 = new Web3(window.ethereum);
+    let address = "";
+    if (type === "solana") {
+      const wallet = window.solana;
+      address = wallet && wallet.publicKey ? wallet.publicKey.toString() : "";
     } else {
-      const accounts = await web3.eth.getAccounts()
-      address = accounts.length ? accounts[0] : ''
+      const accounts = await web3.eth.getAccounts();
+      address = accounts.length ? accounts[0] : "";
     }
-    localStorage.setItem('address', address)
+    localStorage.setItem("address", address);
     // 更新钱包地址
-    dispatch(updateAddress(address))
-  }
+    dispatch(updateAddress(address));
+  };
 
   return (
     <Fragment>
       <Wallet
         setLoaderWalletStatus={setLoaderWalletStatus}
         open={walletStatus}
-        setWalletOpen={e => setWalletStatus(e)}
-        getUrl={() => ''}
+        setWalletOpen={(e) => setWalletStatus(e)}
+        getUrl={() => ""}
       />
       <GetBindCode
         open={bnidCodeStatus}
@@ -509,7 +509,7 @@ export default function Home() {
                 /> */}
                 {pidUserInfo && pidUserInfo.user_id
                   ? pidUserInfo.user_name
-                  : t('home.title')}
+                  : t("home.title")}
               </span>
               <span className="text-[#718096] text-[20px]">
                 {pidUserInfo && pidUserInfo.user_id
@@ -523,7 +523,7 @@ export default function Home() {
               >
                 <Buttons className="max-w-[160px]">
                   <Icon name="logos" className="w-[20px] h-[20px]" />
-                  {t('public.telegramBot')}
+                  {t("public.telegramBot")}
                 </Buttons>
               </a>
             </div>
@@ -537,30 +537,30 @@ export default function Home() {
                           <Dropdown.Item
                             key={index}
                             onClick={async () => {
-                              let address = ''
-                              const web3 = new Web3(window.ethereum)
-                              if (item.value === 'solana') {
-                                const wallet = window.solana
+                              let address = "";
+                              const web3 = new Web3(window.ethereum);
+                              if (item.value === "solana") {
+                                const wallet = window.solana;
                                 address =
                                   wallet && wallet.publicKey
                                     ? wallet.publicKey.toString()
-                                    : ''
+                                    : "";
                               } else {
-                                const accounts = await web3.eth.getAccounts()
-                                address = accounts.length ? accounts[0] : ''
+                                const accounts = await web3.eth.getAccounts();
+                                address = accounts.length ? accounts[0] : "";
                               }
                               // 存储钱包地址
-                              localStorage.setItem('address', address)
+                              localStorage.setItem("address", address);
                               // 更新钱包地址
-                              dispatch(updateAddress(address))
-                              dispatch(updateWalletStatus(true))
+                              dispatch(updateAddress(address));
+                              dispatch(updateWalletStatus(true));
                               // 更新网络ID
-                              setNetwork(item)
-                              dispatch(updatepageNetworkId(item.chainId))
+                              setNetwork(item);
+                              dispatch(updatepageNetworkId(item.chainId));
                               // 切换网络
                               dispatch(switchNetwork(item.chainId)).then(() => {
-                                setChainValues(item.value)
-                              })
+                                setChainValues(item.value);
+                              });
                             }}
                           >
                             <div className="flex items-center gap-[8px]">
@@ -568,7 +568,7 @@ export default function Home() {
                                 <Icon
                                   name={`chain/${
                                     chains.find(
-                                      items => items.value === item.value
+                                      (items) => items.value === item.value
                                     )?.value
                                   }`}
                                   className="w-[16px] h-[16px]"
@@ -584,13 +584,13 @@ export default function Home() {
                   >
                     <div className="w-[3rem] h-[3rem] bg-[url('/image/chan.png')]  bg-no-repeat bg-full flex items-center justify-center">
                       <Icon
-                        name={network ? `chain/${network.value}` : ''}
+                        name={network ? `chain/${network.value}` : ""}
                         className="w-[20px] h-[20px]"
                       />
                     </div>
                   </Dropdowns>
                 ) : (
-                  ''
+                  ""
                 )}
                 {/* 不在pi浏览器且不携带参数 存在length则为pi浏览器环境*/}
 
@@ -609,28 +609,28 @@ export default function Home() {
                         loading={loaderWalletStatus}
                         className="uppercase max-w-[160px]"
                         onClick={() => {
-                          setWalletStatus(true)
+                          setWalletStatus(true);
                         }}
                       >
-                        {t('public.connect')}
+                        {t("public.connect")}
                       </Buttons>
                     )}
                   </>
                 ) : (
-                  ''
+                  ""
                 )}
               </div>
               <div className="col-span-12 grid sm:flex gap-[48px] sm:gap-[16px] sm:justify-between mt-[8px] sm:mt-[0]">
                 <HeaderTitle className="order-2 sm:!order-1">
-                  {t('public.bind')}
+                  {t("public.bind")}
                 </HeaderTitle>
               </div>
               <div className="binding-card-bg grid grid-cols-12 w-full col-span-12 gap-[16px]">
                 <div className="col-span-12">
                   <Segmentation
-                    onChange={e => setChainValue(e)}
+                    onChange={(e) => setChainValue(e)}
                     value={chainValue}
-                    data={chain.map(itme =>
+                    data={chain.map((itme) =>
                       Object.assign(
                         {},
                         {
@@ -649,7 +649,7 @@ export default function Home() {
         {Config.status && (
           <div className="z-[1] col-span-12 grid mt-[48px] gap-[16px]">
             <div className="col-span-12">
-              <HeaderTitle>{t('public.donate')}</HeaderTitle>
+              <HeaderTitle>{t("public.donate")}</HeaderTitle>
             </div>
             <div className="col-span-12 grid grid-cols-12 gap-[16px]">
               <div className="col-span-6 md:col-span-4 lg:col-span-3">
@@ -679,5 +679,5 @@ export default function Home() {
         )}
       </div>
     </Fragment>
-  )
+  );
 }
