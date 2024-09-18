@@ -513,7 +513,7 @@ export default function Home() {
               </span>
               <span className="text-[#718096] text-[20px]">
                 {pidUserInfo && pidUserInfo.user_id
-                  ? 'Telegram ID : ' + pidUserInfo.user_id
+                  ? 'Telegram ID : @' + pidUserInfo.user_id
                   : t('home.text')}
               </span>
               <a
