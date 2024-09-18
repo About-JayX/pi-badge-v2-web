@@ -7,7 +7,7 @@ import { Text } from '../text'
 import { MessageError, MessageSuccess } from '../message'
 import { useStoreDispatch, useStoreSelector } from '@/hook'
 import { useEffect, useRef, useState } from 'react'
-import { getUrlParams } from '@/util'
+import { ellipsisMiddle, getUrlParams } from '@/util'
 import Buttons from '../buttons'
 import { bindPidAPI, findInfoAPI } from '@/axios/api'
 import { updatepidUserInfo } from '@/store/ethers'
@@ -86,7 +86,7 @@ export default function GetBindCode({
             {params && params.v && !pidKey ? (
               <div className="w-full grid gap-2 text-center">
                 <Text className="!font-normal !text-[#A7BBCA]">
-                  ({accessToken})
+                  ({ellipsisMiddle(accessToken, 9)})
                 </Text>
                 <Buttons
                   loading={bindLoading}
