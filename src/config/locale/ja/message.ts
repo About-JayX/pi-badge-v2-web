@@ -11,4 +11,10 @@ export default {
     success: 'コピー成功',
     fail: 'コピー失敗',
   },
+  pay: {
+    success: '支払い成功',
+    fail: '支払い失敗',
+  },
+  installWallet: 'まずウォレットをインストールしてください',
+  insufficientBalance: '残高が不足しています',
 }

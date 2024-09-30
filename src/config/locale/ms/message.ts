@@ -11,4 +11,10 @@ export default {
     success: 'Salinan berjaya',
     fail: 'Salinan gagal',
   },
+  pay: {
+    success: 'Pembayaran berjaya',
+    fail: 'Pembayaran gagal',
+  },
+  installWallet: 'Sila pasang dompet terlebih dahulu',
+  insufficientBalance: 'Baki tidak mencukupi',
 }

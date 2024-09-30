@@ -11,4 +11,10 @@ export default {
     success: 'Sao chép thành công',
     fail: 'Sao chép thất bại',
   },
+  pay: {
+    success: 'Thanh toán thành công',
+    fail: 'Thanh toán thất bại',
+  },
+  installWallet: 'Vui lòng cài đặt ví trước',
+  insufficientBalance: 'Số dư không đủ',
 }

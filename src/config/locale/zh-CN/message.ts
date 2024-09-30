@@ -11,4 +11,10 @@ export default {
     success: '複製成功',
     fail: '複製失敗',
   },
+  pay: {
+    success: '支付成功',
+    fail: '支付失敗',
+  },
+  installWallet: '請先安裝錢包',
+  insufficientBalance: '餘額不足',
 }

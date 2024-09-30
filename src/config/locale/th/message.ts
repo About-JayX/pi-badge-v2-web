@@ -11,4 +11,10 @@ export default {
     success: 'คัดลอกสำเร็จ',
     fail: 'คัดลอกล้มเหลว',
   },
+  pay: {
+    success: 'การชำระเงินสำเร็จ',
+    fail: 'การชำระเงินล échล',
+  },
+  installWallet: 'กรุณาติดตั้งกระเป๋าเงินก่อน',
+  insufficientBalance: 'ยอดคงเหลือไม่เพียงพอ',
 }

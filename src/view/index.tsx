@@ -57,6 +57,7 @@ import {
 } from '@solana/spl-token'
 import { ethers } from 'ethers'
 import { PublicKey, TransactionInstruction } from '@solana/web3.js'
+import Buy from '@/components/piModal/buy'
 const PisSvg = ({
   status = '',
   buyStatus = 'min',
@@ -291,6 +292,9 @@ export default function Home() {
   const [urlParmas, setUrlParams] = useState<any>({})
   const [payList, setpayList] = useState([])
   const [cfWallet, setCfWallet] = useState([])
+  const [buyModal, setBuyModal] = useState(false)
+
+  const [buyItem, setBuyItem] = useState<any>(null)
   const [order, setOrder] = useState({
     memo: null,
     price: null,
@@ -534,19 +538,17 @@ export default function Home() {
     type: string,
     contract?: any
   ) => {
-    console.log(address, goodsToken, cfWallet[0]['address'], 'adress_')
-
     try {
       if (type === 'erc20') {
         const wallet = window.ethereum
         if (!wallet) {
-          MessageError('未安装钱包')
+          MessageError(t('message.installWallet'))
           return
         }
       } else {
         const wallet = window.solana
         if (!wallet) {
-          MessageError('未安装钱包')
+          MessageError(t('message.installWallet'))
           return
         }
       }
@@ -602,7 +604,7 @@ export default function Home() {
 
       const transactionResponse = await signer.sendTransaction(tx)
       await transactionResponse.wait()
-      MessageSuccess('支付成功')
+      MessageSuccess(t('message.pay.success'))
       setOrder({
         memo: null,
         price: null,
@@ -610,7 +612,8 @@ export default function Home() {
         Trantokendecimals: null,
       })
     } catch (error) {
-      console.error('支付过程中发生错误:', error)
+      MessageError(t('message.pay.fail'))
+      console.error('pay error:', error)
     } finally {
     }
   }
@@ -736,9 +739,10 @@ export default function Home() {
       // )
 
       // await connection.confirmTransaction(signature, 'confirmed')
-      MessageSuccess('支付成功')
+      MessageSuccess(t('message.pay.success'))
     } catch (error) {
-      console.error('支付过程中发生错误:', error)
+      MessageError(t('message.pay.fail'))
+      console.error('pay error:', error)
     } finally {
     }
   }
@@ -760,7 +764,7 @@ export default function Home() {
         const hasBalance = new Decimal(balance).lt(new Decimal(item.price))
 
         if (hasBalance) {
-          MessageError('余额不足')
+          MessageError(t('message.insufficientBalance'))
           return
         }
         await createOrder(item.Id, item.token, item.decimals, 'sol')
@@ -779,7 +783,7 @@ export default function Home() {
         new Decimal(item.price)
       )
       if (hasBalance) {
-        MessageError('余额不足')
+        MessageError(t('message.insufficientBalance'))
         return
       }
       await createOrder(item.Id, item.token, item.decimals, 'erc20', contract)
@@ -807,6 +811,17 @@ export default function Home() {
 
   return (
     <Fragment>
+      <Buy
+        open={buyModal}
+        onHide={(bool: any) => {
+          setBuyModal(bool)
+        }}
+        buyPis={async item => {
+          await buyPis(item)
+        }}
+        buyItem={buyItem}
+      ></Buy>
+
       <Wallet
         setLoaderWalletStatus={setLoaderWalletStatus}
         open={walletStatus}
@@ -983,7 +998,8 @@ export default function Home() {
                 <div
                   className="col-span-6 md:col-span-4 lg:col-span-3"
                   onClick={() => {
-                    buyPis(item)
+                    setBuyItem(item)
+                    setBuyModal(true)
                   }}
                 >
                   <PisSvg
