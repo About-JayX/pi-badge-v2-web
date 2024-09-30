@@ -10,4 +10,7 @@ export default {
   isBind: 'Pautkan Pi Network',
   openWallet: 'Pautkan akaun Pi Network anda',
   copy: 'Salin',
+  ok: "OK",
+  butText:"确定是否购买",
+  pay:"Pay"
 }
