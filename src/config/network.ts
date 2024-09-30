@@ -45,7 +45,7 @@ export const config = [
     ],
     blockExplorerUrls: ['https://bscscan.com'],
   },
-] as configType[]
+] as configType[] 
 
 export function findChainById(chainIdToFind: number) {
   for (let i = 0; i < config.length; i++) {

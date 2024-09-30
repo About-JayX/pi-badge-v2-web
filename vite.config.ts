@@ -5,9 +5,12 @@ import postcssPxtoRem from 'postcss-pxtorem'
 import tailwindcss from 'tailwindcss'
 import { defineConfig } from 'vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-
+import { Buffer } from 'buffer'
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    Buffer: Buffer,
+  },
   plugins: [
     react(),
     createSvgIconsPlugin({

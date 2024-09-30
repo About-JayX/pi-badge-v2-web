@@ -1,10 +1,11 @@
 import './index.css'
 
-import { useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
-import { useTranslation } from 'react-i18next'
 
-import { ButtonB } from '../buttons'
+import Button from '../button'
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import Buttons from '../buttons'
 // import { useTranslation } from "react-i18next";
 
 // import { MessageSuccess } from "@/components/message";
@@ -36,7 +37,7 @@ export default function PiModal({
             {t('public.openWallet')}
           </span>
           <div className="flex w-full overflow-x-auto justify-center ">
-            <ButtonB
+            <Buttons
               onClick={async () => {
                 setBindLoading(true)
                 await bind()
@@ -45,7 +46,7 @@ export default function PiModal({
               loading={bindLoading}
             >
               {t('public.bind')}
-            </ButtonB>
+            </Buttons>
             {/* <Buttons onClick={() => setWalletOpen(false)}>
               {t('public.cancel')}
             </Buttons> */}
@@ -55,3 +56,4 @@ export default function PiModal({
     </Modal>
   )
 }
+  

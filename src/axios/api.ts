@@ -37,3 +37,9 @@ export const bindPidAPI = (data?: any) =>
 
 export const findInfoAPI = (data?: any) =>
   api.post(`${telegramApiUrl}/authorize-Bind/find-info`, data)
+
+export const payListAPI = (data?: any) =>
+  api.post(`${telegramApiUrl}/v2/pay/pay-list`, data)
+
+export const createOrderAPI = (data?: any) =>
+  api.post(`${telegramApiUrl}/v2/pay/create-order`, data)

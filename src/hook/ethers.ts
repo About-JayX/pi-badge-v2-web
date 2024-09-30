@@ -85,6 +85,7 @@ export const connectWallet = createAsyncThunk(
       try {
         const result = await window.solana.connect()
         const address = result.publicKey.toString()
+
         accounts = address
 
         if (accounts) {
@@ -356,7 +357,6 @@ export const switchNetwork = createAsyncThunk(
   async (value: any, { getState, dispatch }) => {
     const { ethers } = getState() as stateType
     const { rpc, pageNetworkId } = ethers
-    console.log(value, 'network_val_')
 
     if (value === -1) {
       dispatch(updateNetworkStatus(false))
