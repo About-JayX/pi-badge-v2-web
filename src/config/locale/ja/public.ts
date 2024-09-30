@@ -10,4 +10,7 @@ export default {
   isBind: 'Pi Networkをバインド',
   openWallet: 'Pi Networkアカウントをバインド',
   copy: 'コピー',
+  ok: "OK",
+  butText:"确定是否购买",
+  pay:"Pay"
 }

@@ -10,4 +10,7 @@ export default {
   isBind: 'Pi Network 바인딩',
   openWallet: 'Pi Network 계정을 바인딩하세요',
   copy: '복사',
+  ok: "OK",
+  butText:"确定是否购买",
+  pay:"Pay"
 }

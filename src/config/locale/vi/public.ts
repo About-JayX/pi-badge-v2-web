@@ -10,4 +10,7 @@ export default {
   isBind: 'Liên kết Pi Network',
   openWallet: 'Liên kết tài khoản Pi Network của bạn',
   copy: 'Sao chép',
+  ok: "OK",
+  butText:"确定是否购买",
+  pay:"Pay"
 }
