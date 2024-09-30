@@ -5,13 +5,16 @@ import postcssPxtoRem from 'postcss-pxtorem'
 import tailwindcss from 'tailwindcss'
 import { defineConfig } from 'vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { Buffer } from 'buffer'
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    Buffer: Buffer,
+    global: 'globalThis',
   },
   plugins: [
+    NodeGlobalsPolyfillPlugin({ buffer: true }),
+    nodePolyfills(),
     react(),
     createSvgIconsPlugin({
       iconDirs: [path.resolve(process.cwd(), './src/assets/icon')],
@@ -27,8 +30,11 @@ export default defineConfig({
       ],
     },
   },
+
   resolve: {
     alias: {
+      crypto: 'crypto-browserify',
+      buffer: 'buffer',
       '@': path.resolve(__dirname, './src'),
     },
   },

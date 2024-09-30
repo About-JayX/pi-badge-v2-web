@@ -11,12 +11,14 @@
     "remote": "./remote.sh"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@solana/spl-token": "^0.4.8",
     "@solana/web3.js": "^1.95.3",
     "buffer": "^6.0.3",
     "decimal.js": "^10.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "web3": "^4.11.1"
   },
   "devDependencies": {
